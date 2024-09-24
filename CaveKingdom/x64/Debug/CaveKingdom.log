@@ -1,0 +1,6 @@
+﻿  main.c
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(228,40): warning C4133: 'function': incompatible types - from 'SDL_Surface *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(229,36): warning C4133: 'function': incompatible types - from 'SDL_Surface *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(231,40): warning C4133: 'function': incompatible types - from 'SDL_Surface *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(233,35): warning C4133: 'function': incompatible types - from 'SDL_Surface *' to 'SDL_Renderer *'
+  CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe
