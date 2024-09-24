@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include <SDL.h>
 
-#define MAP_WIDTH 32
-#define MAP_HEIGHT 16
+#define MAP_WIDTH 36
+#define MAP_HEIGHT 36
+#define TILE_SIZE 20
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 720;
+const int SCREEN_HEIGHT = 720;
 
 int game_status = 1;
 
@@ -23,13 +24,14 @@ typedef struct {
     int y;
     int max_health;
     int health;
+    SDL_Color color;
 } Entity;
 
 static Entity entities[MAP_WIDTH * MAP_HEIGHT];
 static Entity* grid[MAP_WIDTH * MAP_HEIGHT];
 
 Entity new_empty(int x, int y) {
-    return (Entity) { entity_type_empty, x, y, -1, -1 };
+    return (Entity) { entity_type_empty, x, y, -1, -1, (SDL_Color) {0, 0, 0, 0} };
 }
 
 void reset_grids() {
@@ -39,21 +41,21 @@ void reset_grids() {
     }
 }
 
+
 Entity new_player(int x, int y) {
-    return (Entity) { entity_type_player, x, y, 100, 100 };
+    return (Entity) { entity_type_player, x, y, 100, 100, (SDL_Color) { 0, 0, 255, 255 }};
 }
 
 Entity new_wall(int x, int y) {
-    return (Entity) { entity_type_wall, x, y, -1, -1 };
+    return (Entity) { entity_type_wall, x, y, -1, -1, (SDL_Color) { 64, 64, 64, 255 }};
 }
 
 Entity new_enemy(int x, int y) {
-    return (Entity) { entity_type_enemy, x, y, 100, 100 };
+    return (Entity) { entity_type_enemy, x, y, 100, 100, (SDL_Color) { 255, 0, 0, 255 }};
 }
 
+
 Entity* get_entity(int x, int y) {
-    // printf("X: %d\n", x);
-    // printf("Y: %d\n", y);
     return grid[y * MAP_WIDTH + x];
 }
 
@@ -66,6 +68,12 @@ int spawn_entity(Entity entity) {
     if (old_entity->entity_type != entity_type_empty) return 0;
     *old_entity = entity;
     return 1;
+}
+
+void create_edge_walls() {
+    for (int y = 0; y < MAP_HEIGHT; y++)
+        for (int x = 0; x < MAP_WIDTH; x++)
+            if (x == 0 || y == 0 || x == MAP_WIDTH - 1 || y == MAP_HEIGHT - 1) spawn_entity(new_wall(x, y));
 }
 
 int switch_entities(int x1, int y1, int x2, int y2) {
@@ -90,104 +98,65 @@ int switch_entities(int x1, int y1, int x2, int y2) {
 }
 
 
-void update_world(char input) {
+void update_world(int player_movement_x, int player_movement_y) {
+    if (player_movement_x == 0 && player_movement_y == 0) return;
     for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++)
     {
         Entity* entity = &entities[i];
         if (entity->entity_type == entity_type_empty) {}
         else if (entity->entity_type == entity_type_wall) {}
         else if (entity->entity_type == entity_type_player) {
-            if (input == 'w') {
-                switch_entities(entity->x, entity->y, entity->x, entity->y - 1);
-            }
-            else if (input == 's') {
-                switch_entities(entity->x, entity->y, entity->x, entity->y + 1);
-            }
-            else if (input == 'a') {
-                switch_entities(entity->x, entity->y, entity->x - 1, entity->y);
-            }
-            else if (input == 'd') {
-                switch_entities(entity->x, entity->y, entity->x + 1, entity->y);
-            }
+            switch_entities(entity->x, entity->y, entity->x + player_movement_x, entity->y + player_movement_y);
         }
-        else if (entity->entity_type == entity_type_enemy) {
-
-        }
+        else if (entity->entity_type == entity_type_enemy) {}
     }
 }
 
-void render_world() {
-    char border = 'X';
+void draw_world(SDL_Renderer* renderer) {
+    SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
+    SDL_RenderClear(renderer);
 
-    char frame[(MAP_WIDTH + 2 + 1) * (MAP_HEIGHT + 2)];
-    for (int i = 0; i < (MAP_WIDTH + 2 + 1) * (MAP_HEIGHT + 2); i++) frame[i] = ' ';
-    frame[(MAP_WIDTH + 2 + 1) * (MAP_HEIGHT + 2) - 1] = '\0';
+    Entity entity;
 
-    for (int i = 0; i < MAP_WIDTH + 2; i++) frame[i] = border;
-    frame[MAP_WIDTH + 2] = '\n';
+    SDL_Rect tile;
+    SDL_Color tile_color;
+    int tile_size = 40;
 
     for (int y = 0; y < MAP_HEIGHT; y++) {
-        frame[(MAP_WIDTH + 3) * (y + 1)] = border;
         for (int x = 0; x < MAP_WIDTH; x++) {
-            Entity entity = *get_entity(x, y);
-            if (entity.entity_type == entity_type_wall) {
-                frame[(MAP_WIDTH + 3) * (y + 1) + 1 + x] = 'O';
-            }
-            else if (entity.entity_type == entity_type_player) {
-                frame[(MAP_WIDTH + 3) * (y + 1) + 1 + x] = 'P';
-            }
-            else if (entity.entity_type == entity_type_enemy) {
-                frame[(MAP_WIDTH + 3) * (y + 1) + 1 + x] = 'E';
+            entity = *get_entity(x, y);
+            if (entity.entity_type != entity_type_empty) {
+                tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y , TILE_SIZE, TILE_SIZE };
+                tile_color = entity.color;
+                SDL_SetRenderDrawColor(renderer, tile_color.r, tile_color.g, tile_color.b, tile_color.b);
+                SDL_RenderFillRect(renderer, &tile);
             }
         }
-        frame[(MAP_WIDTH + 3) * (y + 1) + MAP_WIDTH + 1] = border;
-        frame[(MAP_WIDTH + 3) * (y + 1) + MAP_WIDTH + 2] = '\n';
-    }
-    for (int i = 2; i < MAP_WIDTH + 4; i++) {
-        frame[(MAP_WIDTH + 3) * (MAP_HEIGHT + 2) - i] = border;
     }
 
-    system("cls");
-    printf("\n%s", frame);
+    SDL_RenderPresent(renderer);
 }
-
-
 
 int main(int argc, char* argv[]) {
 
-    // reset_grids();
+     reset_grids();
+     create_edge_walls();
 
-    // spawn_entity(new_player(0, 1));
-    // spawn_entity(new_enemy(0, 4));
-    // spawn_entity(new_wall(2, 4));
+     spawn_entity(new_player(2, 1));
+     spawn_entity(new_enemy(3, 4));
+     spawn_entity(new_wall(2, 4));
 
-    // while (game_status) {
-    //     render_world();
-
-    //     char input = ' ';
-
-    //     scanf("%c", &input);
-
-    //     update_world(input);
-
-    // }
-
-    printf("STARTED!");
-
-    //The window we'll be rendering to
     SDL_Window* window = NULL;
 
-    //The surface contained by the window
-    SDL_Surface* screenSurface = NULL;
+    SDL_Renderer* renderer = NULL;
 
-    //Initialize SDL
+
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
     }
     else
     {
-        //Create window
         window = SDL_CreateWindow("CaveKingdom", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
         if (window == NULL)
         {
@@ -195,49 +164,53 @@ int main(int argc, char* argv[]) {
         }
         else
         {
-            //Get window surface
-            screenSurface = SDL_GetWindowSurface(window);
+            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-            //Fill the surface white
-            SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0x25, 0xFF, 0xFF));
-
-            //Update the surface
-            SDL_UpdateWindowSurface(window);
-
-            //Hack to get window to stay up
-
-            SDL_Event e;
+            SDL_Event event;
             
             int quit = 0;
-            
+
+            int player_movement_x, player_movement_y;
+            int w_key_pressed = 0;
+            int s_key_pressed = 0;
+            int a_key_pressed = 0;
+            int d_key_pressed = 0;
+
             while (quit == 0) { 
                 
+                player_movement_x = 0;
+                player_movement_y = 0;
 
-                while (SDL_PollEvent(&e)) { 
-                    if (e.type == SDL_QUIT) quit = 1; 
+                while (SDL_PollEvent(&event)) { 
+                    if (event.type == SDL_QUIT) quit = 1; 
+                    else if (event.type == SDL_KEYDOWN) {
+                        if (SDLK_w == event.key.keysym.sym) w_key_pressed = 1;
+                        else if (SDLK_s == event.key.keysym.sym) s_key_pressed = 1;
+                        else if (SDLK_a == event.key.keysym.sym) a_key_pressed = 1;
+                        else if (SDLK_d == event.key.keysym.sym) d_key_pressed = 1;
+                    }
+                    else if (event.type == SDL_KEYUP) {
+                        if (SDLK_w == event.key.keysym.sym) w_key_pressed = 0;
+                        else if (SDLK_s == event.key.keysym.sym) s_key_pressed = 0;
+                        else if (SDLK_a == event.key.keysym.sym) a_key_pressed = 0;
+                        else if (SDLK_d == event.key.keysym.sym) d_key_pressed = 0;
+                    }
                 } 
+                if (w_key_pressed) player_movement_y--;
+                if (s_key_pressed) player_movement_y++;
+                if (a_key_pressed) player_movement_x--;
+                if (d_key_pressed) player_movement_x++;
 
-                //SDL_RenderClear(screenSurface); // Asi? Psal jsem to já, takže nevím Xdd
+                update_world(player_movement_x, player_movement_y);
+                draw_world(renderer);
 
-                SDL_Rect rect;
-                rect.x = 250;
-                rect.y = 150;
-                rect.w = 200;
-                rect.h = 200;
-
-                SDL_SetRenderDrawColor(screenSurface, 255, 255, 255, 255);
-                SDL_RenderDrawRect(screenSurface, &rect);
-
-                SDL_SetRenderDrawColor(screenSurface, 0, 0, 0, 255);
-
-                SDL_RenderPresent(screenSurface);
+                SDL_Delay(50);
             }
         }
     }
-    //Destroy window
+
     SDL_DestroyWindow(window);
 
-    //Quit SDL subsystems
     SDL_Quit();
 
     return 0;
