@@ -16,6 +16,7 @@ typedef enum {
     entity_type_player = 1,
     entity_type_wall = 2,
     entity_type_enemy = 4,
+    entity_type_stone = 8,
 } EntityType;
 
 typedef struct {
@@ -51,7 +52,7 @@ Entity new_wall(int x, int y) {
 }
 
 Entity new_stone(int x, int y) {
-    return (Entity) { entity_type_wall, x, y, 5, 5, (SDL_Color) { 64, 64, 64, 255 } };
+    return (Entity) { entity_type_stone, x, y, 5, 5, (SDL_Color) { 64, 64, 64, 255 } };
 }
 
 
@@ -82,12 +83,17 @@ void create_edge_walls() {
             if (x == 0 || y == 0 || x == MAP_WIDTH - 1 || y == MAP_HEIGHT - 1) spawn_entity(new_wall(x, y));
 }
 
-void hit_entity(Entity* entity, int damage) {
-    if (entity->max_health < 0) return;
-    entity->health -= damage;
-    if (entity->health <= 0) spawn_entity(new_empty(entity->x, entity->y));
+void destroy_entity(Entity* entity) {
+    Entity new_entity = new_empty(entity->x, entity->y);
+    *grid[entity->y * MAP_WIDTH + entity->x] = new_entity;
 }
 
+void hit_entity(Entity* entity, int damage) {
+    printf("%d", entity->health);
+    if (entity->max_health < 0) return;
+    entity->health -= damage;
+    if (entity->health <= 0) destroy_entity(entity);
+}
 
 int switch_entities(int x1, int y1, int x2, int y2) {
     if (x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0 || x1 >= MAP_WIDTH || x2 >= MAP_WIDTH || y1 >= MAP_HEIGHT || y2 >= MAP_HEIGHT) return 0;
@@ -172,7 +178,12 @@ int main(int argc, char* argv[]) {
      spawn_entity(new_enemy(3, 4));
      spawn_entity(new_wall(2, 4));
 
+
      spawn_entity(new_stone(2, 6));
+     spawn_entity(new_stone(3, 6));
+     spawn_entity(new_stone(4, 6));
+     spawn_entity(new_stone(5, 6));
+     spawn_entity(new_stone(6, 6));
 
     SDL_Window* window = NULL;
 
