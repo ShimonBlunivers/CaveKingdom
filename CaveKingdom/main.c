@@ -47,8 +47,13 @@ Entity new_player(int x, int y) {
 }
 
 Entity new_wall(int x, int y) {
-    return (Entity) { entity_type_wall, x, y, -1, -1, (SDL_Color) { 64, 64, 64, 255 }};
+    return (Entity) { entity_type_wall, x, y, -1, -1, (SDL_Color) { 32, 32, 32, 255 }};
 }
+
+Entity new_stone(int x, int y) {
+    return (Entity) { entity_type_wall, x, y, 5, 5, (SDL_Color) { 64, 64, 64, 255 } };
+}
+
 
 Entity new_enemy(int x, int y) {
     return (Entity) { entity_type_enemy, x, y, 100, 100, (SDL_Color) { 255, 0, 0, 255 }};
@@ -64,6 +69,7 @@ void set_entity(int x, int y, Entity* enity) {
 }
 
 int spawn_entity(Entity entity) {
+    if (entity.x < 0 || entity.y < 0 || entity.x >= MAP_WIDTH || entity.y >= MAP_HEIGHT) return 0;
     Entity* old_entity = get_entity(entity.x, entity.y);
     if (old_entity->entity_type != entity_type_empty) return 0;
     *old_entity = entity;
@@ -76,6 +82,13 @@ void create_edge_walls() {
             if (x == 0 || y == 0 || x == MAP_WIDTH - 1 || y == MAP_HEIGHT - 1) spawn_entity(new_wall(x, y));
 }
 
+void hit_entity(Entity* entity, int damage) {
+    if (entity->max_health < 0) return;
+    entity->health -= damage;
+    if (entity->health <= 0) spawn_entity(new_empty(entity->x, entity->y));
+}
+
+
 int switch_entities(int x1, int y1, int x2, int y2) {
     if (x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0 || x1 >= MAP_WIDTH || x2 >= MAP_WIDTH || y1 >= MAP_HEIGHT || y2 >= MAP_HEIGHT) return 0;
 
@@ -83,6 +96,16 @@ int switch_entities(int x1, int y1, int x2, int y2) {
     Entity* entity2 = get_entity(x2, y2);
 
     if (entity1->entity_type == entity_type_wall || entity2->entity_type == entity_type_wall) return 0;
+
+    if (entity1->entity_type == entity_type_player && entity2->max_health > 0) {
+        hit_entity(entity2, 1);
+        return 0;
+    }
+    if (entity2->entity_type == entity_type_player && entity1->max_health > 0) {
+        hit_entity(entity1, 1);
+        return 0;
+
+    }
 
     entity2->x = x1;
     entity2->y = y1;
@@ -106,7 +129,10 @@ void update_world(int player_movement_x, int player_movement_y) {
         if (entity->entity_type == entity_type_empty) {}
         else if (entity->entity_type == entity_type_wall) {}
         else if (entity->entity_type == entity_type_player) {
-            switch_entities(entity->x, entity->y, entity->x + player_movement_x, entity->y + player_movement_y);
+            if (player_movement_x != 0)
+            switch_entities(entity->x, entity->y, entity->x + player_movement_x, entity->y);
+            if (player_movement_y != 0)
+            switch_entities(entity->x, entity->y, entity->x, entity->y + player_movement_y);
         }
         else if (entity->entity_type == entity_type_enemy) {}
     }
@@ -145,6 +171,8 @@ int main(int argc, char* argv[]) {
      spawn_entity(new_player(2, 1));
      spawn_entity(new_enemy(3, 4));
      spawn_entity(new_wall(2, 4));
+
+     spawn_entity(new_stone(2, 6));
 
     SDL_Window* window = NULL;
 
@@ -204,7 +232,7 @@ int main(int argc, char* argv[]) {
                 update_world(player_movement_x, player_movement_y);
                 draw_world(renderer);
 
-                SDL_Delay(50);
+                SDL_Delay(100);
             }
         }
     }
