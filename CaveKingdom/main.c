@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <SDL_image.h>
 #include <SDL.h>
 
 #define MAP_WIDTH 36
@@ -10,6 +11,14 @@ const int SCREEN_WIDTH = 720;
 const int SCREEN_HEIGHT = 720;
 
 int game_status = 1;
+
+SDL_Window* window = NULL;
+
+SDL_Renderer* renderer = NULL;
+
+SDL_Texture* player_texture = NULL;
+SDL_Texture* enemy_texture = NULL;
+SDL_Texture* stone_texture = NULL;
 
 typedef enum {
     entity_type_empty = 0,
@@ -44,7 +53,7 @@ void reset_grids() {
 
 
 Entity new_player(int x, int y) {
-    return (Entity) { entity_type_player, x, y, 100, 100, (SDL_Color) { 0, 0, 255, 255 }};
+    return (Entity) { entity_type_player, x, y, 10, 10, (SDL_Color) { 0, 0, 255, 255 }};
 }
 
 Entity new_wall(int x, int y) {
@@ -57,7 +66,7 @@ Entity new_stone(int x, int y) {
 
 
 Entity new_enemy(int x, int y) {
-    return (Entity) { entity_type_enemy, x, y, 100, 100, (SDL_Color) { 255, 0, 0, 255 }};
+    return (Entity) { entity_type_enemy, x, y, 10, 10, (SDL_Color) { 255, 0, 0, 255 }};
 }
 
 
@@ -89,7 +98,7 @@ void destroy_entity(Entity* entity) {
 }
 
 void hit_entity(Entity* entity, int damage) {
-    printf("%d", entity->health);
+    printf("%d\n", entity->health);
     if (entity->max_health < 0) return;
     entity->health -= damage;
     if (entity->health <= 0) destroy_entity(entity);
@@ -144,8 +153,8 @@ void update_world(int player_movement_x, int player_movement_y) {
     }
 }
 
-void draw_world(SDL_Renderer* renderer) {
-    SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
+void draw_world() {
+    SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
     SDL_RenderClear(renderer);
 
     Entity entity;
@@ -159,9 +168,42 @@ void draw_world(SDL_Renderer* renderer) {
             entity = *get_entity(x, y);
             if (entity.entity_type != entity_type_empty) {
                 tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y , TILE_SIZE, TILE_SIZE };
-                tile_color = entity.color;
-                SDL_SetRenderDrawColor(renderer, tile_color.r, tile_color.g, tile_color.b, tile_color.b);
-                SDL_RenderFillRect(renderer, &tile);
+                if (entity.entity_type == entity_type_player) {
+                    SDL_RenderCopy(renderer, player_texture, NULL, &tile);
+                }
+                else if (entity.entity_type == entity_type_enemy) {
+                    SDL_RenderCopy(renderer, enemy_texture, NULL, &tile);
+                }
+                else if (entity.entity_type == entity_type_stone) {
+                    SDL_RenderCopy(renderer, stone_texture, NULL, &tile);
+                }
+                else {
+                    tile_color = entity.color;
+                    //SDL_SetRenderDrawColor(renderer, tile_color.r, tile_color.g, tile_color.b, tile_color.a);
+                    SDL_SetRenderDrawColor(renderer, 255 * ((float)y / MAP_HEIGHT), 0, 255 * ((float)x / MAP_WIDTH), 255);
+                    SDL_RenderFillRect(renderer, &tile);
+                }
+
+            }
+        }
+    }
+
+    for (int y = 0; y < MAP_HEIGHT; y++) {
+        for (int x = 0; x < MAP_WIDTH; x++) {
+            entity = *get_entity(x, y);
+            if (entity.entity_type != entity_type_empty) {
+                if (entity.max_health > 0 && entity.max_health != entity.health) {
+                    int max_height = 4;
+                    int max_width = 20;
+                    int tile_x = entity.x * TILE_SIZE - max_width / 2 + TILE_SIZE / 2;
+                    int tile_y = entity.y * TILE_SIZE;
+                    SDL_Rect background_rect = { tile_x - 1, tile_y - 1, max_width + 1, max_height + 1};
+                    SDL_Rect health_rect = {tile_x, tile_y, max_width * ((float) entity.health / entity.max_health), max_height};
+                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 200);
+                    SDL_RenderFillRect(renderer, &background_rect);
+                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 200);
+                    SDL_RenderFillRect(renderer, &health_rect);
+                }
             }
         }
     }
@@ -169,7 +211,13 @@ void draw_world(SDL_Renderer* renderer) {
     SDL_RenderPresent(renderer);
 }
 
-int main(int argc, char* argv[]) {
+void load_textures() {
+    player_texture = IMG_LoadTexture(renderer, "./assets/player_texture.png");
+    enemy_texture = IMG_LoadTexture(renderer, "./assets/enemy_texture.png");
+    stone_texture = IMG_LoadTexture(renderer, "./assets/stone_texture.png");
+}
+
+int main(void) {
 
      reset_grids();
      create_edge_walls();
@@ -179,15 +227,13 @@ int main(int argc, char* argv[]) {
      spawn_entity(new_wall(2, 4));
 
 
-     spawn_entity(new_stone(2, 6));
-     spawn_entity(new_stone(3, 6));
-     spawn_entity(new_stone(4, 6));
-     spawn_entity(new_stone(5, 6));
-     spawn_entity(new_stone(6, 6));
-
-    SDL_Window* window = NULL;
-
-    SDL_Renderer* renderer = NULL;
+     for (int i = 0; i < 10; i++) {
+         spawn_entity(new_stone(2 + i, 6));
+         spawn_entity(new_stone(3 + i, 7));
+         spawn_entity(new_stone(4 + i, 8));
+         spawn_entity(new_stone(4 + i, 9));
+         spawn_entity(new_stone(4 + i, 10));
+     }
 
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -196,7 +242,7 @@ int main(int argc, char* argv[]) {
     }
     else
     {
-        window = SDL_CreateWindow("CaveKingdom", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+        window = SDL_CreateWindow("CaveKingdom", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_BORDERLESS);
         if (window == NULL)
         {
             printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -204,6 +250,8 @@ int main(int argc, char* argv[]) {
         else
         {
             renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+            load_textures();
 
             SDL_Event event;
             
@@ -241,7 +289,7 @@ int main(int argc, char* argv[]) {
                 if (d_key_pressed) player_movement_x++;
 
                 update_world(player_movement_x, player_movement_y);
-                draw_world(renderer);
+                draw_world();
 
                 SDL_Delay(100);
             }
@@ -249,6 +297,10 @@ int main(int argc, char* argv[]) {
     }
 
     SDL_DestroyWindow(window);
+
+    SDL_DestroyTexture(player_texture);
+    SDL_DestroyTexture(enemy_texture);
+    SDL_DestroyTexture(stone_texture);
 
     SDL_Quit();
 

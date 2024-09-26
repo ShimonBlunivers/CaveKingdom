@@ -1,2 +1,6 @@
 ﻿  main.c
-  CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(183,58): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(183,92): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(201,71): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(220,10): warning C4026: function declared with formal parameter list
+  CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe
