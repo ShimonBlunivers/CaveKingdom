@@ -13,12 +13,13 @@ const int SCREEN_HEIGHT = 720;
 int game_status = 1;
 
 SDL_Window* window = NULL;
-
 SDL_Renderer* renderer = NULL;
 
-SDL_Texture* player_texture = NULL;
-SDL_Texture* enemy_texture = NULL;
-SDL_Texture* stone_texture = NULL;
+typedef struct {
+    SDL_Texture* player_texture;
+    SDL_Texture* enemy_texture;
+    SDL_Texture* stone_texture;
+} Textures;
 
 typedef enum {
     entity_type_empty = 0,
@@ -37,45 +38,51 @@ typedef struct {
     SDL_Color color;
 } Entity;
 
+typedef struct {
+    int x;
+    int y;
+    float zoom;
+} Camera;
+
+Camera main_camera = {0, 0, 1.};
+
+
 static Entity entities[MAP_WIDTH * MAP_HEIGHT];
 static Entity* grid[MAP_WIDTH * MAP_HEIGHT];
 
-Entity new_empty(int x, int y) {
-    return (Entity) { entity_type_empty, x, y, -1, -1, (SDL_Color) {0, 0, 0, 0} };
-}
+Entity new_entity(EntityType type, int x, int y) {
 
-void reset_grids() {
-    for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
-        entities[i] = new_empty(i % MAP_WIDTH, i / MAP_WIDTH);
-        grid[i] = &entities[i];
+    switch (type) {
+    case entity_type_player:
+        return (Entity) { entity_type_player, x, y, 10, 10, (SDL_Color) { 0, 0, 255, 255 } };
+
+    case entity_type_wall:
+        return (Entity) { entity_type_wall, x, y, -1, -1, (SDL_Color) { 32, 32, 32, 255 } };
+
+    case entity_type_stone:
+        return (Entity) { entity_type_stone, x, y, 5, 5, (SDL_Color) { 64, 64, 64, 255 } };
+
+    case entity_type_enemy:
+        return (Entity) { entity_type_enemy, x, y, 10, 10, (SDL_Color) { 255, 0, 0, 255 } };
     }
+
+    return (Entity) { entity_type_empty, x, y, -1, -1, (SDL_Color) { 0, 0, 0, 0 } };
 }
 
-
-Entity new_player(int x, int y) {
-    return (Entity) { entity_type_player, x, y, 10, 10, (SDL_Color) { 0, 0, 255, 255 }};
+void destroy_entity(Entity* entity) {
+    Entity empty_entity = new_entity(entity_type_empty, entity->x, entity->y);
+    *grid[entity->y * MAP_WIDTH + entity->x] = empty_entity;
 }
-
-Entity new_wall(int x, int y) {
-    return (Entity) { entity_type_wall, x, y, -1, -1, (SDL_Color) { 32, 32, 32, 255 }};
-}
-
-Entity new_stone(int x, int y) {
-    return (Entity) { entity_type_stone, x, y, 5, 5, (SDL_Color) { 64, 64, 64, 255 } };
-}
-
-
-Entity new_enemy(int x, int y) {
-    return (Entity) { entity_type_enemy, x, y, 10, 10, (SDL_Color) { 255, 0, 0, 255 }};
-}
-
 
 Entity* get_entity(int x, int y) {
+    if ( x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT) return NULL;
     return grid[y * MAP_WIDTH + x];
 }
 
-void set_entity(int x, int y, Entity* enity) {
+int set_entity(int x, int y, Entity* enity) {
+    if (x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT) return 0;
     grid[y * MAP_WIDTH + x] = enity;
+    return 1;
 }
 
 int spawn_entity(Entity entity) {
@@ -86,19 +93,21 @@ int spawn_entity(Entity entity) {
     return 1;
 }
 
+void reset_grids() {
+    for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
+        entities[i] = new_entity(entity_type_empty, i % MAP_WIDTH, i / MAP_WIDTH);
+        grid[i] = &entities[i];
+    }
+}
+
 void create_edge_walls() {
     for (int y = 0; y < MAP_HEIGHT; y++)
         for (int x = 0; x < MAP_WIDTH; x++)
-            if (x == 0 || y == 0 || x == MAP_WIDTH - 1 || y == MAP_HEIGHT - 1) spawn_entity(new_wall(x, y));
+            if (x == 0 || y == 0 || x == MAP_WIDTH - 1 || y == MAP_HEIGHT - 1) spawn_entity(new_entity(entity_type_wall, x, y));
 }
 
-void destroy_entity(Entity* entity) {
-    Entity new_entity = new_empty(entity->x, entity->y);
-    *grid[entity->y * MAP_WIDTH + entity->x] = new_entity;
-}
 
 void hit_entity(Entity* entity, int damage) {
-    printf("%d\n", entity->health);
     if (entity->max_health < 0) return;
     entity->health -= damage;
     if (entity->health <= 0) destroy_entity(entity);
@@ -153,7 +162,7 @@ void update_world(int player_movement_x, int player_movement_y) {
     }
 }
 
-void draw_world() {
+void draw_world(Textures textures) {
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
     SDL_RenderClear(renderer);
 
@@ -161,21 +170,20 @@ void draw_world() {
 
     SDL_Rect tile;
     SDL_Color tile_color;
-    int tile_size = 40;
 
     for (int y = 0; y < MAP_HEIGHT; y++) {
         for (int x = 0; x < MAP_WIDTH; x++) {
             entity = *get_entity(x, y);
             if (entity.entity_type != entity_type_empty) {
-                tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y , TILE_SIZE, TILE_SIZE };
+                tile = (SDL_Rect){ (TILE_SIZE * x + main_camera.x) * main_camera.zoom, (TILE_SIZE * y + main_camera.y) * main_camera.zoom, TILE_SIZE * main_camera.zoom, TILE_SIZE * main_camera.zoom };
                 if (entity.entity_type == entity_type_player) {
-                    SDL_RenderCopy(renderer, player_texture, NULL, &tile);
+                    SDL_RenderCopy(renderer, textures.player_texture, NULL, &tile);
                 }
                 else if (entity.entity_type == entity_type_enemy) {
-                    SDL_RenderCopy(renderer, enemy_texture, NULL, &tile);
+                    SDL_RenderCopy(renderer, textures.enemy_texture, NULL, &tile);
                 }
                 else if (entity.entity_type == entity_type_stone) {
-                    SDL_RenderCopy(renderer, stone_texture, NULL, &tile);
+                    SDL_RenderCopy(renderer, textures.stone_texture, NULL, &tile);
                 }
                 else {
                     tile_color = entity.color;
@@ -183,7 +191,6 @@ void draw_world() {
                     SDL_SetRenderDrawColor(renderer, 255 * ((float)y / MAP_HEIGHT), 0, 255 * ((float)x / MAP_WIDTH), 255);
                     SDL_RenderFillRect(renderer, &tile);
                 }
-
             }
         }
     }
@@ -197,8 +204,8 @@ void draw_world() {
                     int max_width = 20;
                     int tile_x = entity.x * TILE_SIZE - max_width / 2 + TILE_SIZE / 2;
                     int tile_y = entity.y * TILE_SIZE;
-                    SDL_Rect background_rect = { tile_x - 1, tile_y - 1, max_width + 1, max_height + 1};
-                    SDL_Rect health_rect = {tile_x, tile_y, max_width * ((float) entity.health / entity.max_health), max_height};
+                    SDL_Rect background_rect = { (tile_x - 1) * main_camera.zoom, (tile_y - 1) * main_camera.zoom, (max_width + 1) * main_camera.zoom, (max_height + 1) * main_camera.zoom };
+                    SDL_Rect health_rect = {tile_x * main_camera.zoom, tile_y * main_camera.zoom, (max_width * ((float) entity.health / entity.max_health)) * main_camera.zoom, max_height * main_camera.zoom };
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 200);
                     SDL_RenderFillRect(renderer, &background_rect);
                     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 200);
@@ -211,10 +218,10 @@ void draw_world() {
     SDL_RenderPresent(renderer);
 }
 
-void load_textures() {
-    player_texture = IMG_LoadTexture(renderer, "./assets/player_texture.png");
-    enemy_texture = IMG_LoadTexture(renderer, "./assets/enemy_texture.png");
-    stone_texture = IMG_LoadTexture(renderer, "./assets/stone_texture.png");
+void load_textures(Textures* textures) {
+    textures->player_texture = IMG_LoadTexture(renderer, "./assets/player_texture.png");
+    textures->enemy_texture = IMG_LoadTexture(renderer, "./assets/enemy_texture.png");
+    textures->stone_texture = IMG_LoadTexture(renderer, "./assets/stone_texture.png");
 }
 
 int main(void) {
@@ -222,26 +229,29 @@ int main(void) {
      reset_grids();
      create_edge_walls();
 
-     spawn_entity(new_player(2, 1));
-     spawn_entity(new_enemy(3, 4));
-     spawn_entity(new_wall(2, 4));
+     Textures textures;
+
+     spawn_entity(new_entity(entity_type_player, 2, 1));
+     spawn_entity(new_entity(entity_type_wall, 3, 4));
+     spawn_entity(new_entity(entity_type_enemy, 2, 4));
 
 
      for (int i = 0; i < 10; i++) {
-         spawn_entity(new_stone(2 + i, 6));
-         spawn_entity(new_stone(3 + i, 7));
-         spawn_entity(new_stone(4 + i, 8));
-         spawn_entity(new_stone(4 + i, 9));
-         spawn_entity(new_stone(4 + i, 10));
+         spawn_entity(new_entity(entity_type_stone, 2 + i, 6));
+         spawn_entity(new_entity(entity_type_stone, 3 + i, 7));
+         spawn_entity(new_entity(entity_type_stone, 4 + i, 8));
+         spawn_entity(new_entity(entity_type_stone, 4 + i, 9));
+         spawn_entity(new_entity(entity_type_stone, 4 + i, 10));
      }
 
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0){
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+    } else if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+        printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+        return 1;
     }
-    else
-    {
+    else {
         window = SDL_CreateWindow("CaveKingdom", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_BORDERLESS);
         if (window == NULL)
         {
@@ -251,7 +261,7 @@ int main(void) {
         {
             renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-            load_textures();
+            load_textures(&textures);
 
             SDL_Event event;
             
@@ -275,6 +285,8 @@ int main(void) {
                         else if (SDLK_s == event.key.keysym.sym) s_key_pressed = 1;
                         else if (SDLK_a == event.key.keysym.sym) a_key_pressed = 1;
                         else if (SDLK_d == event.key.keysym.sym) d_key_pressed = 1;
+                        else if (SDLK_e == event.key.keysym.sym) main_camera.zoom += 0.1;
+
                     }
                     else if (event.type == SDL_KEYUP) {
                         if (SDLK_w == event.key.keysym.sym) w_key_pressed = 0;
@@ -289,7 +301,7 @@ int main(void) {
                 if (d_key_pressed) player_movement_x++;
 
                 update_world(player_movement_x, player_movement_y);
-                draw_world();
+                draw_world(textures);
 
                 SDL_Delay(100);
             }
@@ -298,10 +310,11 @@ int main(void) {
 
     SDL_DestroyWindow(window);
 
-    SDL_DestroyTexture(player_texture);
-    SDL_DestroyTexture(enemy_texture);
-    SDL_DestroyTexture(stone_texture);
+    SDL_DestroyTexture(textures.enemy_texture);
+    SDL_DestroyTexture(textures.player_texture);
+    SDL_DestroyTexture(textures.stone_texture);
 
+    IMG_Quit();
     SDL_Quit();
 
     return 0;
