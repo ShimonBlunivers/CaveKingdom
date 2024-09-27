@@ -13,6 +13,7 @@ const int SCREEN_HEIGHT = 720;
 int game_status = 1;
 
 SDL_Window* window = NULL;
+SDL_Texture* screen = NULL;
 SDL_Renderer* renderer = NULL;
 
 typedef struct {
@@ -163,8 +164,8 @@ void update_world(int player_movement_x, int player_movement_y) {
 }
 
 void draw_world(Textures textures) {
-    SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
-    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(screen, 200, 200, 200, 255);
+    SDL_RenderClear(screen);
 
     Entity entity;
 
@@ -177,19 +178,19 @@ void draw_world(Textures textures) {
             if (entity.entity_type != entity_type_empty) {
                 tile = (SDL_Rect){ (TILE_SIZE * x + main_camera.x) * main_camera.zoom, (TILE_SIZE * y + main_camera.y) * main_camera.zoom, TILE_SIZE * main_camera.zoom, TILE_SIZE * main_camera.zoom };
                 if (entity.entity_type == entity_type_player) {
-                    SDL_RenderCopy(renderer, textures.player_texture, NULL, &tile);
+                    SDL_RenderCopy(screen, textures.player_texture, NULL, &tile);
                 }
                 else if (entity.entity_type == entity_type_enemy) {
-                    SDL_RenderCopy(renderer, textures.enemy_texture, NULL, &tile);
+                    SDL_RenderCopy(screen, textures.enemy_texture, NULL, &tile);
                 }
                 else if (entity.entity_type == entity_type_stone) {
-                    SDL_RenderCopy(renderer, textures.stone_texture, NULL, &tile);
+                    SDL_RenderCopy(screen, textures.stone_texture, NULL, &tile);
                 }
                 else {
                     tile_color = entity.color;
                     //SDL_SetRenderDrawColor(renderer, tile_color.r, tile_color.g, tile_color.b, tile_color.a);
-                    SDL_SetRenderDrawColor(renderer, 255 * ((float)y / MAP_HEIGHT), 0, 255 * ((float)x / MAP_WIDTH), 255);
-                    SDL_RenderFillRect(renderer, &tile);
+                    SDL_SetRenderDrawColor(screen, 255 * ((float)y / MAP_HEIGHT), 0, 255 * ((float)x / MAP_WIDTH), 255);
+                    SDL_RenderFillRect(screen, &tile);
                 }
             }
         }
@@ -206,15 +207,15 @@ void draw_world(Textures textures) {
                     int tile_y = entity.y * TILE_SIZE;
                     SDL_Rect background_rect = { (tile_x - 1) * main_camera.zoom, (tile_y - 1) * main_camera.zoom, (max_width + 1) * main_camera.zoom, (max_height + 1) * main_camera.zoom };
                     SDL_Rect health_rect = {tile_x * main_camera.zoom, tile_y * main_camera.zoom, (max_width * ((float) entity.health / entity.max_health)) * main_camera.zoom, max_height * main_camera.zoom };
-                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 200);
-                    SDL_RenderFillRect(renderer, &background_rect);
-                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 200);
-                    SDL_RenderFillRect(renderer, &health_rect);
+                    SDL_SetRenderDrawColor(screen, 255, 255, 255, 200);
+                    SDL_RenderFillRect(screen, &background_rect);
+                    SDL_SetRenderDrawColor(screen, 255, 0, 0, 200);
+                    SDL_RenderFillRect(screen, &health_rect);
                 }
             }
         }
     }
-
+    SDL_RenderCopy(renderer, screen, NULL, NULL);
     SDL_RenderPresent(renderer);
 }
 

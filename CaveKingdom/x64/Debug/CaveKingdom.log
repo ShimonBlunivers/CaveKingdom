@@ -1,18 +1,29 @@
 ﻿  main.c
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(178,68): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(178,120): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(178,150): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(178,180): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(191,58): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(191,92): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(207,63): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(207,96): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(207,132): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(207,169): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(208,52): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(208,79): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(208,157): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(208,188): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(227,10): warning C4026: function declared with formal parameter list
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(288,86): warning C4305: '+=': truncation from 'double' to 'float'
-  CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(167,28): warning C4133: 'function': incompatible types - from 'SDL_Texture *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(168,21): warning C4133: 'function': incompatible types - from 'SDL_Texture *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(179,68): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(179,120): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(179,150): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(179,180): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(181,36): warning C4133: 'function': incompatible types - from 'SDL_Texture *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(184,36): warning C4133: 'function': incompatible types - from 'SDL_Texture *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(187,36): warning C4133: 'function': incompatible types - from 'SDL_Texture *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(192,44): warning C4133: 'function': incompatible types - from 'SDL_Texture *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(192,56): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(192,90): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(193,40): warning C4133: 'function': incompatible types - from 'SDL_Texture *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(210,44): warning C4133: 'function': incompatible types - from 'SDL_Texture *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(211,40): warning C4133: 'function': incompatible types - from 'SDL_Texture *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(212,44): warning C4133: 'function': incompatible types - from 'SDL_Texture *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(213,40): warning C4133: 'function': incompatible types - from 'SDL_Texture *' to 'SDL_Renderer *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(208,63): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(208,96): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(208,132): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(208,169): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(209,52): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(209,79): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(209,157): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(209,188): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(228,10): warning C4026: function declared with formal parameter list
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(289,86): warning C4305: '+=': truncation from 'double' to 'float'
+  CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe
