@@ -23,10 +23,31 @@
     <Image Include="assets\player_texture.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\items\stone_texture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\tiles\dirt_texture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\tiles\enemy_texture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\tiles\player_texture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\tiles\stone_texture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\tiles\water_texture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vector.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\fonts\roboto.ttf" />
   </ItemGroup>
 </Project>

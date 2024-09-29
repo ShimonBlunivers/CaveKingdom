@@ -1,12 +1,24 @@
 ﻿  main.c
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(216,62): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(216,96): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(236,62): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(251,110): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(251,212): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(251,245): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(251,279): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(265,10): warning C4026: function declared with formal parameter list
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(331,86): warning C4305: '+=': truncation from 'double' to 'float'
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(332,86): warning C4305: '-=': truncation from 'double' to 'float'
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(151,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(155,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(159,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(166,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(170,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(174,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(179,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(183,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(315,75): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(316,75): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(389,62): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(389,96): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(400,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(409,62): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(427,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(428,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(462,89): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(462,132): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(376,15): warning C4101: 'tile_color': unreferenced local variable
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(483,10): warning C4026: function declared with formal parameter list
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(565,86): warning C4305: '+=': truncation from 'double' to 'float'
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(566,86): warning C4305: '-=': truncation from 'double' to 'float'
   CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe

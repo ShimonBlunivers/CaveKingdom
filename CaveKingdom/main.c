@@ -3,15 +3,15 @@
 #include <stdbool.h>
 #include <SDL_image.h>
 #include <SDL.h>
-
+#include <SDL_ttf.h>
 
 #define MAP_WIDTH 36
 #define MAP_HEIGHT 36
-#define TILE_SIZE 20
+#define TILE_SIZE 60
 
+#define INVENTORY_SIZE 8
 
-
-//  WINDOW
+#pragma region Window
 
 const int SCREEN_WIDTH = 720;
 const int SCREEN_HEIGHT = 720;
@@ -19,100 +19,248 @@ const int SCREEN_HEIGHT = 720;
 int game_status = 1;
 
 SDL_Window* window = NULL;
-SDL_Texture* screen = NULL;
 SDL_Renderer* renderer = NULL;
 
-//  ENTITIES
+SDL_Texture* screen = NULL;
+SDL_Texture* gui = NULL;
+TTF_Font* font = NULL;
+SDL_Texture* text;
+
+#pragma endregion
+
+#pragma region Items
 
 typedef enum {
+    item_type_empty,
+
+    item_type_stone,
+
+
+    number_of_item_types, // DO NOT USE AS ITEM TYPE!
+} ItemType;
+
+typedef struct {
+    ItemType type;
+    int amount;
+} ItemStack;
+
+typedef struct {
+    ItemStack content[INVENTORY_SIZE];
+} Inventory;
+
+Inventory new_inventory(ItemStack content[INVENTORY_SIZE]) {
+    Inventory inventory;
+
+    for (int i = 0; i < INVENTORY_SIZE; i++) {
+        if (content != NULL && content[i].type != item_type_empty) inventory.content[i] = content[i];
+        else inventory.content[i] = (ItemStack) {item_type_empty, -1};
+    }
+
+    return inventory;
+}
+
+void collect_inventory(Inventory* from, Inventory* to) {
+    for (int x = 0; x < INVENTORY_SIZE; x++) {
+        if (from->content[x].type == item_type_empty) continue;
+        for (int y = 0; y < INVENTORY_SIZE; y++) {
+            if (to->content[y].type == from->content[x].type) {
+                to->content[y].amount += from->content[x].amount;
+                from->content[x] = (ItemStack){ item_type_empty, -1 };
+                continue;
+            }
+            if (to->content[y].type == item_type_empty) {
+                to->content[y] = from->content[x];
+                from->content[x] = (ItemStack){ item_type_empty, -1 };
+                continue;
+            }
+        }
+    }
+}
+
+void print_inventory(Inventory* inventory) {
+    printf("------------\n");
+    for (int i = 0; i < INVENTORY_SIZE; i++) {
+        if (inventory->content[i].type != item_type_empty) {
+            printf("%d : %d\n", inventory->content[i].type, inventory->content[i].amount);
+        }
+    }
+}
+
+#pragma endregion
+
+#pragma region Entities
+
+typedef enum {
+    height_layer_ground,
+    height_layer_surface,
+    height_layer_air,
+
+    number_of_height_layers, // DO NOT USE AS HEIGHT LAYER !
+} HeightLayer;
+
+typedef enum {
+    // Empty types for every height layer
+    entity_type_ground_empty,
+    entity_type_surface_empty,
+    entity_type_air_empty,
+
+    // Ground types
+    entity_type_water,
+    entity_type_dirt,
+
+    // Surface types
     entity_type_player,
     entity_type_wall,
     entity_type_enemy,
     entity_type_stone,
 
-    entity_type_empty,
+    number_of_entity_types, // DO NOT USE AS ENTITY TYPE !
 } EntityType;
 
+EntityType empty_entity_types[number_of_height_layers] = { 
+    entity_type_ground_empty, 
+    entity_type_surface_empty,
+    entity_type_air_empty,
+}; // List of empty types for every layer, ascending.
+
+bool is_empty_entity_type(EntityType entity_type) {
+    for (int i = 0; i < number_of_height_layers; i++) if (entity_type == empty_entity_types[i]) return true;
+    return false;
+}
+
 typedef struct {
-    EntityType entity_type;
+    EntityType type;
+    HeightLayer height_layer;
     int x;
     int y;
     int max_health;
     int health;
-    SDL_Color color;
+    bool is_obstacle;
+    Inventory inventory;
 } Entity;
 
-static Entity entities[MAP_WIDTH * MAP_HEIGHT];
-static Entity* grid[MAP_WIDTH * MAP_HEIGHT];
+Entity new_entity(EntityType type, int x, int y) {
+    HeightLayer height_layer;
+
+    Entity new_entity = { 0 };
+    ItemStack loot[INVENTORY_SIZE] = {0};
+
+    height_layer = height_layer_ground;
+    switch (type) {
+        case entity_type_water:
+            new_entity = (Entity) { type, height_layer, x, y, -1, NULL, true, new_inventory(loot) };
+            break;
+
+        case entity_type_dirt:
+            new_entity = (Entity) { type, height_layer, x, y, -1, NULL, false, new_inventory(loot) };
+            break;
+
+        case entity_type_ground_empty:
+            new_entity = (Entity) { type, height_layer, x, y, -1, NULL, false, new_inventory(loot) };
+            break;
+    }
+
+    height_layer = height_layer_surface;
+    switch (type) {
+        case entity_type_player:
+            new_entity = (Entity){ type, height_layer, x, y, 10, NULL, true, new_inventory(loot) };
+            break;
+
+        case entity_type_enemy:
+            new_entity = (Entity){ type, height_layer, x, y, 10, NULL, true, new_inventory(loot)};
+            break;
+
+        case entity_type_wall:
+            new_entity = (Entity){ type, height_layer, x, y, -1, NULL, true, new_inventory(loot) };
+            break;
+
+        case entity_type_stone:
+            loot[0] = (ItemStack){ item_type_stone, 3 };
+            new_entity = (Entity){ type, height_layer, x, y, 5, NULL, true, new_inventory(loot) };
+            break;
+
+        case entity_type_surface_empty:
+            new_entity = (Entity){ type, height_layer, x, y, -1, NULL, false, new_inventory(loot) };
+            break;    
+    }
+    if (new_entity.max_health == 0) return new_entity;
+
+    new_entity.health = new_entity.max_health;
+    return new_entity;
+}
+
+static Entity entity_list[MAP_WIDTH * MAP_HEIGHT * number_of_height_layers];
+static Entity* entity_position_grid[MAP_WIDTH * MAP_HEIGHT][number_of_height_layers]; // For quicker access through coordinates
 
 Entity* main_player = NULL;
 
-Entity new_entity(EntityType type, int x, int y) {
-
-    switch (type) {
-    case entity_type_player:
-        return (Entity) { entity_type_player, x, y, 10, 10, (SDL_Color) { 0, 0, 255, 255 } };
-
-    case entity_type_wall:
-        return (Entity) { entity_type_wall, x, y, -1, -1, (SDL_Color) { 32, 32, 32, 255 } };
-
-    case entity_type_stone:
-        return (Entity) { entity_type_stone, x, y, 5, 5, (SDL_Color) { 64, 64, 64, 255 } };
-
-    case entity_type_enemy:
-        return (Entity) { entity_type_enemy, x, y, 10, 10, (SDL_Color) { 255, 0, 0, 255 } };
-    }
-
-    return (Entity) { entity_type_empty, x, y, -1, -1, (SDL_Color) { 0, 0, 0, 0 } };
-}
-
 void destroy_entity(Entity* entity) {
-    Entity empty_entity = new_entity(entity_type_empty, entity->x, entity->y);
-    *grid[entity->y * MAP_WIDTH + entity->x] = empty_entity;
+    Entity empty_entity = new_entity(empty_entity_types[entity->height_layer], entity->x, entity->y);
+
+    *entity_position_grid[entity->y * MAP_WIDTH + entity->x][empty_entity.height_layer] = empty_entity;
 }
 
-Entity* get_entity(int x, int y) {
+Entity* get_entity(int x, int y, HeightLayer layer) {
     if ( x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT) return NULL;
-    return grid[y * MAP_WIDTH + x];
+    return entity_position_grid[y * MAP_WIDTH + x][layer];
 }
 
 bool set_entity(int x, int y, Entity* enity) {
     if (x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT) return false;
-    grid[y * MAP_WIDTH + x] = enity;
+    entity_position_grid[y * MAP_WIDTH + x][enity->height_layer] = enity;
     return true;
 }
 
 bool spawn_entity(Entity entity) {
     if (entity.x < 0 || entity.y < 0 || entity.x >= MAP_WIDTH || entity.y >= MAP_HEIGHT) return false;
-    Entity* old_entity = get_entity(entity.x, entity.y);
-    if (old_entity->entity_type != entity_type_empty) return false;
+    Entity* old_entity = get_entity(entity.x, entity.y, entity.height_layer);
+
+    if (!is_empty_entity_type(old_entity->type)) return false;
     *old_entity = entity;
-    if (entity.entity_type == entity_type_player) main_player = old_entity;
+    if (entity.type == entity_type_player) {
+        main_player = old_entity;
+    }
+    return true;
+}
+
+bool force_spawn_entity(Entity entity) {
+    if (entity.x < 0 || entity.y < 0 || entity.x >= MAP_WIDTH || entity.y >= MAP_HEIGHT) return false;
+    Entity* old_entity = get_entity(entity.x, entity.y, entity.height_layer);
+
+    *old_entity = entity;
+    if (entity.type == entity_type_player) {
+        main_player = old_entity;
+    }
     return true;
 }
 
 void hit_entity(Entity* entity, int damage) {
     if (entity->max_health < 0) return;
     entity->health -= damage;
-    if (entity->health <= 0) destroy_entity(entity);
+    if (entity->health <= 0) { 
+        collect_inventory(&entity->inventory, &main_player->inventory);
+        destroy_entity(entity); 
+    }
 }
 
-bool switch_entities(int x1, int y1, int x2, int y2) {
+bool switch_entities(int x1, int y1, int x2, int y2, HeightLayer layer) {
     if (x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0 || x1 >= MAP_WIDTH || x2 >= MAP_WIDTH || y1 >= MAP_HEIGHT || y2 >= MAP_HEIGHT) return false;
 
-    Entity* entity1 = get_entity(x1, y1);
-    Entity* entity2 = get_entity(x2, y2);
+    Entity* entity1 = get_entity(x1, y1, layer);
+    Entity* entity2 = get_entity(x2, y2, layer);
 
-    if (entity1->entity_type == entity_type_wall || entity2->entity_type == entity_type_wall) return false;
-
-    if (entity1->entity_type == entity_type_player && entity2->max_health > 0) {
+    if (entity1->type == entity_type_player && entity2->max_health > 0) {
         hit_entity(entity2, 1);
         return false;
     }
-    if (entity2->entity_type == entity_type_player && entity1->max_health > 0) {
+    if (entity2->type == entity_type_player && entity1->max_health > 0) {
         hit_entity(entity1, 1);
         return false;
+    }
 
+    for (int i = 0; i < number_of_height_layers; i++) {
+        Entity* entity = get_entity(x2, y2, i);
+        if (entity->is_obstacle) return false;
     }
 
     entity2->x = x1;
@@ -128,21 +276,31 @@ bool switch_entities(int x1, int y1, int x2, int y2) {
     return true;
 }
 
+#pragma endregion
 
-//  TEXTURES
+#pragma region Textures
 
-SDL_Texture* textures[entity_type_empty];
+SDL_Texture* entity_textures[number_of_entity_types] = { 0 };
+SDL_Texture* item_textures[number_of_item_types] = { 0 };
+
 
 void load_textures() {
-    for (int i = 0; i < entity_type_empty; i++) { textures[i] = NULL; }
+    // Entity textures
+    entity_textures[entity_type_player] = IMG_LoadTexture(renderer, "./assets/textures/tiles/player_texture.png");
+    entity_textures[entity_type_enemy] = IMG_LoadTexture(renderer, "./assets/textures/tiles/enemy_texture.png");
+    entity_textures[entity_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/tiles/stone_texture.png");
+    
+    entity_textures[entity_type_water] = IMG_LoadTexture(renderer, "./assets/textures/tiles/water_texture.png");
+    entity_textures[entity_type_dirt] = IMG_LoadTexture(renderer, "./assets/textures/tiles/dirt_texture.png");
 
-    textures[entity_type_player] = IMG_LoadTexture(renderer, "./assets/player_texture.png");
-    textures[entity_type_enemy] = IMG_LoadTexture(renderer, "./assets/enemy_texture.png");
-    textures[entity_type_stone] = IMG_LoadTexture(renderer, "./assets/stone_texture.png");
+
+    // Item textures
+    item_textures[item_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/items/stone_texture.png");
 }
 
+#pragma endregion
 
-//  CAMERA
+#pragma region Camera
 
 typedef struct {
     int x;
@@ -150,50 +308,65 @@ typedef struct {
     float zoom;
 } Camera;
 
+
 Camera main_camera = { 0, 0, 1. };
 
 void update_camera() {
-    main_camera.x = main_player->x * TILE_SIZE + TILE_SIZE / 2 - SCREEN_WIDTH / 2;
-    main_camera.y = main_player->y * TILE_SIZE + TILE_SIZE / 2 - SCREEN_HEIGHT / 2;
+    main_camera.x = TILE_SIZE * main_camera.zoom * (0.5 + main_player->x) - 0.5 * SCREEN_WIDTH;
+    main_camera.y = TILE_SIZE * main_camera.zoom * (0.5 + main_player->y) - 0.5 * SCREEN_HEIGHT;
 }
 
+#pragma endregion
 
-//  GRID
+#pragma region Grid
 
 void reset_grids() {
-    for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
-        entities[i] = new_entity(entity_type_empty, i % MAP_WIDTH, i / MAP_WIDTH);
-        grid[i] = &entities[i];
+    for (int layer = 0; layer < number_of_height_layers; layer++) {
+        for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
+            if (layer == height_layer_ground) entity_list[i + MAP_WIDTH * MAP_HEIGHT * layer] = new_entity(entity_type_dirt, i % MAP_WIDTH, i / MAP_WIDTH);
+            if (layer == height_layer_surface) entity_list[i + MAP_WIDTH * MAP_HEIGHT * layer] = new_entity(entity_type_surface_empty, i % MAP_WIDTH, i / MAP_WIDTH);
+            
+            entity_position_grid[i][layer] = &entity_list[i + MAP_WIDTH * MAP_HEIGHT * layer];
+        }
     }
 }
 
 void create_edge_walls() {
     for (int y = 0; y < MAP_HEIGHT; y++)
         for (int x = 0; x < MAP_WIDTH; x++)
-            if (x == 0 || y == 0 || x == MAP_WIDTH - 1 || y == MAP_HEIGHT - 1) spawn_entity(new_entity(entity_type_wall, x, y));
+            if (x == 0 || y == 0 || x == MAP_WIDTH - 1 || y == MAP_HEIGHT - 1) {
+                force_spawn_entity(new_entity(entity_type_water, x, y));
+            }
 }
 
 void update_world(int player_movement_x, int player_movement_y) {
     if (player_movement_x == 0 && player_movement_y == 0) return;
-    for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++)
+    for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT * number_of_height_layers; i++)
     {
-        Entity* entity = &entities[i];
-        if (entity->entity_type == entity_type_empty) {}
-        else if (entity->entity_type == entity_type_wall) {}
-        else if (entity->entity_type == entity_type_player) {
-            if (player_movement_x != 0)
-            switch_entities(entity->x, entity->y, entity->x + player_movement_x, entity->y);
-            if (player_movement_y != 0)
-            switch_entities(entity->x, entity->y, entity->x, entity->y + player_movement_y);
+        Entity* entity = &entity_list[i];
+        switch (entity->type) {
+            case entity_type_surface_empty:
+                break;
+
+            case entity_type_wall:
+                break;
+
+            case entity_type_player:
+                if (player_movement_x != 0)
+                    switch_entities(entity->x, entity->y, entity->x + player_movement_x, entity->y, main_player->height_layer);
+                if (player_movement_y != 0)
+                    switch_entities(entity->x, entity->y, entity->x, entity->y + player_movement_y, main_player->height_layer);
+                break;
+
+            case entity_type_enemy:
+                break;
         }
-        else if (entity->entity_type == entity_type_enemy) {}
     }
 }
 
 void draw_world() {
 
     SDL_SetRenderTarget(renderer, screen);
-
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
     SDL_RenderClear(renderer);
 
@@ -204,15 +377,15 @@ void draw_world() {
 
     for (int y = 0; y < MAP_HEIGHT; y++) {
         for (int x = 0; x < MAP_WIDTH; x++) {
-            entity = *get_entity(x, y);
-            if (entity.entity_type != entity_type_empty) {
-                if (entity.entity_type != entity_type_empty) {
+            for (int layer = 0; layer < number_of_height_layers; layer++)
+            {
+                entity = *get_entity(x, y, layer);
+                if (!is_empty_entity_type(entity.type)) {
                     tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
-                    if (textures[entity.entity_type]) {
-                        SDL_RenderCopy(renderer, textures[entity.entity_type], NULL, &tile);
+                    if (entity_textures[entity.type]) {
+                        SDL_RenderCopy(renderer, entity_textures[entity.type], NULL, &tile);
                     }
                     else {
-                        tile_color = entity.color;
                         SDL_SetRenderDrawColor(renderer, 255 * ((float)y / MAP_HEIGHT), 0, 255 * ((float)x / MAP_WIDTH), 255);
                         SDL_RenderFillRect(renderer, &tile);
                     }
@@ -223,43 +396,89 @@ void draw_world() {
 
     // GUI
 
+    int max_width = TILE_SIZE;
+    int max_height = TILE_SIZE * 0.1;
     for (int y = 0; y < MAP_HEIGHT; y++) {
         for (int x = 0; x < MAP_WIDTH; x++) {
-            entity = *get_entity(x, y);
-            if (entity.entity_type != entity_type_empty) {
+            entity = *get_entity(x, y, height_layer_surface);
+            if (entity.type != entity_type_surface_empty) {
                 if (entity.max_health > 0 && entity.max_health != entity.health) {
-                    int max_height = 4;
-                    int max_width = 20;
                     int tile_x = entity.x * TILE_SIZE - max_width / 2 + TILE_SIZE / 2;
                     int tile_y = entity.y * TILE_SIZE;
                     SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
                     SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity.health / entity.max_health)), max_height };
-                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 200);
+                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                     SDL_RenderFillRect(renderer, &background_rect);
-                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 200);
+                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
                     SDL_RenderFillRect(renderer, &health_rect);
                 }
             }
         }
     }
 
+    SDL_SetRenderTarget(renderer, gui);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+
+    Inventory inventory = main_player->inventory;
+
+    int inventory_width = SCREEN_WIDTH * .9;
+    int inventory_height = SCREEN_HEIGHT * .1125;
+
+
+    SDL_Rect inventory_rect = { (SCREEN_WIDTH - inventory_width) / 2,  SCREEN_HEIGHT - inventory_height - 10, inventory_width, inventory_height };
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &inventory_rect);
+
+    int slot_size = inventory_width / INVENTORY_SIZE;
+
+    int slot_index = 0;
+    int padding = 10;
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    for (int i = 0; i < INVENTORY_SIZE; i++) {
+        if (inventory.content[i].type != item_type_empty) {
+            SDL_Rect slot_rect = { (inventory_rect.x + padding) + (slot_size + padding * 2) * slot_index++, inventory_rect.y + padding, slot_size - padding * 2, slot_size - padding * 2 };
+            if (item_textures[inventory.content->type]) SDL_RenderCopy(renderer, item_textures[inventory.content->type], NULL, &slot_rect);
+            else SDL_RenderFillRect(renderer, &slot_rect);
+
+            slot_rect.w /= 2;
+            slot_rect.h /= 2;
+            slot_rect.x += slot_rect.w;
+            char amount[128];
+            sprintf_s(amount, sizeof(amount), "%d", inventory.content[i].amount);
+            SDL_Surface* text_surface = TTF_RenderText_Solid(font, amount, (SDL_Color) { 0, 0, 0, 0 });
+            text = SDL_CreateTextureFromSurface(renderer, text_surface);
+            SDL_RenderCopy(renderer, text, NULL, &slot_rect);
+        }
+    }
+
+    //
+
     SDL_SetRenderTarget(renderer, NULL);
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
     SDL_RenderClear(renderer);
 
+    SDL_Rect destination_rect = { -main_camera.x, -main_camera.y, MAP_WIDTH * TILE_SIZE * main_camera.zoom, MAP_HEIGHT * TILE_SIZE * main_camera.zoom };
 
-    SDL_Rect screen_rect = { -((main_camera.x + SCREEN_WIDTH / 2) - (SCREEN_WIDTH / (2 * main_camera.zoom))) * main_camera.zoom, -((main_camera.y + SCREEN_HEIGHT / 2) - (SCREEN_HEIGHT / (2 * main_camera.zoom))) * main_camera.zoom, SCREEN_WIDTH * main_camera.zoom, SCREEN_HEIGHT * main_camera.zoom };
-
-    //SDL_Rect camera_viewport = { , , SCREEN_WIDTH / main_camera.zoom, SCREEN_HEIGHT / main_camera.zoom };
-
-    SDL_RenderCopy(renderer, screen, NULL, &screen_rect);
+    SDL_RenderCopy(renderer, screen, NULL, &destination_rect);
+    SDL_RenderCopy(renderer, gui, NULL, NULL);
     SDL_RenderPresent(renderer);
 }
 
 
+#pragma endregion
+
+#pragma region Game
+
 void init_rendering() {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    screen = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
+    
+    screen = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE);
+    
+    gui = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SDL_SetTextureBlendMode(gui, SDL_BLENDMODE_BLEND);
 }
 
 int main(void) {
@@ -269,9 +488,12 @@ int main(void) {
 
     //  Testing setup
     
-    spawn_entity(new_entity(entity_type_player, 2, 1));
+    spawn_entity(new_entity(entity_type_player, 11, 11));
+
+
     spawn_entity(new_entity(entity_type_wall, 3, 4));
     spawn_entity(new_entity(entity_type_enemy, 2, 4));
+
 
 
     for (int i = 0; i < 10; i++) {
@@ -282,9 +504,14 @@ int main(void) {
         spawn_entity(new_entity(entity_type_stone, 4 + i, 10));
     }
 
-    //
 
-    if (!main_player) {
+    //
+    if (TTF_Init() == -1)
+    {
+        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+        return 1;
+    }
+    else if (!main_player) {
         printf("The main player is NULL!\n");
         return 1;
     } 
@@ -298,7 +525,15 @@ int main(void) {
     }
     else {
         window = SDL_CreateWindow("CaveKingdom", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_BORDERLESS);
-        if (window == NULL) {
+        
+        font = TTF_OpenFont("./assets/fonts/roboto.ttf", 24);
+
+        if (font == NULL)
+        {
+            printf("Failed to load roboto font! SDL_ttf Error: %s\n", TTF_GetError());
+            return 1;
+        }
+        else if (window == NULL) {
             printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
             return 1;
         }
@@ -334,6 +569,10 @@ int main(void) {
                         else if (SDLK_RIGHT == event.key.keysym.sym) main_camera.x += 10;
                         else if (SDLK_UP == event.key.keysym.sym) main_camera.y -= 10;
                         else if (SDLK_DOWN == event.key.keysym.sym) main_camera.y += 10;
+
+                        else if (SDLK_r == event.key.keysym.sym) print_inventory(&main_player->inventory);
+
+                        
                     }
                     else if (event.type == SDL_KEYUP) {
                         if (SDLK_w == event.key.keysym.sym) w_key_pressed = 0;
@@ -356,16 +595,20 @@ int main(void) {
         }
     }
 
-    SDL_DestroyWindow(window);
 
-
-    for (int i = 0; i < entity_type_empty; i++) {
-        SDL_DestroyTexture(textures[i]);
+    for (int i = 0; i < entity_type_surface_empty; i++) {
+        SDL_DestroyTexture(entity_textures[i]);
     }
 
+    TTF_CloseFont(font);
+
+    SDL_DestroyWindow(window);
 
     IMG_Quit();
+    TTF_Quit();
     SDL_Quit();
 
     return 0;
 }
+
+#pragma endregion
