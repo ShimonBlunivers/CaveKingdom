@@ -1,29 +1,16 @@
-﻿  main.c
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(153,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(157,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(161,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(168,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(172,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(177,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(181,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(186,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(190,26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(339,35): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(342,75): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(343,75): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(416,62): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(416,96): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(426,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(435,62): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(455,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(456,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(479,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(481,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(481,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(495,89): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(495,132): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(403,15): warning C4101: 'tile_color': unreferenced local variable
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(516,10): warning C4026: function declared with formal parameter list
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(599,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(600,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+﻿  renderer.c
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(38,25): warning C4013: 'printf' undefined; assuming extern returning int
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(42,62): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(42,96): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(103,13): warning C4013: 'sprintf_s' undefined; assuming extern returning int
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(52,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(61,62): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(81,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(82,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(105,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(107,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(107,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(121,89): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(121,132): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(28,15): warning C4101: 'tile_color': unreferenced local variable
   CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe
