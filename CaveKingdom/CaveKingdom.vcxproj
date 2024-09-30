@@ -137,6 +137,13 @@
   <ItemGroup>
     <Image Include="assets\items\stone_texture.png" />
     <Image Include="assets\player_texture.png" />
+    <Image Include="assets\textures\items\stone.png" />
+    <Image Include="assets\textures\tiles\dirt.png" />
+    <Image Include="assets\textures\tiles\enemy.png" />
+    <Image Include="assets\textures\tiles\player.png" />
+    <Image Include="assets\textures\tiles\stone.png" />
+    <Image Include="assets\textures\tiles\water.png" />
+    <Image Include="assets\textures\ui\item_slot.png" />
     <Image Include="assets\tiles\dirt_texture.png" />
     <Image Include="assets\tiles\enemy_texture.png" />
     <Image Include="assets\tiles\player_texture.png" />

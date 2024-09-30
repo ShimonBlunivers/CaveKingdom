@@ -13,7 +13,7 @@
 
 #pragma region Window
 
-const int SCREEN_WIDTH = 720;
+const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 
 int game_status = 1;
@@ -34,6 +34,7 @@ typedef enum {
     item_type_empty,
 
     item_type_stone,
+    item_type_zombie_meat,
 
 
     number_of_item_types, // DO NOT USE AS ITEM TYPE!
@@ -110,8 +111,9 @@ typedef enum {
 
     // Surface types
     entity_type_player,
-    entity_type_wall,
     entity_type_enemy,
+    entity_type_zombie,
+    entity_type_wall,
     entity_type_stone,
 
     number_of_entity_types, // DO NOT USE AS ENTITY TYPE !
@@ -168,6 +170,11 @@ Entity new_entity(EntityType type, int x, int y) {
 
         case entity_type_enemy:
             new_entity = (Entity){ type, height_layer, x, y, 10, NULL, true, new_inventory(loot)};
+            break;
+
+        case entity_type_zombie:
+            loot[0] = (ItemStack){ item_type_zombie_meat, 2 };
+            new_entity = (Entity){ type, height_layer, x, y, 10, NULL, true, new_inventory(loot) };
             break;
 
         case entity_type_wall:
@@ -280,22 +287,40 @@ bool switch_entities(int x1, int y1, int x2, int y2, HeightLayer layer) {
 
 #pragma region Textures
 
+typedef enum {
+    ui_element_inventory_slot,
+
+    number_of_ui_elements, // DO NOT USE AS UI ELEMENT!
+} UIElement;
+
+
+SDL_Texture* ui_textures[number_of_ui_elements] = { 0 };
 SDL_Texture* entity_textures[number_of_entity_types] = { 0 };
 SDL_Texture* item_textures[number_of_item_types] = { 0 };
 
 
 void load_textures() {
+    // UI textures
+    ui_textures[ui_element_inventory_slot] = IMG_LoadTexture(renderer, "./assets/textures/ui/inventory_slot.png");
+
+        
     // Entity textures
-    entity_textures[entity_type_player] = IMG_LoadTexture(renderer, "./assets/textures/tiles/player_texture.png");
-    entity_textures[entity_type_enemy] = IMG_LoadTexture(renderer, "./assets/textures/tiles/enemy_texture.png");
-    entity_textures[entity_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/tiles/stone_texture.png");
-    
-    entity_textures[entity_type_water] = IMG_LoadTexture(renderer, "./assets/textures/tiles/water_texture.png");
-    entity_textures[entity_type_dirt] = IMG_LoadTexture(renderer, "./assets/textures/tiles/dirt_texture.png");
+        // Ground
+    entity_textures[entity_type_water] = IMG_LoadTexture(renderer, "./assets/textures/tiles/water.png");
+    entity_textures[entity_type_dirt] = IMG_LoadTexture(renderer, "./assets/textures/tiles/dirt.png");
+
+        // Surface
+    entity_textures[entity_type_player] = IMG_LoadTexture(renderer, "./assets/textures/tiles/player.png");
+    entity_textures[entity_type_enemy] = IMG_LoadTexture(renderer, "./assets/textures/tiles/enemy.png");
+    entity_textures[entity_type_zombie] = IMG_LoadTexture(renderer, "./assets/textures/tiles/zombie.png");
+    entity_textures[entity_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/tiles/stone.png");
+        // Air
 
 
     // Item textures
-    item_textures[item_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/items/stone_texture.png");
+    item_textures[item_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/items/stone.png");
+    item_textures[item_type_zombie_meat] = IMG_LoadTexture(renderer, "./assets/textures/items/zombie_meat.png");
+
 }
 
 #pragma endregion
@@ -306,10 +331,12 @@ typedef struct {
     int x;
     int y;
     float zoom;
+    float min_zoom;
+    float max_zoom;
 } Camera;
 
 
-Camera main_camera = { 0, 0, 1. };
+Camera main_camera = { 0, 0, 1. , .1, 3. };
 
 void update_camera() {
     main_camera.x = TILE_SIZE * main_camera.zoom * (0.5 + main_player->x) - 0.5 * SCREEN_WIDTH;
@@ -394,7 +421,6 @@ void draw_world() {
         }
     }
 
-    // GUI
 
     int max_width = TILE_SIZE;
     int max_height = TILE_SIZE * 0.1;
@@ -416,6 +442,8 @@ void draw_world() {
         }
     }
 
+    // UI
+
     SDL_SetRenderTarget(renderer, gui);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
@@ -424,33 +452,37 @@ void draw_world() {
 
     Inventory inventory = main_player->inventory;
 
-    int inventory_width = SCREEN_WIDTH * .9;
-    int inventory_height = SCREEN_HEIGHT * .1125;
+    int inventory_width = SCREEN_WIDTH * .6;
+    int inventory_height = SCREEN_HEIGHT * .12;
 
 
     SDL_Rect inventory_rect = { (SCREEN_WIDTH - inventory_width) / 2,  SCREEN_HEIGHT - inventory_height - 10, inventory_width, inventory_height };
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &inventory_rect);
+    //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    //SDL_RenderFillRect(renderer, &inventory_rect);
 
     int slot_size = inventory_width / INVENTORY_SIZE;
 
     int slot_index = 0;
-    int padding = 10;
+    int padding = 20;
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     for (int i = 0; i < INVENTORY_SIZE; i++) {
+        SDL_Rect slot_rect = { inventory_rect.x + slot_size * i, inventory_rect.y, slot_size, slot_size};
+        SDL_RenderCopy(renderer, ui_textures[ui_element_inventory_slot], NULL, &slot_rect);
         if (inventory.content[i].type != item_type_empty) {
-            SDL_Rect slot_rect = { (inventory_rect.x + padding) + (slot_size + padding * 2) * slot_index++, inventory_rect.y + padding, slot_size - padding * 2, slot_size - padding * 2 };
-            if (item_textures[inventory.content->type]) SDL_RenderCopy(renderer, item_textures[inventory.content->type], NULL, &slot_rect);
-            else SDL_RenderFillRect(renderer, &slot_rect);
+            SDL_Rect item_rect = { inventory_rect.x + padding + slot_size * i * slot_index++, inventory_rect.y + padding, slot_size - padding * 2, slot_size - padding * 2 };
 
-            slot_rect.w /= 2;
-            slot_rect.h /= 2;
-            slot_rect.x += slot_rect.w;
+            if (item_textures[inventory.content[i].type]) SDL_RenderCopy(renderer, item_textures[inventory.content[i].type], NULL, &item_rect);
+
             char amount[128];
             sprintf_s(amount, sizeof(amount), "%d", inventory.content[i].amount);
+
+            int digits = floor(log10((double)inventory.content[i].amount)) + 1;
+            int digit_size = 24;
+            SDL_Rect amount_rect = { slot_rect.x + padding / 2, slot_rect.h + slot_rect.y - padding / 2 - digit_size * 1.5, digit_size * digits , digit_size * 1.5 };
+
             SDL_Surface* text_surface = TTF_RenderText_Solid(font, amount, (SDL_Color) { 0, 0, 0, 0 });
             text = SDL_CreateTextureFromSurface(renderer, text_surface);
-            SDL_RenderCopy(renderer, text, NULL, &slot_rect);
+            SDL_RenderCopy(renderer, text, NULL, &amount_rect);
         }
     }
 
@@ -491,8 +523,9 @@ int main(void) {
     spawn_entity(new_entity(entity_type_player, 11, 11));
 
 
-    spawn_entity(new_entity(entity_type_wall, 3, 4));
+    //spawn_entity(new_entity(entity_type_wall, 3, 4));
     spawn_entity(new_entity(entity_type_enemy, 2, 4));
+    spawn_entity(new_entity(entity_type_zombie, 3, 4));
 
 
 
@@ -526,7 +559,7 @@ int main(void) {
     else {
         window = SDL_CreateWindow("CaveKingdom", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_BORDERLESS);
         
-        font = TTF_OpenFont("./assets/fonts/roboto.ttf", 24);
+        font = TTF_OpenFont("./assets/fonts/roboto.ttf", 36);
 
         if (font == NULL)
         {
@@ -552,7 +585,6 @@ int main(void) {
             int d_key_pressed = 0;
 
             while (quit == 0) { 
-                
                 player_movement_x = 0;
                 player_movement_y = 0;
 
@@ -563,14 +595,14 @@ int main(void) {
                         else if (SDLK_s == event.key.keysym.sym) s_key_pressed = 1;
                         else if (SDLK_a == event.key.keysym.sym) a_key_pressed = 1;
                         else if (SDLK_d == event.key.keysym.sym) d_key_pressed = 1;
-                        else if (SDLK_e == event.key.keysym.sym) main_camera.zoom += .1;
-                        else if (SDLK_q == event.key.keysym.sym) main_camera.zoom -= .1;
+                        else if (SDLK_e == event.key.keysym.sym) main_camera.zoom = SDL_clamp(main_camera.zoom + .1, main_camera.min_zoom, main_camera.max_zoom);
+                        else if (SDLK_q == event.key.keysym.sym) main_camera.zoom = SDL_clamp(main_camera.zoom - .1, main_camera.min_zoom, main_camera.max_zoom);
                         else if (SDLK_LEFT == event.key.keysym.sym) main_camera.x -= 10;
                         else if (SDLK_RIGHT == event.key.keysym.sym) main_camera.x += 10;
                         else if (SDLK_UP == event.key.keysym.sym) main_camera.y -= 10;
                         else if (SDLK_DOWN == event.key.keysym.sym) main_camera.y += 10;
 
-                        else if (SDLK_r == event.key.keysym.sym) print_inventory(&main_player->inventory);
+                        //else if (SDLK_r == event.key.keysym.sym) print_inventory(&main_player->inventory);
 
                         
                     }
@@ -596,8 +628,14 @@ int main(void) {
     }
 
 
-    for (int i = 0; i < entity_type_surface_empty; i++) {
+    for (int i = 0; i < number_of_ui_elements; i++) {
+        SDL_DestroyTexture(ui_textures[i]);
+    }
+    for (int i = 0; i < number_of_entity_types; i++) {
         SDL_DestroyTexture(entity_textures[i]);
+    }
+    for (int i = 0; i < number_of_item_types; i++) {
+        SDL_DestroyTexture(item_textures[i]);
     }
 
     TTF_CloseFont(font);

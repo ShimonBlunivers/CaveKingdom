@@ -41,6 +41,27 @@
     <Image Include="assets\tiles\water_texture.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\textures\ui\item_slot.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\items\stone.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\tiles\dirt.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\tiles\enemy.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\tiles\player.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\tiles\stone.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\tiles\water.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vector.h">
