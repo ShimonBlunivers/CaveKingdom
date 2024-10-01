@@ -1,18 +1,20 @@
-﻿  main.c
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(103,62): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(103,96): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(113,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(122,62): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(142,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(143,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(166,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(168,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(168,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(182,89): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(182,132): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(90,15): warning C4101: 'tile_color': unreferenced local variable
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(190,10): warning C4026: function declared with formal parameter list
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(269,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(270,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(293,17): warning C4013: 'update_camera' undefined; assuming extern returning int
+﻿  entity.c
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(35,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(39,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(43,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(50,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(54,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(59,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(63,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(68,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(72,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(123,41): warning C4028: formal parameter 2 different from declaration
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(123,6): warning C4029: declared formal parameter list different from definition
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(132,6): warning C4142: 'switch_entities': benign redefinition of type
+      C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.h(63,6):
+      see declaration of 'switch_entities'
+  
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(132,30): warning C4028: formal parameter 1 different from declaration
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(132,47): warning C4028: formal parameter 2 different from declaration
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(132,6): warning C4029: declared formal parameter list different from definition
   CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe

@@ -68,6 +68,7 @@ void unload_textures() {
         SDL_DestroyTexture(item_textures[i]);
     }
 }
+
 void init_rendering() {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
@@ -76,7 +77,6 @@ void init_rendering() {
     gui = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
     SDL_SetTextureBlendMode(gui, SDL_BLENDMODE_BLEND);
 }
-
 
 void draw_world() {
 
@@ -198,7 +198,7 @@ int main(void) {
 
     //spawn_entity(new_entity(entity_type_wall, 3, 4));
     spawn_entity(new_entity(entity_type_enemy, 2, 4));
-    spawn_entity(new_entity(entity_type_zombie, 3, 4));
+    spawn_entity(new_entity(entity_type_zombie, 10, 4));
 
     for (int i = 0; i < 10; i++) {
         spawn_entity(new_entity(entity_type_stone, 2 + i, 6));
@@ -297,7 +297,6 @@ int main(void) {
             }
         }
     }
-
 
     unload_textures();
 

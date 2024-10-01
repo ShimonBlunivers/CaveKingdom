@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,17 +22,43 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "entity.h",
+              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\entity.h",
+              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.h",
+              "RelativeToolTip": "CaveKingdom\\entity.h",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADEAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-10-01T09:12:41.981Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "entity.c",
+              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\entity.c",
+              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.c",
+              "RelativeToolTip": "CaveKingdom\\entity.c",
+              "ViewState": "AgIAAL8AAAAAAAAAAAAEwMwAAABtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-09-30T14:28:01.358Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "main.c",
               "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\main.c",
               "RelativeDocumentMoniker": "CaveKingdom\\main.c",
               "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\main.c",
               "RelativeToolTip": "CaveKingdom\\main.c",
-              "ViewState": "AgIAAOMAAAAAAAAAAAAqwPYAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAH4AAAAAAAAAAAAuwMgAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-10-01T07:01:11.757Z",
               "EditorCaption": ""

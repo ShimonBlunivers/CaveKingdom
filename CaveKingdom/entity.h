@@ -4,6 +4,12 @@
 #include "inventory.h"
 
 typedef enum {
+    demeanor_type_neutral,
+    demeanor_type_hostile,
+    demeanor_type_friendly
+} DemeanorType;
+
+typedef enum {
     // Empty types for every height layer
     entity_type_ground_empty,
     entity_type_surface_empty,
@@ -38,7 +44,10 @@ typedef struct {
     int y;
     int max_health;
     int health;
+    int damage;
     bool is_obstacle;
+    DemeanorType demeanor;
+    bool is_alive;
     Inventory inventory;
 } Entity;
 

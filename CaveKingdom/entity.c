@@ -32,44 +32,44 @@ Entity new_entity(EntityType type, int x, int y) {
     height_layer = height_layer_ground;
     switch (type) {
     case entity_type_water:
-        new_entity = (Entity){ type, height_layer, x, y, -1, NULL, true, new_inventory(loot) };
+        new_entity = (Entity){ type, height_layer, x, y, -1, NULL, -1, true, false, demeanor_type_neutral, new_inventory(loot) };
         break;
 
     case entity_type_dirt:
-        new_entity = (Entity){ type, height_layer, x, y, -1, NULL, false, new_inventory(loot) };
+        new_entity = (Entity){ type, height_layer, x, y, -1, NULL, -1, false, false, demeanor_type_neutral, new_inventory(loot) };
         break;
 
     case entity_type_ground_empty:
-        new_entity = (Entity){ type, height_layer, x, y, -1, NULL, false, new_inventory(loot) };
+        new_entity = (Entity){ type, height_layer, x, y, -1, NULL, -1, false, false, demeanor_type_neutral, new_inventory(loot) };
         break;
     }
 
     height_layer = height_layer_surface;
     switch (type) {
     case entity_type_player:
-        new_entity = (Entity){ type, height_layer, x, y, 10, NULL, true, new_inventory(loot) };
+        new_entity = (Entity){ type, height_layer, x, y, 10, NULL, 1, true, true, demeanor_type_neutral, new_inventory(loot) };
         break;
 
     case entity_type_enemy:
-        new_entity = (Entity){ type, height_layer, x, y, 10, NULL, true, new_inventory(loot) };
+        new_entity = (Entity){ type, height_layer, x, y, 10, NULL, 1, true, true, demeanor_type_neutral, new_inventory(loot) };
         break;
 
     case entity_type_zombie:
         loot[0] = (ItemStack){ item_type_zombie_meat, 2 };
-        new_entity = (Entity){ type, height_layer, x, y, 10, NULL, true, new_inventory(loot) };
+        new_entity = (Entity){ type, height_layer, x, y, 10, NULL, 1, true, true, demeanor_type_neutral, new_inventory(loot) };
         break;
 
     case entity_type_wall:
-        new_entity = (Entity){ type, height_layer, x, y, -1, NULL, true, new_inventory(loot) };
+        new_entity = (Entity){ type, height_layer, x, y, -1, NULL, -1, true, false, demeanor_type_neutral, new_inventory(loot) };
         break;
 
     case entity_type_stone:
         loot[0] = (ItemStack){ item_type_stone, 3 };
-        new_entity = (Entity){ type, height_layer, x, y, 5, NULL, true, new_inventory(loot) };
+        new_entity = (Entity){ type, height_layer, x, y, 5, NULL, -1, true, false, demeanor_type_neutral, new_inventory(loot) };
         break;
 
     case entity_type_surface_empty:
-        new_entity = (Entity){ type, height_layer, x, y, -1, NULL, false, new_inventory(loot) };
+        new_entity = (Entity){ type, height_layer, x, y, -1, NULL, -1, false, false, demeanor_type_neutral, new_inventory(loot) };
         break;
     }
     if (new_entity.max_health == 0) return new_entity;
@@ -120,37 +120,24 @@ bool force_spawn_entity(Entity entity) {
     return true;
 }
 
-void hit_entity(Entity* entity, int damage) {
-    if (entity->max_health < 0) return;
-    entity->health -= damage;
-    if (entity->health <= 0) { 
-        collect_inventory(&entity->inventory, &main_player->inventory);
-        destroy_entity(entity); 
+void hit_entity(Entity* hitter, Entity* target, int damage) {
+    if (target->max_health < 0) return;
+    target->health -= damage;
+    if (target->health <= 0) { 
+        if (hitter) collect_inventory(&target->inventory, &hitter->inventory);
+        destroy_entity(target); 
     }
 }
 
-bool switch_entities(int x1, int y1, int x2, int y2, HeightLayer layer) {
-    if (x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0 || x1 >= MAP_WIDTH || x2 >= MAP_WIDTH || y1 >= MAP_HEIGHT || y2 >= MAP_HEIGHT) return false;
+void switch_entities(Entity* entity1, Entity* entity2) {
+    int x1 = entity1->x;
+    int y1 = entity1->y;
 
-    Entity* entity1 = get_entity(x1, y1, layer);
-    Entity* entity2 = get_entity(x2, y2, layer);
+    int x2 = entity2->x;
+    int y2 = entity2->y;
 
-    if (entity1->type == entity_type_player && entity2->max_health > 0) {
-        hit_entity(entity2, 1);
-        return false;
-    }
-    if (entity2->type == entity_type_player && entity1->max_health > 0) {
-        hit_entity(entity1, 1);
-        return false;
-    }
-
-    for (int i = 0; i < number_of_height_layers; i++) {
-        Entity* entity = get_entity(x2, y2, i);
-        if (entity->is_obstacle) return false;
-    }
-
-    entity2->x = x1;
-    entity2->y = y1;
+    entity2->x = entity1->x;
+    entity2->y = entity1->y;
 
     entity1->x = x2;
     entity1->y = y2;
@@ -158,8 +145,6 @@ bool switch_entities(int x1, int y1, int x2, int y2, HeightLayer layer) {
     Entity* temp = entity1;
     set_entity(x1, y1, entity2);
     set_entity(x2, y2, temp);
-
-    return true;
 }
 
 void reset_grids() {
@@ -181,21 +166,46 @@ void create_edge_walls() {
             }
 }
 
+bool move_entity(Entity* entity, int x, int y) {
+    if (entity->x + x < 0 || entity->y + y < 0 || entity->x + x >= MAP_WIDTH || entity->y + y >= MAP_HEIGHT) return false;
+    Entity* neigbour = get_entity(entity->x + x, entity->y + y, entity->height_layer);
+    for (int layer = 0; layer < number_of_height_layers; layer++) {
+        if (layer == entity->height_layer) continue;
+        if (get_entity(entity->x + x, entity->y + y, layer)->is_obstacle) return false;
+    }
+    
+    if (neigbour->type != empty_entity_types[neigbour->height_layer]) {
+        hit_entity(entity, neigbour, entity->damage);
+        return false;
+    }
+
+    switch_entities(entity, neigbour);
+    return true;
+}
+
+
 void update_entities(int player_movement_x, int player_movement_y) {
-    if (player_movement_x == 0 && player_movement_y == 0) return;
     for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT * number_of_height_layers; i++)
     {
         Entity* entity = &entity_list[i];
         switch (entity->type) {
-        case entity_type_player:
-            if (player_movement_x != 0)
-                switch_entities(entity->x, entity->y, entity->x + player_movement_x, entity->y, main_player->height_layer);
-            if (player_movement_y != 0)
-                switch_entities(entity->x, entity->y, entity->x, entity->y + player_movement_y, main_player->height_layer);
-            break;
+            case entity_type_player:
+                if (player_movement_x != 0)
+                    move_entity(entity, player_movement_x, 0);
+                if (player_movement_y != 0)
+                    move_entity(entity, 0, player_movement_y);
+                break;
 
-        case entity_type_enemy:
-            break;
+            case entity_type_zombie:
+            case entity_type_enemy:
+
+                move_entity(entity, 0, 1);
+                //for (int s = 0; s < 4; s++) {
+                //    Entity* neighbour = get_entity(entity->x - 1 + (s % 2) * 2, entity->y, entity->height_layer);
+                //    if (neighbour->type == entity_type_player) hit_entity(entity, main_player, entity->damage);
+                //}
+                break;
         }
     }
 }
+
