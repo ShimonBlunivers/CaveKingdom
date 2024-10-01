@@ -1,16 +1,18 @@
-﻿  renderer.c
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(38,25): warning C4013: 'printf' undefined; assuming extern returning int
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(42,62): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(42,96): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(103,13): warning C4013: 'sprintf_s' undefined; assuming extern returning int
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(52,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(61,62): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(81,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(82,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(105,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(107,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(107,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(121,89): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(121,132): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\renderer.c(28,15): warning C4101: 'tile_color': unreferenced local variable
-  CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe
+﻿  main.c
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(103,62): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(103,96): warning C4244: 'function': conversion from 'float' to 'Uint8', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(113,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(122,62): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(142,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(143,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(166,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(168,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(168,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(182,89): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(182,132): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(90,15): warning C4101: 'tile_color': unreferenced local variable
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(190,10): warning C4026: function declared with formal parameter list
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(269,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(270,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(293,17): warning C4013: 'update_camera' undefined; assuming extern returning int
+  CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe

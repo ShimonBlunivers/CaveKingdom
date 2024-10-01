@@ -137,8 +137,6 @@
     <ClCompile Include="entity.c" />
     <ClCompile Include="inventory.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="renderer.c" />
-    <ClCompile Include="textures.c" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\items\stone_texture.png" />
@@ -161,8 +159,6 @@
     <ClInclude Include="chunk.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="inventory.h" />
-    <ClInclude Include="renderer.h" />
-    <ClInclude Include="textures.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
   <ItemGroup>
