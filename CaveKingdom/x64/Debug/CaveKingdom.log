@@ -1,20 +1,4 @@
 ﻿  entity.c
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(35,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(39,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(43,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(50,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(54,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(59,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(63,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(68,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(72,22): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(123,41): warning C4028: formal parameter 2 different from declaration
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(123,6): warning C4029: declared formal parameter list different from definition
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(132,6): warning C4142: 'switch_entities': benign redefinition of type
-      C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.h(63,6):
-      see declaration of 'switch_entities'
-  
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(132,30): warning C4028: formal parameter 1 different from declaration
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(132,47): warning C4028: formal parameter 2 different from declaration
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(132,6): warning C4029: declared formal parameter list different from definition
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(27,17): warning C4101: 'height_layer': unreferenced local variable
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(214,16): warning C4013: 'rand' undefined; assuming extern returning int
   CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe

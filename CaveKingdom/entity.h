@@ -45,9 +45,10 @@ typedef struct {
     int max_health;
     int health;
     int damage;
+    int saturation;
     bool is_obstacle;
-    DemeanorType demeanor;
     bool is_alive;
+    DemeanorType demeanor;
     Inventory inventory;
 } Entity;
 
@@ -59,8 +60,8 @@ Entity* get_entity(int x, int y, HeightLayer layer);
 bool set_entity(int x, int y, Entity* entity);
 bool spawn_entity(Entity entity);
 bool force_spawn_entity(Entity entity);
-void hit_entity(Entity* entity, int damage);
-bool switch_entities(int x1, int y1, int x2, int y2, HeightLayer layer);
+void hit_entity(Entity* hitter, Entity* target, int damage);
+//bool switch_entities(int x1, int y1, int x2, int y2, HeightLayer layer);
 void reset_grids();
 void create_edge_walls();
 void update_entities(int player_movement_x, int player_movement_y);

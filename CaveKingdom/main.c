@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 #include <SDL_image.h>
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -188,7 +189,8 @@ void draw_world() {
 
 
 int main(void) {
-    
+    srand(time(NULL));
+
     reset_grids();
     create_edge_walls();
 
