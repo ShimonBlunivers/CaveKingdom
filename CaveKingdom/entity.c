@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <SDL.h>
 
 #include "entity.h"
 #include "chunk.h"
@@ -27,9 +28,21 @@ Entity new_entity(EntityType type, int x, int y) {
     HeightLayer height_layer;
 
     ItemStack loot[INVENTORY_SIZE] = { 0 };
-    Entity new_entity = { type, -1, x, y, -1, -1, -1, -1, false, false, demeanor_type_neutral, -1 };
 
-    
+    Entity new_entity = {
+        type,
+        -1,
+        x, y,
+        false,
+        (Combat) { 0, 0 },
+        (Hunger) { -1 },
+        (Health) { -1, -1 },
+        (Brain) { false, 50, (Vector2f){ 0., 0. } },
+        0,
+        demeanor_type_neutral,
+    };
+
+
 
     bool entity_struct_initiated = false;
     new_entity.height_layer = height_layer_ground;    
@@ -53,30 +66,29 @@ Entity new_entity(EntityType type, int x, int y) {
     switch (type) {
     case entity_type_player:
         entity_struct_initiated = true;
-        new_entity.max_health = 10;
-        new_entity.damage = 1;
+        new_entity.health.max = 10;
         new_entity.is_obstacle = true;
-        new_entity.is_alive = true;
-        new_entity.saturation = 100;
+        new_entity.combat.damage = 1;
+        new_entity.hunger.saturation = 100;
         break;
 
     case entity_type_enemy:
         entity_struct_initiated = true;
-        new_entity.max_health = 10;
-        new_entity.damage = 1;
+        new_entity.brain.active = true;
+        new_entity.health.max = 10;
         new_entity.is_obstacle = true;
-        new_entity.is_alive = true;
-        new_entity.saturation = 100;
+        new_entity.combat.damage = 1;
+        new_entity.hunger.saturation = 100;
         break;
 
     case entity_type_zombie:
         entity_struct_initiated = true;
+        new_entity.brain.active = true;
         loot[0] = (ItemStack){ item_type_zombie_meat, 2 };
-        new_entity.max_health = 10;
-        new_entity.damage = 1;
+        new_entity.health.max = 10;
         new_entity.is_obstacle = true;
-        new_entity.is_alive = true;
-        new_entity.saturation = 100;
+        new_entity.combat.damage = 1;
+        new_entity.hunger.saturation = 100;
         break;
 
     case entity_type_wall:
@@ -87,7 +99,7 @@ Entity new_entity(EntityType type, int x, int y) {
     case entity_type_stone:
         entity_struct_initiated = true;
         loot[0] = (ItemStack){ item_type_stone, 3 };
-        new_entity.max_health = 5;
+        new_entity.health.max = 5;
         new_entity.is_obstacle = true;
         break;
 
@@ -100,13 +112,10 @@ Entity new_entity(EntityType type, int x, int y) {
     switch (type) {}
 
 
-
     new_entity.inventory = new_inventory(loot);
-    if (new_entity.health == -1) new_entity.health = new_entity.max_health;
+    if (new_entity.health.value == -1) new_entity.health.value = new_entity.health.max;
     return new_entity;
 }
-
-
 
 void destroy_entity(Entity* entity) {
     Entity empty_entity = new_entity(empty_entity_types[entity->height_layer], entity->x, entity->y);
@@ -148,10 +157,12 @@ bool force_spawn_entity(Entity entity) {
     return true;
 }
 
-void hit_entity(Entity* hitter, Entity* target, int damage) {
-    if (target->max_health < 0) return;
-    target->health -= damage;
-    if (target->health <= 0) { 
+void hit_entity(Entity* hitter, Entity* target) {
+    if (hitter->combat.damage <= 0 || target->health.max < 0 ) return;
+    int damage = hitter->combat.damage - target->combat.armor;
+
+    target->health.value -= SDL_max(damage, 0);
+    if (target->health.value <= 0) { 
         if (hitter) collect_inventory(&target->inventory, &hitter->inventory);
         destroy_entity(target); 
     }
@@ -204,7 +215,7 @@ bool move_entity(Entity* entity, int x, int y) {
     }
     
     if (neigbour->type != empty_entity_types[neigbour->height_layer]) {
-        hit_entity(entity, neigbour, entity->damage);
+        hit_entity(entity, neigbour);
         return false;
     }
 
@@ -216,11 +227,43 @@ int random_direction() {
     return 1 - rand()%3;
 }
 
+float get_movement_randomisation() {
+    return .9 + ((rand() % 3)) / 10.;
+}
 
 void update_entities(int player_movement_x, int player_movement_y) {
     for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT * number_of_height_layers; i++)
     {
         Entity* entity = &entity_list[i];
+        if (entity->brain.active ) {
+
+
+            for (int j = 0; j < 4; j++) {
+                int x = j < 2 ? -1 + (j % 2) * 2 : 0;
+                int y = j >= 2 ? -1 + ((j + 2) % 2) * 2 : 0;
+                Entity* neighbour = get_entity(entity->x + x, entity->y + y, entity->height_layer);
+                if (neighbour->health.value > 0) {
+                    entity->brain.desired_direction = vector2f_sum(entity->brain.desired_direction, (Vector2f) { x * .5 , y * .5 });
+                }
+                else if (neighbour->is_obstacle || get_entity(entity->x + x, entity->y + y, entity->height_layer -1)->is_obstacle) {
+                    entity->brain.desired_direction = vector2f_sum(entity->brain.desired_direction, (Vector2f) { -x * .2, -y * .2 });
+                }
+            }
+
+            entity->brain.desired_direction = vector2f_sum(entity->brain.desired_direction, (Vector2f) { -.1 + ((rand() % 3)) / 10., -.1 + ((rand() % 3)) / 10. });
+            
+            entity->brain.desired_direction.x = SDL_clamp(entity->brain.desired_direction.x, -1., 1.);
+            entity->brain.desired_direction.y = SDL_clamp(entity->brain.desired_direction.y, -1., 1.);
+
+            if (entity->brain.desired_direction.x > 0.5 * get_movement_randomisation())
+                move_entity(entity, 1, 0);
+            else if (entity->brain.desired_direction.x < -0.5)
+                move_entity(entity, -1, 0);
+            if (entity->brain.desired_direction.y > 0.5)
+                move_entity(entity, 0, 1);
+            else if (entity->brain.desired_direction.y < -0.5 * get_movement_randomisation())
+                move_entity(entity, 0, -1);
+        }
         switch (entity->type) {
             case entity_type_player:
                 if (player_movement_x != 0)
@@ -231,13 +274,6 @@ void update_entities(int player_movement_x, int player_movement_y) {
 
             case entity_type_zombie:
             case entity_type_enemy:
-
-                move_entity(entity, random_direction(), 0);
-                move_entity(entity, 0, random_direction());
-                //for (int s = 0; s < 4; s++) {
-                //    Entity* neighbour = get_entity(entity->x - 1 + (s % 2) * 2, entity->y, entity->height_layer);
-                //    if (neighbour->type == entity_type_player) hit_entity(entity, main_player, entity->damage);
-                //}
                 break;
         }
     }

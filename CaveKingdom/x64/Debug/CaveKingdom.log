@@ -1,4 +1,12 @@
 ﻿  entity.c
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(27,17): warning C4101: 'height_layer': unreferenced local variable
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(214,16): warning C4013: 'rand' undefined; assuming extern returning int
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(28,17): warning C4101: 'height_layer': unreferenced local variable
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(231,15): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(246,116): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(246,125): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(249,117): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(249,126): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(253,110): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(253,138): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(255,49): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\entity.c(256,49): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe

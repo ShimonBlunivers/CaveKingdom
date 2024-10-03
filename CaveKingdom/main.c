@@ -37,13 +37,11 @@ SDL_Texture* item_textures[number_of_item_types] = { 0 };
 void load_textures() {
     // UI textures
     ui_textures[ui_element_inventory_slot] = IMG_LoadTexture(renderer, "./assets/textures/ui/inventory_slot.png");
-    printf("loaded texture %p", ui_textures[ui_element_inventory_slot]);
 
     // Entity textures
         // Ground
     entity_textures[entity_type_water] = IMG_LoadTexture(renderer, "./assets/textures/tiles/water.png");
     entity_textures[entity_type_dirt] = IMG_LoadTexture(renderer, "./assets/textures/tiles/dirt.png");
-    printf("%p\n", entity_textures[entity_type_water]);
 
     // Surface
     entity_textures[entity_type_player] = IMG_LoadTexture(renderer, "./assets/textures/tiles/player.png");
@@ -71,6 +69,7 @@ void unload_textures() {
 }
 
 void init_rendering() {
+
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     screen = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE);
@@ -116,11 +115,11 @@ void draw_world() {
         for (int x = 0; x < MAP_WIDTH; x++) {
             entity = *get_entity(x, y, height_layer_surface);
             if (entity.type != entity_type_surface_empty) {
-                if (entity.max_health > 0 && entity.max_health != entity.health) {
+                if (entity.health.max > 0 && entity.health.max != entity.health.value) {
                     int tile_x = entity.x * TILE_SIZE - max_width / 2 + TILE_SIZE / 2;
                     int tile_y = entity.y * TILE_SIZE;
                     SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
-                    SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity.health / entity.max_health)), max_height };
+                    SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity.health.value / entity.health.max)), max_height };
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                     SDL_RenderFillRect(renderer, &background_rect);
                     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -211,7 +210,6 @@ int main(void) {
     }
     //
 
-    printf("Initializing!\n");
 
     if (TTF_Init() == -1)
     {
