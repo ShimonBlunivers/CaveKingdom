@@ -48,11 +48,15 @@ void load_textures() {
     entity_textures[entity_type_enemy] = IMG_LoadTexture(renderer, "./assets/textures/tiles/enemy.png");
     entity_textures[entity_type_zombie] = IMG_LoadTexture(renderer, "./assets/textures/tiles/zombie.png");
     entity_textures[entity_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/tiles/stone.png");
-    // Air
+    entity_textures[entity_type_trunk] = IMG_LoadTexture(renderer, "./assets/textures/tiles/trunk.png");
 
+    // Air
+    entity_textures[entity_type_leaves] = IMG_LoadTexture(renderer, "./assets/textures/tiles/leaves.png");
+    SDL_SetTextureAlphaMod(entity_textures[entity_type_leaves], 128);
 
 // Item textures
     item_textures[item_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/items/stone.png");
+    item_textures[item_type_wood] = IMG_LoadTexture(renderer, "./assets/textures/items/wood.png");
     item_textures[item_type_zombie_meat] = IMG_LoadTexture(renderer, "./assets/textures/items/zombie_meat.png");
 }
 
@@ -91,8 +95,7 @@ void draw_world() {
 
     for (int y = 0; y < MAP_HEIGHT; y++) {
         for (int x = 0; x < MAP_WIDTH; x++) {
-            for (int layer = 0; layer < number_of_height_layers; layer++)
-            {
+            for (int layer = 0; layer < number_of_height_layers; layer++) {
                 entity = *get_entity(x, y, layer);
                 if (!is_empty_entity_type(entity.type)) {
                     tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
@@ -208,6 +211,11 @@ int main(void) {
         spawn_entity(new_entity(entity_type_stone, 4 + i, 9));
         spawn_entity(new_entity(entity_type_stone, 4 + i, 10));
     }
+
+
+    spawn_entity(new_entity(entity_type_trunk, 6, 13));
+    spawn_entity(new_entity(entity_type_trunk, 12, 13));
+
     //
 
 

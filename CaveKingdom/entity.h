@@ -4,13 +4,15 @@
 #include "inventory.h"
 #include "entity_component.h"
 
+struct Entity;
 
-
-typedef struct {
+typedef struct Entity {
     EntityType type;
     HeightLayer height_layer;
     int x, y;
     bool is_obstacle;
+    bool connected;
+    struct Entity* connected_to;
     Combat combat;
     Hunger hunger;
     Health health;
