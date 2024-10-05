@@ -11,6 +11,7 @@
 #include "chunk.h"
 #include "camera.h"
 
+#include "networking.h"
 
 int game_status = 1;
 
@@ -52,7 +53,7 @@ void load_textures() {
 
     // Air
     entity_textures[entity_type_leaves] = IMG_LoadTexture(renderer, "./assets/textures/tiles/leaves.png");
-    SDL_SetTextureAlphaMod(entity_textures[entity_type_leaves], 128);
+    //SDL_SetTextureAlphaMod(entity_textures[entity_type_leaves], 128);
 
 // Item textures
     item_textures[item_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/items/stone.png");
@@ -217,6 +218,10 @@ int main(void) {
     spawn_entity(new_entity(entity_type_trunk, 12, 13));
 
     //
+    
+    // Networking
+    setup_server();
+    //
 
 
     if (TTF_Init() == -1)
@@ -298,6 +303,9 @@ int main(void) {
                 if (d_key_pressed) player_movement_x++;
 
                 update_entities(player_movement_x, player_movement_y);
+
+                update_server();
+
                 update_camera();
                 draw_world();
 
@@ -315,6 +323,8 @@ int main(void) {
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
+
+    close_server();
 
     return 0;
 }

@@ -1,7 +1,7 @@
 #pragma once
 
-#define MAP_WIDTH 36
-#define MAP_HEIGHT 36
+#define MAP_WIDTH 64
+#define MAP_HEIGHT 64
 
 #define TILE_SIZE 60
 

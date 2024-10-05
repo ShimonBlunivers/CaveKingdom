@@ -159,9 +159,10 @@ bool spawn_entity(Entity entity) {
         main_player = entity_pointer;
     }
     else if (entity.type == entity_type_trunk) {
+        Entity trunk;
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
-                Entity trunk = new_entity(entity_type_leaves, entity.x + x, entity.y + y);
+                trunk = new_entity(entity_type_leaves, entity.x + x, entity.y + y);
                 trunk.connected_to = entity_pointer;
                 spawn_entity(trunk);
             }

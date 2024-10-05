@@ -3,24 +3,28 @@
   "WorkspaceRootPath": "D:\\Programming\\C\\CaveKingdom\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\networking.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\networking.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\chunk.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\chunk.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\chunk.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\chunk.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\inventory.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\inventory.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity_component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity_component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,11 +34,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "entity.h",
               "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity.h",
               "RelativeDocumentMoniker": "CaveKingdom\\entity.h",
@@ -48,21 +52,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "entity.c",
               "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity.c",
               "RelativeDocumentMoniker": "CaveKingdom\\entity.c",
               "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity.c",
               "RelativeToolTip": "CaveKingdom\\entity.c",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAAAGoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAALEAAAAAAAAAAADgv6gAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-10-03T07:51:53.5Z",
-              "IsPinned": true,
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "networking.c",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\networking.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\networking.c",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\networking.c",
+              "RelativeToolTip": "CaveKingdom\\networking.c",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAEEAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-10-05T19:44:00.337Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "chunk.h",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\chunk.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\chunk.h",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\chunk.h",
+              "RelativeToolTip": "CaveKingdom\\chunk.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-10-04T11:26:13.545Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "chunk.c",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\chunk.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\chunk.c",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\chunk.c",
+              "RelativeToolTip": "CaveKingdom\\chunk.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-10-04T11:26:12.345Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "inventory.h",
               "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\inventory.h",
               "RelativeDocumentMoniker": "CaveKingdom\\inventory.h",
@@ -71,32 +113,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-10-04T11:19:14.76Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "main.c",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\main.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\main.c",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\main.c",
-              "RelativeToolTip": "CaveKingdom\\main.c",
-              "ViewState": "AgIAACEAAAAAAAAAAADwvzkAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-03T09:33:14.724Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "entity_component.h",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity_component.h",
-              "RelativeDocumentMoniker": "CaveKingdom\\entity_component.h",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity_component.h",
-              "RelativeToolTip": "CaveKingdom\\entity_component.h",
-              "ViewState": "AgIAACcAAAAAAAAAAAAAABYAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-03T06:34:15.515Z",
               "EditorCaption": ""
             }
           ]
