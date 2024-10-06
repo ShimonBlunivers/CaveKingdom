@@ -9,3 +9,5 @@ typedef struct {
 } Camera;
 
 extern Camera main_camera;
+
+void update_camera();

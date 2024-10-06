@@ -1,18 +1,32 @@
-﻿  main.c
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(99,5): warning C4013: 'memset' undefined; assuming extern returning int
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(194,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(217,74): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(264,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(265,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(288,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(290,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(290,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(304,89): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(304,132): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(141,15): warning C4101: 'tile_color': unreferenced local variable
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(312,10): warning C4026: function declared with formal parameter list
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(313,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(400,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(401,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(426,17): warning C4013: 'update_camera' undefined; assuming extern returning int
+﻿  camera.c
+D:\Programming\C\CaveKingdom\CaveKingdom\camera.c(7,35): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\Programming\C\CaveKingdom\CaveKingdom\camera.c(10,75): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\camera.c(11,75): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  entity.c
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(28,17): warning C4101: 'height_layer': unreferenced local variable
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(260,15): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(289,116): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(289,125): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(292,117): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(292,126): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(296,110): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(296,138): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(298,49): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(299,49): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  main.c
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(190,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(213,74): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(260,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(261,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(284,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(286,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(286,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(300,89): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(300,132): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(137,15): warning C4101: 'tile_color': unreferenced local variable
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(308,10): warning C4026: function declared with formal parameter list
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(309,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(396,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\main.c(397,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
   CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe

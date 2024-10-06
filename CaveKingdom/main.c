@@ -94,9 +94,9 @@ void init_rendering() {
     SDL_SetTextureBlendMode(gui, SDL_BLENDMODE_BLEND);
 }
 
-Entity* visible_tiles[PLAYER_VISION * PLAYER_VISION] = { NULL };
+//Entity* visible_tiles[PLAYER_VISION * PLAYER_VISION] = { NULL };
 void draw_world() {
-    memset(visible_tiles, NULL, PLAYER_VISION * PLAYER_VISION);
+    //memset(visible_tiles, NULL, PLAYER_VISION * PLAYER_VISION);
 
 
     Vector2 vision_edge_positions[PLAYER_VISION * 4 - 4];
@@ -124,10 +124,6 @@ void draw_world() {
             vision_edge_positions[index++] = (Vector2){ .x = 0, .y = y };
         }
     }
-
-
-    bool is_tile_visible[PLAYER_VISION * PLAYER_VISION] = { false };
-
 
 
     SDL_SetRenderTarget(renderer, screen);
