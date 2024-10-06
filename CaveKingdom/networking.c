@@ -13,6 +13,7 @@ void error(const char* msg) {
 }
 
 void setup_server() {
+    return; ////////////////////////////////////
     WSADATA wsadata;
     if (WSAStartup(MAKEWORD(2, 2), &wsadata) != 0) {
         error("WSAStartup failed.");
@@ -56,6 +57,7 @@ void setup_server() {
 char buffer[BUFFER_SIZE];
 int n;
 void update_server() {
+    return; ////////////////////////////////////
     memset(buffer, 0, BUFFER_SIZE);
 
 
@@ -80,6 +82,7 @@ void update_server() {
 }
 
 void close_server() {
+    return; ////////////////////////////////////
 
     closesocket(client);
     closesocket(server);

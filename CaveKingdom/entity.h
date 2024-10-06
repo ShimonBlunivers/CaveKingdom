@@ -11,7 +11,7 @@ typedef struct Entity {
     HeightLayer height_layer;
     int x, y;
     bool is_obstacle;
-    bool connected;
+    int is_transparent; // int because -1 is unset
     struct Entity* connected_to;
     Combat combat;
     Hunger hunger;

@@ -21,10 +21,8 @@ typedef enum {
     entity_type_zombie,
     entity_type_wall,
     entity_type_stone,
-    entity_type_trunk,
 
     // Air types
-    entity_type_leaves,
 
     number_of_entity_types, // DO NOT USE AS ENTITY TYPE !
 } EntityType;

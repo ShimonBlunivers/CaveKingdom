@@ -30,20 +30,19 @@ Entity new_entity(EntityType type, int x, int y) {
     ItemStack loot[INVENTORY_SIZE] = { 0 };
 
     Entity new_entity = {
-        type,
-        -1,
-        x, y,
-        false,
-        false,
-        NULL,
+        type,   // entity type
+        -1,     // height layer
+        x, y,   // position
+        false,  // is obstacle
+        -1,     // is transparent
+        NULL,   // connected to
         (Combat) { 0, 0 },
         (Hunger) { -1 },
         (Health) { -1, -1 },
         (Brain) { false, 50, (Vector2f){ 0., 0. } },
-        0,
+        0,      // inventory
         demeanor_type_neutral,
     };
-
 
 
     bool entity_struct_initiated = false;
@@ -70,6 +69,7 @@ Entity new_entity(EntityType type, int x, int y) {
         entity_struct_initiated = true;
         new_entity.health.max = 10;
         new_entity.is_obstacle = true;
+        new_entity.is_transparent = true;
         new_entity.combat.damage = 1;
         new_entity.hunger.saturation = 100;
         break;
@@ -79,6 +79,7 @@ Entity new_entity(EntityType type, int x, int y) {
         new_entity.brain.active = true;
         new_entity.health.max = 10;
         new_entity.is_obstacle = true;
+        new_entity.is_transparent = true;
         new_entity.combat.damage = 1;
         new_entity.hunger.saturation = 100;
         break;
@@ -89,6 +90,7 @@ Entity new_entity(EntityType type, int x, int y) {
         loot[0] = (ItemStack){ item_type_zombie_meat, 2 };
         new_entity.health.max = 10;
         new_entity.is_obstacle = true;
+        new_entity.is_transparent = true;
         new_entity.combat.damage = 1;
         new_entity.hunger.saturation = 100;
         break;
@@ -105,12 +107,12 @@ Entity new_entity(EntityType type, int x, int y) {
         new_entity.is_obstacle = true;
         break;
 
-    case entity_type_trunk:
-        entity_struct_initiated = true;
-        loot[0] = (ItemStack){ item_type_wood, 2 };
-        new_entity.health.max = 5;
-        new_entity.is_obstacle = true;
-        break;
+    //case entity_type_trunk:
+    //    entity_struct_initiated = true;
+    //    loot[0] = (ItemStack){ item_type_wood, 2 };
+    //    new_entity.health.max = 5;
+    //    new_entity.is_obstacle = true;
+    //    break;
 
     case entity_type_surface_empty:
         entity_struct_initiated = true;
@@ -119,9 +121,9 @@ Entity new_entity(EntityType type, int x, int y) {
 
     if (!entity_struct_initiated) new_entity.height_layer = height_layer_air;
     switch (type) {
-    case entity_type_leaves:
-        entity_struct_initiated = true;
-        break;
+    //case entity_type_leaves:
+    //    entity_struct_initiated = true;
+    //    break;
 
     case entity_type_air_empty:
         entity_struct_initiated = true;
@@ -131,6 +133,8 @@ Entity new_entity(EntityType type, int x, int y) {
 
     new_entity.inventory = new_inventory(loot);
     if (new_entity.health.value == -1) new_entity.health.value = new_entity.health.max;
+    if (new_entity.is_transparent == -1) new_entity.is_transparent = !new_entity.is_obstacle;
+
     return new_entity;
 }
 
@@ -158,16 +162,16 @@ bool spawn_entity(Entity entity) {
     if (entity.type == entity_type_player) {
         main_player = entity_pointer;
     }
-    else if (entity.type == entity_type_trunk) {
-        Entity trunk;
-        for (int x = -1; x < 2; x++) {
-            for (int y = -1; y < 2; y++) {
-                trunk = new_entity(entity_type_leaves, entity.x + x, entity.y + y);
-                trunk.connected_to = entity_pointer;
-                spawn_entity(trunk);
-            }
-        }
-    }
+    //else if (entity.type == entity_type_trunk) {
+    //    Entity trunk;
+    //    for (int x = -1; x < 2; x++) {
+    //        for (int y = -1; y < 2; y++) {
+    //            trunk = new_entity(entity_type_leaves, entity.x + x, entity.y + y);
+    //            trunk.connected_to = entity_pointer;
+    //            spawn_entity(trunk);
+    //        }
+    //    }
+    //}
     return true;
 }
 
@@ -248,10 +252,6 @@ bool move_entity(Entity* entity, int x, int y) {
     return true;
 }
 
-
-
-
-
 int random_direction() {
     return 1 - rand()%3;
 }
@@ -265,20 +265,20 @@ void update_entities(int player_movement_x, int player_movement_y) {
     {
         Entity* entity = &entity_list[i];
 
-        if (entity->connected_to != NULL) {
-            if (is_empty_entity_type(entity->connected_to->type)) {
-                if (entity->connected) {
-                    destroy_entity(entity);
-                    continue;
-                }
-                else {
-                    entity->connected_to = NULL;
-                }
-            }
-            else {
-                entity->connected = true;
-            }
-        }
+        //if (entity->connected_to != NULL) {
+        //    if (is_empty_entity_type(entity->connected_to->type)) {
+        //        if (entity->connected) {
+        //            destroy_entity(entity);
+        //            continue;
+        //        }
+        //        else {
+        //            entity->connected_to = NULL;
+        //        }
+        //    }
+        //    else {
+        //        entity->connected = true;
+        //    }
+        //}
 
         if (entity->brain.active ) {
             for (int j = 0; j < 4; j++) {

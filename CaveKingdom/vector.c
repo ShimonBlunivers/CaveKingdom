@@ -1,3 +1,5 @@
+#include <stdbool.h>
+#include <math.h>
 #include "vector.h"
 
 Vector2 vector2_sum(Vector2 vector_a, Vector2 vector_b) {
@@ -6,4 +8,23 @@ Vector2 vector2_sum(Vector2 vector_a, Vector2 vector_b) {
 
 Vector2f vector2f_sum(Vector2f vector_a, Vector2f vector_b) {
 	return (Vector2f) { vector_a.x + vector_b.x, vector_a.y + vector_b.y };
+}
+
+bool vector2_equals(Vector2 vector_a, Vector2 vector_b) {
+	return vector_a.x == vector_b.x && vector_a.y == vector_b.y ;
+}
+bool vector2f_equals(Vector2f vector_a, Vector2f vector_b) {
+	return vector_a.x == vector_b.x && vector_a.y == vector_b.y;
+}
+
+//Vector2 vector2_normalize(Vector2 vector) {
+//    float magnitude = sqrt(vector.x * vector.x + vector.y * vector.y);
+//    if (magnitude == 0) return (Vector2) { 0, 0 };
+//    return (Vector2) {(int)(vector.x / magnitude), (int)(vector.y / magnitude)};
+//}
+
+Vector2f vector2f_normalize(Vector2f vector) {
+    float magnitude = sqrt(vector.x * vector.x + vector.y * vector.y);
+    if (magnitude == 0.0f) return (Vector2f) { 0.0f, 0.0f };
+    return (Vector2f) { vector.x / magnitude, vector.y / magnitude};
 }

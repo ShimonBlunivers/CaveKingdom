@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
 #include <time.h>
 #include <SDL_image.h>
 #include <SDL.h>
@@ -34,6 +35,7 @@ SDL_Texture* ui_textures[number_of_ui_elements] = { 0 };
 SDL_Texture* entity_textures[number_of_entity_types] = { 0 };
 SDL_Texture* item_textures[number_of_item_types] = { 0 };
 
+SDL_Texture* hidden_texture = 0;
 
 void load_textures() {
     // UI textures
@@ -44,21 +46,27 @@ void load_textures() {
     entity_textures[entity_type_water] = IMG_LoadTexture(renderer, "./assets/textures/tiles/water.png");
     entity_textures[entity_type_dirt] = IMG_LoadTexture(renderer, "./assets/textures/tiles/dirt.png");
 
-    // Surface
+        // Surface
     entity_textures[entity_type_player] = IMG_LoadTexture(renderer, "./assets/textures/tiles/player.png");
     entity_textures[entity_type_enemy] = IMG_LoadTexture(renderer, "./assets/textures/tiles/enemy.png");
     entity_textures[entity_type_zombie] = IMG_LoadTexture(renderer, "./assets/textures/tiles/zombie.png");
     entity_textures[entity_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/tiles/stone.png");
-    entity_textures[entity_type_trunk] = IMG_LoadTexture(renderer, "./assets/textures/tiles/trunk.png");
+    //entity_textures[entity_type_trunk] = IMG_LoadTexture(renderer, "./assets/textures/tiles/trunk.png");
 
-    // Air
-    entity_textures[entity_type_leaves] = IMG_LoadTexture(renderer, "./assets/textures/tiles/leaves.png");
+        // Air
+    //entity_textures[entity_type_leaves] = IMG_LoadTexture(renderer, "./assets/textures/tiles/leaves.png");
     //SDL_SetTextureAlphaMod(entity_textures[entity_type_leaves], 128);
 
-// Item textures
+    // Item textures
     item_textures[item_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/items/stone.png");
     item_textures[item_type_wood] = IMG_LoadTexture(renderer, "./assets/textures/items/wood.png");
     item_textures[item_type_zombie_meat] = IMG_LoadTexture(renderer, "./assets/textures/items/zombie_meat.png");
+
+    // Special
+    hidden_texture = IMG_LoadTexture(renderer, "./assets/textures/tiles/stone.png");
+    Uint8 r, g, b;
+    SDL_GetTextureColorMod(hidden_texture, &r, &g, &b);
+    SDL_SetTextureColorMod(hidden_texture, r / 2, g / 2, b / 2);
 }
 
 void unload_textures() {
@@ -71,6 +79,9 @@ void unload_textures() {
     for (int i = 0; i < number_of_item_types; i++) {
         SDL_DestroyTexture(item_textures[i]);
     }
+
+    SDL_DestroyTexture(hidden_texture);
+
 }
 
 void init_rendering() {
@@ -83,55 +94,162 @@ void init_rendering() {
     SDL_SetTextureBlendMode(gui, SDL_BLENDMODE_BLEND);
 }
 
+Entity* visible_tiles[PLAYER_VISION * PLAYER_VISION] = { NULL };
 void draw_world() {
+    memset(visible_tiles, NULL, PLAYER_VISION * PLAYER_VISION);
+
+
+    Vector2 vision_edge_positions[PLAYER_VISION * 4 - 4];
+
+    {
+        int index = 0;
+
+        // Top edge (left to right)
+        for (int x = 0; x < PLAYER_VISION; x++) {
+            vision_edge_positions[index++] = (Vector2){ .x = x, .y = 0 };
+        }
+
+        // Right edge (top to bottom, excluding top corner)
+        for (int y = 1; y < PLAYER_VISION; y++) {
+            vision_edge_positions[index++] = (Vector2){ .x = PLAYER_VISION - 1, .y = y };
+        }
+
+        // Bottom edge (right to left, excluding bottom-right corner)
+        for (int x = PLAYER_VISION - 2; x >= 0; x--) {
+            vision_edge_positions[index++] = (Vector2){ .x = x, .y = PLAYER_VISION - 1 };
+        }
+
+        // Left edge (bottom to top, excluding top-left and bottom-left corners)
+        for (int y = PLAYER_VISION - 2; y > 0; y--) {
+            vision_edge_positions[index++] = (Vector2){ .x = 0, .y = y };
+        }
+    }
+
+
+    bool is_tile_visible[PLAYER_VISION * PLAYER_VISION] = { false };
+
+
 
     SDL_SetRenderTarget(renderer, screen);
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
     SDL_RenderClear(renderer);
 
     Entity entity;
+    Entity* entity_ptr;
 
     SDL_Rect tile;
     SDL_Color tile_color;
+
+
+    //for (int y = 0; y < PLAYER_VISION; y++) {
+    //    for (int x = 0; x < PLAYER_VISION; x++) {
+    //        entity_ptr = get_entity(x + main_player->x - PLAYER_VISION / 2, y + main_player->y - PLAYER_VISION / 2, height_layer_ground);
+    //        if (entity_ptr != NULL) visible_tiles[y * PLAYER_VISION + x] = entity_ptr;
+    //    }
+    //}
+
 
     for (int y = 0; y < MAP_HEIGHT; y++) {
         for (int x = 0; x < MAP_WIDTH; x++) {
             for (int layer = 0; layer < number_of_height_layers; layer++) {
                 entity = *get_entity(x, y, layer);
-                if (!is_empty_entity_type(entity.type)) {
-                    tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
-                    if (entity_textures[entity.type] != NULL) {
-                        SDL_RenderCopy(renderer, entity_textures[entity.type], NULL, &tile);
-                    }
-                    else {
-                        SDL_SetRenderDrawColor(renderer, 255 * ((float)y / MAP_HEIGHT), 0, 255 * ((float)x / MAP_WIDTH), 255);
-                        SDL_RenderFillRect(renderer, &tile);
-                    }
-                }
+                tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
+                SDL_RenderCopy(renderer, hidden_texture, NULL, &tile);
             }
         }
     }
+    //            //if (!is_empty_entity_type(entity.type)) {
+    //                //if (entity_textures[entity.type] != NULL) {
+    //                //    SDL_RenderCopy(renderer, entity_textures[entity.type], NULL, &tile);
+    //                //}
+    //                //else {
+    //                //    SDL_SetRenderDrawColor(renderer, 255 * ((float)y / MAP_HEIGHT), 0, 255 * ((float)x / MAP_WIDTH), 255);
+    //                //    SDL_RenderFillRect(renderer, &tile);
+    //                //}
+    //            //}
+    //        }
+    //    }
+    //}
+
+    //for (int y = 0; y < PLAYER_VISION; y++) {
+    //    for (int x = 0; x < PLAYER_VISION; x++) {
+    //        entity_ptr = visible_tiles[y * PLAYER_VISION + x];
+    //        if (entity_ptr != NULL) {
+    //            for (int layer = 0; layer < number_of_height_layers; layer++) {
+    //                Entity* entity_at_layer = get_entity(entity_ptr->x, entity_ptr->y, layer);
+    //                if (entity_at_layer != NULL) {
+    //                    entity = *entity_at_layer;
+    //                    if (entity_textures[entity.type] != NULL) {
+    //                        tile = (SDL_Rect){ TILE_SIZE * entity.x, TILE_SIZE * entity.y, TILE_SIZE, TILE_SIZE };
+    //                        SDL_RenderCopy(renderer, entity_textures[entity.type], NULL, &tile);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
 
     int max_width = TILE_SIZE;
     int max_height = TILE_SIZE * 0.1;
-    for (int y = 0; y < MAP_HEIGHT; y++) {
-        for (int x = 0; x < MAP_WIDTH; x++) {
-            entity = *get_entity(x, y, height_layer_surface);
-            if (entity.type != entity_type_surface_empty) {
-                if (entity.health.max > 0 && entity.health.max != entity.health.value) {
-                    int tile_x = entity.x * TILE_SIZE - max_width / 2 + TILE_SIZE / 2;
-                    int tile_y = entity.y * TILE_SIZE;
-                    SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
-                    SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity.health.value / entity.health.max)), max_height };
-                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-                    SDL_RenderFillRect(renderer, &background_rect);
-                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                    SDL_RenderFillRect(renderer, &health_rect);
+    ///////////////////////////////////
+    for (int i = 0; i < PLAYER_VISION * 4 - 4; i++) {
+        int j = 1;
+        Vector2 end_position = (Vector2){ vision_edge_positions[i].x - PLAYER_VISION / 2, vision_edge_positions[i].y - PLAYER_VISION / 2 };
+        Vector2f direction_vector = vector2f_normalize((Vector2f) { (float)end_position.x, (float)end_position.y });
+        Vector2 current_position;
+
+        while (1) {
+            current_position = (Vector2){ (int)(direction_vector.x * j), (int)(direction_vector.y * j) };
+            entity_ptr = get_entity(current_position.x + main_player->x, current_position.y + main_player->y, height_layer_surface);
+            if (entity_ptr != NULL) {
+                for (int layer = 0; layer < number_of_height_layers; layer++) {
+                    Entity* entity_at_layer = get_entity(entity_ptr->x, entity_ptr->y, layer);
+                    if (entity_at_layer != NULL) {
+                        entity = *entity_at_layer;
+                        if (entity_textures[entity.type] != NULL) {
+                            tile = (SDL_Rect){ TILE_SIZE * entity.x, TILE_SIZE * entity.y, TILE_SIZE, TILE_SIZE };
+                            SDL_RenderCopy(renderer, entity_textures[entity.type], NULL, &tile);
+                            if (entity.health.max > 0 && entity.health.max != entity.health.value) {
+                                int tile_x = entity.x * TILE_SIZE - max_width / 2 + TILE_SIZE / 2;
+                                int tile_y = entity.y * TILE_SIZE;
+                                SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
+                                SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity.health.value / entity.health.max)), max_height };
+                                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                                SDL_RenderFillRect(renderer, &background_rect);
+                                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                                SDL_RenderFillRect(renderer, &health_rect);
+                            }
+                        }
+
+                    }
                 }
             }
+
+            if (entity_ptr == NULL || !entity_ptr->is_transparent) break;
+            if (vector2_equals(current_position, end_position) || abs(current_position.x) > abs(end_position.x) || abs(current_position.y) > abs(end_position.y)) break;
+            j++;
         }
     }
+
+
+    //for (int y = 0; y < MAP_HEIGHT; y++) {
+    //    for (int x = 0; x < MAP_WIDTH; x++) {
+    //        entity = *get_entity(x, y, height_layer_surface);
+    //        if (entity.type != entity_type_surface_empty) {
+    //            if (entity.health.max > 0 && entity.health.max != entity.health.value) {
+    //                int tile_x = entity.x * TILE_SIZE - max_width / 2 + TILE_SIZE / 2;
+    //                int tile_y = entity.y * TILE_SIZE;
+    //                SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
+    //                SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity.health.value / entity.health.max)), max_height };
+    //                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    //                SDL_RenderFillRect(renderer, &background_rect);
+    //                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    //                SDL_RenderFillRect(renderer, &health_rect);
+    //            }
+    //        }
+    //    }
+    //}
 
     // UI
 
@@ -143,7 +261,7 @@ void draw_world() {
 
     Inventory inventory = main_player->inventory;
 
-    int inventory_width = SCREEN_WIDTH * .6;
+    int inventory_width = SCREEN_WIDTH * .9;
     int inventory_height = SCREEN_HEIGHT * .12;
 
 
@@ -214,8 +332,8 @@ int main(void) {
     }
 
 
-    spawn_entity(new_entity(entity_type_trunk, 6, 13));
-    spawn_entity(new_entity(entity_type_trunk, 12, 13));
+    //spawn_entity(new_entity(entity_type_trunk, 6, 13));
+    //spawn_entity(new_entity(entity_type_trunk, 12, 13));
 
     //
     
@@ -287,7 +405,6 @@ int main(void) {
                         else if (SDLK_DOWN == event.key.keysym.sym) main_camera.y += 10;
 
                         //else if (SDLK_r == event.key.keysym.sym) print_inventory(&main_player->inventory);
-
 
                     }
                     else if (event.type == SDL_KEYUP) {
