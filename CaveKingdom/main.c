@@ -11,6 +11,7 @@
 #include "inventory.h"
 #include "chunk.h"
 #include "camera.h"
+#include "mouse.h"
 
 #include "networking.h"
 
@@ -103,25 +104,24 @@ void draw_world() {
 
     {
         int index = 0;
-
         // Top edge (left to right)
         for (int x = 0; x < PLAYER_VISION; x++) {
-            vision_edge_positions[index++] = (Vector2){ .x = x, .y = 0 };
+            vision_edge_positions[index++] = (Vector2){ x, 0 };
         }
 
         // Right edge (top to bottom, excluding top corner)
         for (int y = 1; y < PLAYER_VISION; y++) {
-            vision_edge_positions[index++] = (Vector2){ .x = PLAYER_VISION - 1, .y = y };
+            vision_edge_positions[index++] = (Vector2){ PLAYER_VISION - 1, y };
         }
 
         // Bottom edge (right to left, excluding bottom-right corner)
         for (int x = PLAYER_VISION - 2; x >= 0; x--) {
-            vision_edge_positions[index++] = (Vector2){ .x = x, .y = PLAYER_VISION - 1 };
+            vision_edge_positions[index++] = (Vector2){ x, PLAYER_VISION - 1 };
         }
 
         // Left edge (bottom to top, excluding top-left and bottom-left corners)
         for (int y = PLAYER_VISION - 2; y > 0; y--) {
-            vision_edge_positions[index++] = (Vector2){ .x = 0, .y = y };
+            vision_edge_positions[index++] = (Vector2){ 0, y };
         }
     }
 
@@ -195,7 +195,7 @@ void draw_world() {
         Vector2f direction_vector = vector2f_normalize((Vector2f) { (float)end_position.x, (float)end_position.y });
         Vector2 current_position;
 
-        while (1) {
+        do {
             current_position = (Vector2){ (int)(direction_vector.x * j), (int)(direction_vector.y * j) };
             entity_ptr = get_entity(current_position.x + main_player->x, current_position.y + main_player->y, height_layer_surface);
             if (entity_ptr != NULL) {
@@ -221,11 +221,14 @@ void draw_world() {
                     }
                 }
             }
-
-            if (entity_ptr == NULL || !entity_ptr->is_transparent) break;
-            if (vector2_equals(current_position, end_position) || abs(current_position.x) > abs(end_position.x) || abs(current_position.y) > abs(end_position.y)) break;
             j++;
-        }
+        } while (
+            entity_ptr != NULL &&
+            entity_ptr->is_transparent &&
+            !vector2_equals(current_position, end_position) &&
+            abs(current_position.x) <= abs(end_position.x) &&
+            abs(current_position.y) <= abs(end_position.y)
+            );
     }
 
 
@@ -381,12 +384,23 @@ int main(void) {
             int a_key_pressed = 0;
             int d_key_pressed = 0;
 
+
+            int left_button_pressed = 0;
+            int right_button_pressed = 0;
+
+            int left_button_clicked = 0;
+
             SDL_Event event;
             while (quit == 0) {
                 player_movement_x = 0;
                 player_movement_y = 0;
 
+                left_button_clicked = 0;
+
+
                 while (SDL_PollEvent(&event)) {
+
+
                     if (event.type == SDL_QUIT) quit = 1;
                     else if (event.type == SDL_KEYDOWN) {
                         if (SDLK_w == event.key.keysym.sym) w_key_pressed = 1;
@@ -399,9 +413,7 @@ int main(void) {
                         else if (SDLK_RIGHT == event.key.keysym.sym) main_camera.x += 10;
                         else if (SDLK_UP == event.key.keysym.sym) main_camera.y -= 10;
                         else if (SDLK_DOWN == event.key.keysym.sym) main_camera.y += 10;
-
                         //else if (SDLK_r == event.key.keysym.sym) print_inventory(&main_player->inventory);
-
                     }
                     else if (event.type == SDL_KEYUP) {
                         if (SDLK_w == event.key.keysym.sym) w_key_pressed = 0;
@@ -409,13 +421,33 @@ int main(void) {
                         else if (SDLK_a == event.key.keysym.sym) a_key_pressed = 0;
                         else if (SDLK_d == event.key.keysym.sym) d_key_pressed = 0;
                     }
+                    else if (event.type == SDL_MOUSEMOTION) {
+                        SDL_GetMouseState(&main_mouse.x, &main_mouse.y);
+                    }
+                    else if (event.type == SDL_MOUSEBUTTONDOWN) {
+                        if (SDL_BUTTON_LEFT == event.button.button) {
+                            left_button_pressed = 1;
+                            left_button_clicked = 1;
+                        }
+                        else if (SDL_BUTTON_RIGHT == event.button.button) {
+                            right_button_pressed = 1;
+                        }
+                    }
+                    else if (event.type == SDL_MOUSEBUTTONUP) {
+                        if (SDL_BUTTON_LEFT == event.button.button) {
+                            left_button_pressed = 0;
+                        }
+                        else if (SDL_BUTTON_RIGHT == event.button.button) {
+                            right_button_pressed = 0;
+                        }
+                    }
                 }
                 if (w_key_pressed) player_movement_y--;
                 if (s_key_pressed) player_movement_y++;
                 if (a_key_pressed) player_movement_x--;
                 if (d_key_pressed) player_movement_x++;
 
-                update_entities(player_movement_x, player_movement_y);
+                update_entities(player_movement_x, player_movement_y, left_button_clicked);
 
                 update_server();
 

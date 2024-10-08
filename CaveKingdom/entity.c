@@ -260,7 +260,7 @@ float get_movement_randomisation() {
     return .9 + ((rand() % 3)) / 10.;
 }
 
-void update_entities(int player_movement_x, int player_movement_y) {
+void update_entities(int player_movement_x, int player_movement_y, int primary_action) {
     for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT * number_of_height_layers; i++)
     {
         Entity* entity = &entity_list[i];

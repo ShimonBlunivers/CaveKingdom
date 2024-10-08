@@ -137,6 +137,7 @@
     <ClCompile Include="entity.c" />
     <ClCompile Include="inventory.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="mouse.c" />
     <ClCompile Include="networking.c" />
     <ClCompile Include="vector.c" />
   </ItemGroup>
@@ -162,6 +163,7 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="entity_component.h" />
     <ClInclude Include="inventory.h" />
+    <ClInclude Include="mouse.h" />
     <ClInclude Include="networking.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
