@@ -11,7 +11,7 @@
 #include "inventory.h"
 #include "chunk.h"
 #include "camera.h"
-#include "mouse.h"
+#include "input.h"
 
 #include "networking.h"
 
@@ -300,7 +300,7 @@ void draw_world() {
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
     SDL_RenderClear(renderer);
 
-    SDL_Rect destination_rect = { -main_camera.x, -main_camera.y, MAP_WIDTH * TILE_SIZE * main_camera.zoom, MAP_HEIGHT * TILE_SIZE * main_camera.zoom };
+    SDL_Rect destination_rect = { -camera.x, -camera.y, MAP_WIDTH * TILE_SIZE * camera.zoom, MAP_HEIGHT * TILE_SIZE * camera.zoom };
 
     SDL_RenderCopy(renderer, screen, NULL, &destination_rect);
     SDL_RenderCopy(renderer, gui, NULL, NULL);
@@ -376,78 +376,14 @@ int main(void) {
             init_rendering();
             load_textures();
 
-            int quit = 0;
-
-            int player_movement_x, player_movement_y;
-            int w_key_pressed = 0;
-            int s_key_pressed = 0;
-            int a_key_pressed = 0;
-            int d_key_pressed = 0;
-
-
-            int left_button_pressed = 0;
-            int right_button_pressed = 0;
-
-            int left_button_clicked = 0;
+            bool quit = false;
 
             SDL_Event event;
-            while (quit == 0) {
-                player_movement_x = 0;
-                player_movement_y = 0;
+            while (!quit) {
+                
+                quit = process_input();
 
-                left_button_clicked = 0;
-
-
-                while (SDL_PollEvent(&event)) {
-
-
-                    if (event.type == SDL_QUIT) quit = 1;
-                    else if (event.type == SDL_KEYDOWN) {
-                        if (SDLK_w == event.key.keysym.sym) w_key_pressed = 1;
-                        else if (SDLK_s == event.key.keysym.sym) s_key_pressed = 1;
-                        else if (SDLK_a == event.key.keysym.sym) a_key_pressed = 1;
-                        else if (SDLK_d == event.key.keysym.sym) d_key_pressed = 1;
-                        else if (SDLK_e == event.key.keysym.sym) main_camera.zoom = SDL_clamp(main_camera.zoom + .1, main_camera.min_zoom, main_camera.max_zoom);
-                        else if (SDLK_q == event.key.keysym.sym) main_camera.zoom = SDL_clamp(main_camera.zoom - .1, main_camera.min_zoom, main_camera.max_zoom);
-                        else if (SDLK_LEFT == event.key.keysym.sym) main_camera.x -= 10;
-                        else if (SDLK_RIGHT == event.key.keysym.sym) main_camera.x += 10;
-                        else if (SDLK_UP == event.key.keysym.sym) main_camera.y -= 10;
-                        else if (SDLK_DOWN == event.key.keysym.sym) main_camera.y += 10;
-                        //else if (SDLK_r == event.key.keysym.sym) print_inventory(&main_player->inventory);
-                    }
-                    else if (event.type == SDL_KEYUP) {
-                        if (SDLK_w == event.key.keysym.sym) w_key_pressed = 0;
-                        else if (SDLK_s == event.key.keysym.sym) s_key_pressed = 0;
-                        else if (SDLK_a == event.key.keysym.sym) a_key_pressed = 0;
-                        else if (SDLK_d == event.key.keysym.sym) d_key_pressed = 0;
-                    }
-                    else if (event.type == SDL_MOUSEMOTION) {
-                        SDL_GetMouseState(&main_mouse.x, &main_mouse.y);
-                    }
-                    else if (event.type == SDL_MOUSEBUTTONDOWN) {
-                        if (SDL_BUTTON_LEFT == event.button.button) {
-                            left_button_pressed = 1;
-                            left_button_clicked = 1;
-                        }
-                        else if (SDL_BUTTON_RIGHT == event.button.button) {
-                            right_button_pressed = 1;
-                        }
-                    }
-                    else if (event.type == SDL_MOUSEBUTTONUP) {
-                        if (SDL_BUTTON_LEFT == event.button.button) {
-                            left_button_pressed = 0;
-                        }
-                        else if (SDL_BUTTON_RIGHT == event.button.button) {
-                            right_button_pressed = 0;
-                        }
-                    }
-                }
-                if (w_key_pressed) player_movement_y--;
-                if (s_key_pressed) player_movement_y++;
-                if (a_key_pressed) player_movement_x--;
-                if (d_key_pressed) player_movement_x++;
-
-                update_entities(player_movement_x, player_movement_y, left_button_clicked);
+                update_entities();
 
                 update_server();
 

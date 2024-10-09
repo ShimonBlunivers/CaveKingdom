@@ -36,7 +36,7 @@
     <ClCompile Include="networking.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mouse.c">
+    <ClCompile Include="input.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -106,7 +106,7 @@
     <ClInclude Include="networking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mouse.h">
+    <ClInclude Include="input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

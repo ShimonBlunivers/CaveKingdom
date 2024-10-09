@@ -1,18 +1,4 @@
-﻿  main.c
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(190,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(213,74): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(263,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(264,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(287,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(289,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(289,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(303,89): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(303,132): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(137,15): warning C4101: 'tile_color': unreferenced local variable
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(311,10): warning C4026: function declared with formal parameter list
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(312,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(410,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(411,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  mouse.c
-  Generating Code...
+﻿  input.c
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\input.c(25,68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\input.c(26,68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe

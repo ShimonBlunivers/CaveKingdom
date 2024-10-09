@@ -5,6 +5,7 @@
 #include "entity.h"
 #include "chunk.h"
 #include "inventory.h"
+#include "input.h"
 
 Entity* main_player = NULL;
 
@@ -260,7 +261,7 @@ float get_movement_randomisation() {
     return .9 + ((rand() % 3)) / 10.;
 }
 
-void update_entities(int player_movement_x, int player_movement_y, int primary_action) {
+void update_entities() {
     for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT * number_of_height_layers; i++)
     {
         Entity* entity = &entity_list[i];
@@ -307,14 +308,22 @@ void update_entities(int player_movement_x, int player_movement_y, int primary_a
             else if (entity->brain.desired_direction.y < -0.5 * get_movement_randomisation())
                 move_entity(entity, 0, -1);
         }
-        switch (entity->type) {
-            case entity_type_player:
-                if (player_movement_x != 0)
-                    move_entity(entity, player_movement_x, 0);
-                if (player_movement_y != 0)
-                    move_entity(entity, 0, player_movement_y);
-                break;
 
+        switch (entity->type) {
+        case entity_type_player: {
+            int player_movement_x = 0;
+            int player_movement_y = 0;
+
+            if (keyboard.w_key_pressed) player_movement_y--;
+            if (keyboard.s_key_pressed) player_movement_y++;
+            if (keyboard.a_key_pressed) player_movement_x--;
+            if (keyboard.d_key_pressed) player_movement_x++;
+            if (player_movement_x != 0)
+                move_entity(entity, player_movement_x, 0);
+            if (player_movement_y != 0)
+                move_entity(entity, 0, player_movement_y);
+        }
+            break;
             case entity_type_zombie:
             case entity_type_enemy:
                 break;

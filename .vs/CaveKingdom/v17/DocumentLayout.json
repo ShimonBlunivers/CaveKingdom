@@ -3,60 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\input.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\input.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\mouse.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\mouse.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\input.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\input.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\mouse.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\mouse.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\camera.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\camera.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\inventory.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\inventory.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\camera.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\camera.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\vector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\vector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\vector.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\vector.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\chunk.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\chunk.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\chunk.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\chunk.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\inventory.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\inventory.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity_component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity_component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\networking.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -70,71 +42,69 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "entity.h",
               "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.h",
               "RelativeDocumentMoniker": "CaveKingdom\\entity.h",
               "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.h",
               "RelativeToolTip": "CaveKingdom\\entity.h",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAACQAAABVAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAIwCQAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-01T09:12:41.981Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "entity.c",
-              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\entity.c",
-              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.c",
-              "RelativeToolTip": "CaveKingdom\\entity.c",
-              "ViewState": "AgIAAPwAAAAAAAAAAAAAACUBAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-03T07:51:53.5Z",
-              "IsPinned": true,
+              "WhenOpened": "2024-10-09T09:26:38.461Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "mouse.c",
-              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\mouse.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\mouse.c",
-              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\mouse.c",
-              "RelativeToolTip": "CaveKingdom\\mouse.c",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAcAAAAAAAAAA==",
+              "Title": "entity.c",
+              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\entity.c",
+              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity.c",
+              "RelativeToolTip": "CaveKingdom\\entity.c",
+              "ViewState": "AgIAAOIAAAAAAAAAAAAIwPcAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-08T11:19:54.172Z",
+              "WhenOpened": "2024-10-09T09:26:08.172Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "input.c",
+              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\input.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\input.c",
+              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\input.c",
+              "RelativeToolTip": "CaveKingdom\\input.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-10-09T09:21:12.465Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "input.h",
+              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\input.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\input.h",
+              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\input.h",
+              "RelativeToolTip": "CaveKingdom\\input.h",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAYwBsAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-10-09T09:18:09.124Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "mouse.h",
-              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\mouse.h",
-              "RelativeDocumentMoniker": "CaveKingdom\\mouse.h",
-              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\mouse.h",
-              "RelativeToolTip": "CaveKingdom\\mouse.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-08T11:18:14.138Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
               "Title": "camera.h",
               "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\camera.h",
               "RelativeDocumentMoniker": "CaveKingdom\\camera.h",
               "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\camera.h",
               "RelativeToolTip": "CaveKingdom\\camera.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-10-06T22:15:02.423Z",
               "EditorCaption": ""
@@ -147,75 +117,27 @@
               "RelativeDocumentMoniker": "CaveKingdom\\camera.c",
               "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\camera.c",
               "RelativeToolTip": "CaveKingdom\\camera.c",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-10-06T22:14:48.093Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "inventory.c",
-              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\inventory.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\inventory.c",
-              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\inventory.c",
-              "RelativeToolTip": "CaveKingdom\\inventory.c",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-06T21:57:13.08Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "vector.h",
-              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\vector.h",
-              "RelativeDocumentMoniker": "CaveKingdom\\vector.h",
-              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\vector.h",
-              "RelativeToolTip": "CaveKingdom\\vector.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-06T21:23:15.209Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "vector.c",
-              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\vector.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\vector.c",
-              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\vector.c",
-              "RelativeToolTip": "CaveKingdom\\vector.c",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-06T21:22:00.032Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "main.c",
               "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\main.c",
               "RelativeDocumentMoniker": "CaveKingdom\\main.c",
               "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\main.c",
               "RelativeToolTip": "CaveKingdom\\main.c",
-              "ViewState": "AgIAALkAAAAAAAAAAAAAAMQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADkBAAAAAAAAAAAAADoBAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-10-06T18:56:56.428Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "entity_component.h",
-              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity_component.h",
-              "RelativeDocumentMoniker": "CaveKingdom\\entity_component.h",
-              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\entity_component.h",
-              "RelativeToolTip": "CaveKingdom\\entity_component.h",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAACIAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-06T18:58:09.886Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 7,
               "Title": "networking.c",
               "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\networking.c",
               "RelativeDocumentMoniker": "CaveKingdom\\networking.c",
@@ -223,43 +145,8 @@
               "RelativeToolTip": "CaveKingdom\\networking.c",
               "ViewState": "AgIAADAAAAAAAAAAAAAAADwAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-05T19:44:00.337Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "chunk.h",
-              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\chunk.h",
-              "RelativeDocumentMoniker": "CaveKingdom\\chunk.h",
-              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\chunk.h",
-              "RelativeToolTip": "CaveKingdom\\chunk.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-04T11:26:13.545Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "chunk.c",
-              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\chunk.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\chunk.c",
-              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\chunk.c",
-              "RelativeToolTip": "CaveKingdom\\chunk.c",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-04T11:26:12.345Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "inventory.h",
-              "DocumentMoniker": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\inventory.h",
-              "RelativeDocumentMoniker": "CaveKingdom\\inventory.h",
-              "ToolTip": "C:\\Users\\shimo\\source\\repos\\CaveKingdom\\CaveKingdom\\inventory.h",
-              "RelativeToolTip": "CaveKingdom\\inventory.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-04T11:19:14.76Z"
+              "WhenOpened": "2024-10-05T19:44:00.337Z",
+              "EditorCaption": ""
             }
           ]
         }

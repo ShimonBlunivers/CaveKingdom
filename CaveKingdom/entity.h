@@ -34,7 +34,7 @@ void hit_entity(Entity* hitter, Entity* target);
 
 void reset_grids();
 void create_edge_walls();
-void update_entities(int player_movement_x, int player_movement_y, int primary_action);
+void update_entities();
 
 extern Entity* main_player;
 extern const EntityType empty_entity_types[number_of_height_layers];

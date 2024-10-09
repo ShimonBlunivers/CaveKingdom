@@ -8,6 +8,6 @@ typedef struct {
     float max_zoom;
 } Camera;
 
-extern Camera main_camera;
+extern Camera camera;
 
 void update_camera();
