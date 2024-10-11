@@ -10,6 +10,7 @@ typedef struct {
     bool left_button_pressed;
     bool right_button_pressed;
     bool left_button_clicked;
+    bool right_button_clicked;
 } Mouse;
 
 extern Mouse mouse;

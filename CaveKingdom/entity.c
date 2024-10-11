@@ -188,6 +188,7 @@ bool force_spawn_entity(Entity entity) {
 }
 
 void hit_entity(Entity* hitter, Entity* target) {
+    if (target == NULL) return;
     if (hitter->combat.damage <= 0 || target->health.max < 0 ) return;
     int damage = hitter->combat.damage - target->combat.armor;
 
@@ -238,16 +239,18 @@ void create_edge_walls() {
 bool move_entity(Entity* entity, int x, int y) {
     if (x == 0 && y == 0) return false;
     if (entity->x + x < 0 || entity->y + y < 0 || entity->x + x >= MAP_WIDTH || entity->y + y >= MAP_HEIGHT) return false;
+
     Entity* neigbour = get_entity(entity->x + x, entity->y + y, entity->height_layer);
+
     for (int layer = 0; layer < number_of_height_layers; layer++) {
-        if (layer == entity->height_layer) continue;
+        //if (layer == entity->height_layer) continue;
         if (get_entity(entity->x + x, entity->y + y, layer)->is_obstacle) return false;
     }
     
-    if (neigbour->type != empty_entity_types[neigbour->height_layer]) {
-        hit_entity(entity, neigbour);
-        return false;
-    }
+    //if (neigbour->type != empty_entity_types[neigbour->height_layer]) {
+    //    hit_entity(entity, neigbour);
+    //    return false;
+    //}
 
     switch_entities(entity, neigbour);
     return true;
@@ -288,6 +291,7 @@ void update_entities() {
                 Entity* neighbour = get_entity(entity->x + x, entity->y + y, entity->height_layer);
                 if (neighbour->health.value > 0) {
                     entity->brain.desired_direction = vector2f_sum(entity->brain.desired_direction, (Vector2f) { x * .5 , y * .5 });
+                    hit_entity(entity, neighbour);
                 }
                 else if (neighbour->is_obstacle || get_entity(entity->x + x, entity->y + y, entity->height_layer -1)->is_obstacle) {
                     entity->brain.desired_direction = vector2f_sum(entity->brain.desired_direction, (Vector2f) { -x * .2, -y * .2 });
@@ -311,6 +315,22 @@ void update_entities() {
 
         switch (entity->type) {
         case entity_type_player: {
+
+            if (mouse.left_button_pressed) {
+
+                Vector2 clicked_tile_position = from_screen_to_tile_coords((Vector2) { mouse.x, mouse.y });
+
+                Vector2 distance = vector2_subtract(clicked_tile_position, (Vector2) { entity->x, entity->y });
+
+                if (abs(distance.x) <= 1 && abs(distance.y) <= 1) {
+                    Entity* entity_clicked = get_entity(clicked_tile_position.x, clicked_tile_position.y, height_layer_surface);
+
+                    if (entity_clicked->type != entity_type_player)
+                        hit_entity(entity, entity_clicked);
+                }
+            }
+
+
             int player_movement_x = 0;
             int player_movement_y = 0;
 

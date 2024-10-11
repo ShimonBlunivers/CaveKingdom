@@ -82,7 +82,6 @@ void unload_textures() {
     }
 
     SDL_DestroyTexture(hidden_texture);
-
 }
 
 void init_rendering() {
@@ -376,11 +375,13 @@ int main(void) {
             init_rendering();
             load_textures();
 
+
+
             bool quit = false;
 
             SDL_Event event;
             while (!quit) {
-                
+
                 quit = process_input();
 
                 update_entities();
@@ -390,8 +391,13 @@ int main(void) {
                 update_camera();
                 draw_world();
 
+
                 SDL_Delay(100);
             }
+
+
+
+
         }
     }
 

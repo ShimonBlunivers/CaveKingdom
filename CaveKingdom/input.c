@@ -9,10 +9,10 @@ Keyboard keyboard = { false, false, false, false };
 bool process_input() {
     bool quit = false;
 
-    SDL_Event event;
-
     mouse.left_button_clicked = false;
+    mouse.right_button_clicked = false;
 
+    SDL_Event event;
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) quit = true;
         else if (event.type == SDL_KEYDOWN) {
@@ -46,6 +46,7 @@ bool process_input() {
             }
             else if (SDL_BUTTON_RIGHT == event.button.button) {
                 mouse.right_button_pressed = true;
+                mouse.right_button_clicked = true;
             }
         }
         else if (event.type == SDL_MOUSEBUTTONUP) {
