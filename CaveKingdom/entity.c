@@ -314,35 +314,6 @@ void update_entities() {
         }
 
         switch (entity->type) {
-        case entity_type_player: {
-
-            if (mouse.left_button_pressed) {
-
-                Vector2 clicked_tile_position = from_screen_to_tile_coords((Vector2) { mouse.x, mouse.y });
-
-                Vector2 distance = vector2_subtract(clicked_tile_position, (Vector2) { entity->x, entity->y });
-
-                if (abs(distance.x) <= 1 && abs(distance.y) <= 1) {
-                    Entity* entity_clicked = get_entity(clicked_tile_position.x, clicked_tile_position.y, height_layer_surface);
-
-                    if (entity_clicked->type != entity_type_player)
-                        hit_entity(entity, entity_clicked);
-                }
-            }
-
-
-            int player_movement_x = 0;
-            int player_movement_y = 0;
-
-            if (keyboard.w_key_pressed) player_movement_y--;
-            if (keyboard.s_key_pressed) player_movement_y++;
-            if (keyboard.a_key_pressed) player_movement_x--;
-            if (keyboard.d_key_pressed) player_movement_x++;
-            if (player_movement_x != 0)
-                move_entity(entity, player_movement_x, 0);
-            if (player_movement_y != 0)
-                move_entity(entity, 0, player_movement_y);
-        }
             break;
             case entity_type_zombie:
             case entity_type_enemy:
@@ -351,3 +322,39 @@ void update_entities() {
     }
 }
 
+bool update_player() {
+    bool updated = false;
+
+    if (mouse.left_button_pressed) {
+        Vector2 clicked_tile_position = from_screen_to_tile_coords((Vector2) { mouse.x, mouse.y });
+
+        Vector2 distance = vector2_subtract(clicked_tile_position, (Vector2) { main_player->x, main_player->y });
+
+        if (abs(distance.x) <= 1 && abs(distance.y) <= 1) {
+            Entity* entity_clicked = get_entity(clicked_tile_position.x, clicked_tile_position.y, height_layer_surface);
+
+            if (entity_clicked->type != entity_type_player) {
+                hit_entity(main_player, entity_clicked);
+                updated = true;
+            }
+        }
+    }
+
+    int player_movement_x = 0;
+    int player_movement_y = 0;
+
+    if (keyboard.w_key_pressed) player_movement_y--;
+    if (keyboard.s_key_pressed) player_movement_y++;
+    if (keyboard.a_key_pressed) player_movement_x--;
+    if (keyboard.d_key_pressed) player_movement_x++;
+    if (player_movement_x != 0) {
+        move_entity(main_player, player_movement_x, 0);
+        updated = true;
+    }
+    if (player_movement_y != 0) {
+        move_entity(main_player, 0, player_movement_y);
+        updated = true;
+    }
+
+    return updated;
+}

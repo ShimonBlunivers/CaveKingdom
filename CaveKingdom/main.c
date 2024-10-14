@@ -375,29 +375,32 @@ int main(void) {
             init_rendering();
             load_textures();
 
-
-
             bool quit = false;
+
+            bool player_updated = false;
+
+            int last_updated = SDL_GetTicks();
+
+            int update_delay = 100;
 
             SDL_Event event;
             while (!quit) {
-
                 quit = process_input();
 
                 update_entities();
-
                 update_server();
+
+                while (!player_updated && SDL_GetTicks() < last_updated + update_delay) {
+                    player_updated = update_player();
+                }
+                if (SDL_GetTicks() < last_updated + update_delay) SDL_Delay(last_updated + update_delay - SDL_GetTicks());
 
                 update_camera();
                 draw_world();
 
-
-                SDL_Delay(100);
+                player_updated = false;
+                last_updated = SDL_GetTicks();
             }
-
-
-
-
         }
     }
 
