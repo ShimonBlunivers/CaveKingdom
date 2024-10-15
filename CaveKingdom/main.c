@@ -28,6 +28,7 @@ SDL_Texture* text = NULL;
 
 typedef enum {
     ui_element_inventory_slot,
+    ui_element_death_screen,
 
     number_of_ui_elements, // DO NOT USE AS UI ELEMENT!
 } UIElement;
@@ -41,6 +42,7 @@ SDL_Texture* hidden_texture = 0;
 void load_textures() {
     // UI textures
     ui_textures[ui_element_inventory_slot] = IMG_LoadTexture(renderer, "./assets/textures/ui/inventory_slot.png");
+    ui_textures[ui_element_death_screen] = IMG_LoadTexture(renderer, "./assets/textures/ui/death_screen.png");
 
     // Entity textures
         // Ground
@@ -57,6 +59,7 @@ void load_textures() {
         // Air
     //entity_textures[entity_type_leaves] = IMG_LoadTexture(renderer, "./assets/textures/tiles/leaves.png");
     //SDL_SetTextureAlphaMod(entity_textures[entity_type_leaves], 128);
+
 
     // Item textures
     item_textures[item_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/items/stone.png");
@@ -96,9 +99,6 @@ void init_rendering() {
 
 //Entity* visible_tiles[PLAYER_VISION * PLAYER_VISION] = { NULL };
 void draw_world() {
-    //memset(visible_tiles, NULL, PLAYER_VISION * PLAYER_VISION);
-
-
     Vector2 vision_edge_positions[PLAYER_VISION * 4 - 4];
 
     {
@@ -251,6 +251,7 @@ void draw_world() {
 
     // UI
 
+
     SDL_SetRenderTarget(renderer, gui);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
@@ -293,6 +294,14 @@ void draw_world() {
         }
     }
 
+    //
+
+    // Death screen
+    if (!main_player_alive) {
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128);
+        SDL_RenderFillRect(renderer, NULL);
+        SDL_RenderCopy(renderer, ui_textures[ui_element_death_screen], NULL, NULL);
+    }
     //
 
     SDL_SetRenderTarget(renderer, NULL);
@@ -389,8 +398,9 @@ int main(void) {
 
                 update_entities();
                 update_server();
+                
 
-                while (!player_updated && SDL_GetTicks() < last_updated + update_delay) {
+                while (main_player_alive && !player_updated && SDL_GetTicks() < last_updated + update_delay) {
                     player_updated = update_player();
                 }
                 if (SDL_GetTicks() < last_updated + update_delay) SDL_Delay(last_updated + update_delay - SDL_GetTicks());

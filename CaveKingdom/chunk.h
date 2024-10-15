@@ -12,6 +12,6 @@
 
 #define PLAYER_VISION 13
 
-
+int tick = 0;
 
 Vector2 from_screen_to_tile_coords(Vector2 screen_coords);

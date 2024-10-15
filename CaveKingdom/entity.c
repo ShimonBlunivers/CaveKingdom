@@ -8,6 +8,8 @@
 #include "input.h"
 
 Entity* main_player = NULL;
+bool main_player_alive = true;
+int number_of_entities = 0;
 
 const EntityType empty_entity_types[number_of_height_layers] = {
     entity_type_ground_empty,
@@ -31,6 +33,7 @@ Entity new_entity(EntityType type, int x, int y) {
     ItemStack loot[INVENTORY_SIZE] = { 0 };
 
     Entity new_entity = {
+        number_of_entities++,
         type,   // entity type
         -1,     // height layer
         x, y,   // position
@@ -140,6 +143,7 @@ Entity new_entity(EntityType type, int x, int y) {
 }
 
 void destroy_entity(Entity* entity) {
+    if (entity->id == main_player->id) main_player_alive = false;
     Entity empty_entity = new_entity(empty_entity_types[entity->height_layer], entity->x, entity->y);
     *entity_position_grid[entity->y * MAP_WIDTH + entity->x][empty_entity.height_layer] = empty_entity;
 }

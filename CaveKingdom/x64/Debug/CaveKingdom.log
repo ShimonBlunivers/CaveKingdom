@@ -1,17 +1,17 @@
 ﻿  main.c
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(189,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(212,74): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(262,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(263,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(286,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(288,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(288,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(302,79): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(302,117): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(136,15): warning C4101: 'tile_color': unreferenced local variable
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(310,10): warning C4026: function declared with formal parameter list
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(311,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(393,58): warning C4018: '<': signed/unsigned mismatch
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(396,36): warning C4018: '<': signed/unsigned mismatch
-D:\Programming\C\CaveKingdom\CaveKingdom\main.c(386,23): warning C4101: 'event': unreferenced local variable
-  CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(191,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(214,74): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(265,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(266,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(289,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(291,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(291,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(313,79): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(313,117): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(138,15): warning C4101: 'tile_color': unreferenced local variable
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(321,10): warning C4026: function declared with formal parameter list
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(322,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(405,79): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(408,36): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(397,23): warning C4101: 'event': unreferenced local variable
+  CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe
