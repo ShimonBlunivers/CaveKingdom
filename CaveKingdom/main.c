@@ -9,6 +9,7 @@
 
 #include "entity.h"
 #include "inventory.h"
+#include "audio.h"
 #include "chunk.h"
 #include "camera.h"
 #include "input.h"
@@ -85,6 +86,15 @@ void unload_textures() {
     }
 
     SDL_DestroyTexture(hidden_texture);
+}
+
+void load_audio() {
+
+}
+
+void unload_audio() {
+    //for (int i = 0; i < number_of_entity_types; i++) {
+    //}
 }
 
 void init_rendering() {
@@ -358,11 +368,11 @@ int main(void) {
         printf("The main player is NULL!\n");
         return 1;
     }
-    else if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    else if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0) {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
-    else if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+    else if (!IMG_Init(IMG_INIT_PNG)) {
         printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
         return 1;
     }
@@ -383,6 +393,7 @@ int main(void) {
         else {
             init_rendering();
             load_textures();
+            load_audio();
 
             bool quit = false;
 
@@ -415,6 +426,7 @@ int main(void) {
     }
 
     unload_textures();
+    unload_audio();
 
     TTF_CloseFont(font);
 

@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="audio.c" />
     <ClCompile Include="camera.c" />
     <ClCompile Include="chunk.c" />
     <ClCompile Include="entity.c" />
@@ -158,6 +159,7 @@
     <Image Include="assets\tiles\water_texture.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="audio.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="chunk.h" />
     <ClInclude Include="entity.h" />

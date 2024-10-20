@@ -19,7 +19,9 @@ typedef struct {
 } ItemStack;
 
 typedef struct {
+    int size;
     ItemStack content[INVENTORY_SIZE];
+    int selected_slot;
 } Inventory;
 
 
