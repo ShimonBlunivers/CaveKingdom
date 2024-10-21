@@ -7,6 +7,8 @@
 #include "inventory.h"
 #include "input.h"
 
+#include "perlin.h"
+
 Entity* main_player = NULL;
 bool main_player_alive = true;
 int number_of_entities = 0;
@@ -359,6 +361,11 @@ bool update_player() {
         move_entity(main_player, 0, player_movement_y);
         updated = true;
     }
+
+    float freq = 1;
+    float amp = 1;
+
+    if (updated) printf("%f", perlin(main_player->x * freq / MAP_WIDTH, main_player->y * freq / MAP_HEIGHT) * amp);
 
     return updated;
 }

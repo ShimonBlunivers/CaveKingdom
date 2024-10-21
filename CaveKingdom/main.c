@@ -93,8 +93,7 @@ void load_audio() {
 }
 
 void unload_audio() {
-    //for (int i = 0; i < number_of_entity_types; i++) {
-    //}
+
 }
 
 void init_rendering() {
@@ -146,14 +145,6 @@ void draw_world() {
     SDL_Color tile_color;
 
 
-    //for (int y = 0; y < PLAYER_VISION; y++) {
-    //    for (int x = 0; x < PLAYER_VISION; x++) {
-    //        entity_ptr = get_entity(x + main_player->x - PLAYER_VISION / 2, y + main_player->y - PLAYER_VISION / 2, height_layer_ground);
-    //        if (entity_ptr != NULL) visible_tiles[y * PLAYER_VISION + x] = entity_ptr;
-    //    }
-    //}
-
-
     for (int y = 0; y < MAP_HEIGHT; y++) {
         for (int x = 0; x < MAP_WIDTH; x++) {
             for (int layer = 0; layer < number_of_height_layers; layer++) {
@@ -163,37 +154,6 @@ void draw_world() {
             }
         }
     }
-    //            //if (!is_empty_entity_type(entity.type)) {
-    //                //if (entity_textures[entity.type] != NULL) {
-    //                //    SDL_RenderCopy(renderer, entity_textures[entity.type], NULL, &tile);
-    //                //}
-    //                //else {
-    //                //    SDL_SetRenderDrawColor(renderer, 255 * ((float)y / MAP_HEIGHT), 0, 255 * ((float)x / MAP_WIDTH), 255);
-    //                //    SDL_RenderFillRect(renderer, &tile);
-    //                //}
-    //            //}
-    //        }
-    //    }
-    //}
-
-    //for (int y = 0; y < PLAYER_VISION; y++) {
-    //    for (int x = 0; x < PLAYER_VISION; x++) {
-    //        entity_ptr = visible_tiles[y * PLAYER_VISION + x];
-    //        if (entity_ptr != NULL) {
-    //            for (int layer = 0; layer < number_of_height_layers; layer++) {
-    //                Entity* entity_at_layer = get_entity(entity_ptr->x, entity_ptr->y, layer);
-    //                if (entity_at_layer != NULL) {
-    //                    entity = *entity_at_layer;
-    //                    if (entity_textures[entity.type] != NULL) {
-    //                        tile = (SDL_Rect){ TILE_SIZE * entity.x, TILE_SIZE * entity.y, TILE_SIZE, TILE_SIZE };
-    //                        SDL_RenderCopy(renderer, entity_textures[entity.type], NULL, &tile);
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
 
     int max_width = TILE_SIZE;
     int max_height = TILE_SIZE * 0.1;
@@ -226,7 +186,6 @@ void draw_world() {
                                 SDL_RenderFillRect(renderer, &health_rect);
                             }
                         }
-
                     }
                 }
             }
@@ -240,24 +199,6 @@ void draw_world() {
             );
     }
 
-
-    //for (int y = 0; y < MAP_HEIGHT; y++) {
-    //    for (int x = 0; x < MAP_WIDTH; x++) {
-    //        entity = *get_entity(x, y, height_layer_surface);
-    //        if (entity.type != entity_type_surface_empty) {
-    //            if (entity.health.max > 0 && entity.health.max != entity.health.value) {
-    //                int tile_x = entity.x * TILE_SIZE - max_width / 2 + TILE_SIZE / 2;
-    //                int tile_y = entity.y * TILE_SIZE;
-    //                SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
-    //                SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity.health.value / entity.health.max)), max_height };
-    //                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    //                SDL_RenderFillRect(renderer, &background_rect);
-    //                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    //                SDL_RenderFillRect(renderer, &health_rect);
-    //            }
-    //        }
-    //    }
-    //}
 
     // UI
 
@@ -347,10 +288,6 @@ int main(void) {
         spawn_entity(new_entity(entity_type_stone, 4 + i, 9));
         spawn_entity(new_entity(entity_type_stone, 4 + i, 10));
     }
-
-
-    //spawn_entity(new_entity(entity_type_trunk, 6, 13));
-    //spawn_entity(new_entity(entity_type_trunk, 12, 13));
 
     //
     

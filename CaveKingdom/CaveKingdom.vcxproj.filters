@@ -42,6 +42,9 @@
     <ClCompile Include="audio.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="perlin.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\player_texture.png">
@@ -113,6 +116,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="perlin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
