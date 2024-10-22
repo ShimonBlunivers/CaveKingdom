@@ -100,7 +100,7 @@ void init_rendering() {
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    screen = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE);
+    screen = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, CHUNK_WIDTH * TILE_SIZE, CHUNK_HEIGHT * TILE_SIZE);
 
     gui = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
     SDL_SetTextureBlendMode(gui, SDL_BLENDMODE_BLEND);
@@ -145,8 +145,8 @@ void draw_world() {
     SDL_Color tile_color;
 
 
-    for (int y = 0; y < MAP_HEIGHT; y++) {
-        for (int x = 0; x < MAP_WIDTH; x++) {
+    for (int y = 0; y < CHUNK_HEIGHT; y++) {
+        for (int x = 0; x < CHUNK_WIDTH; x++) {
             for (int layer = 0; layer < number_of_height_layers; layer++) {
                 entity = *get_entity(x, y, layer);
                 tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
@@ -174,7 +174,8 @@ void draw_world() {
                         entity = *entity_at_layer;
                         if (entity_textures[entity.type] != NULL) {
                             tile = (SDL_Rect){ TILE_SIZE * entity.x, TILE_SIZE * entity.y, TILE_SIZE, TILE_SIZE };
-                            SDL_RenderCopy(renderer, entity_textures[entity.type], NULL, &tile);
+                            SDL_RenderCopyEx(renderer, entity_textures[entity.type], NULL, &tile, entity.rotation * 90, NULL, false);
+
                             if (entity.health.max > 0 && entity.health.max != entity.health.value) {
                                 int tile_x = entity.x * TILE_SIZE - max_width / 2 + TILE_SIZE / 2;
                                 int tile_y = entity.y * TILE_SIZE;
@@ -259,7 +260,7 @@ void draw_world() {
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
     SDL_RenderClear(renderer);
 
-    SDL_Rect destination_rect = { -camera.x, -camera.y, MAP_WIDTH * TILE_SIZE * camera.zoom, MAP_HEIGHT * TILE_SIZE * camera.zoom };
+    SDL_Rect destination_rect = { -camera.x, -camera.y, CHUNK_WIDTH * TILE_SIZE * camera.zoom, CHUNK_HEIGHT * TILE_SIZE * camera.zoom };
 
     SDL_RenderCopy(renderer, screen, NULL, &destination_rect);
     SDL_RenderCopy(renderer, gui, NULL, NULL);
@@ -272,24 +273,27 @@ int main(void) {
 
     reset_grids();
     create_edge_walls();
+    generate_world(rand() % 100000);
 
     //  Testing setup
-    
-    spawn_entity(new_entity(entity_type_player, 11, 11));
+   
 
-    //spawn_entity(new_entity(entity_type_wall, 3, 4));
-    spawn_entity(new_entity(entity_type_enemy, 2, 4));
-    spawn_entity(new_entity(entity_type_zombie, 10, 4));
 
-    for (int i = 0; i < 10; i++) {
-        spawn_entity(new_entity(entity_type_stone, 2 + i, 6));
-        spawn_entity(new_entity(entity_type_stone, 3 + i, 7));
-        spawn_entity(new_entity(entity_type_stone, 4 + i, 8));
-        spawn_entity(new_entity(entity_type_stone, 4 + i, 9));
-        spawn_entity(new_entity(entity_type_stone, 4 + i, 10));
-    }
+
+    //force_spawn_entity(new_entity(entity_type_enemy, 2, 4));
+    //force_spawn_entity(new_entity(entity_type_zombie, 10, 4));
+
+    //for (int i = 0; i < 10; i++) {
+    //    spawn_entity(new_entity(entity_type_stone, 2 + i, 6));
+    //    spawn_entity(new_entity(entity_type_stone, 3 + i, 7));
+    //    spawn_entity(new_entity(entity_type_stone, 4 + i, 8));
+    //    spawn_entity(new_entity(entity_type_stone, 4 + i, 9));
+    //    spawn_entity(new_entity(entity_type_stone, 4 + i, 10));
+    //}
 
     //
+
+    spawn_player();
     
     // Networking
     setup_server();
@@ -358,6 +362,8 @@ int main(void) {
 
                 player_updated = false;
                 last_updated = SDL_GetTicks();
+                
+                tick++;
             }
         }
     }

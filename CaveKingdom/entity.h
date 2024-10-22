@@ -4,16 +4,17 @@
 #include "inventory.h"
 #include "entity_component.h"
 
-struct Entity;
+struct Entity_struct;
 
-typedef struct Entity {
+typedef struct Entity_struct {
     int id;
     EntityType type;
     HeightLayer height_layer;
     int x, y;
     bool is_obstacle;
     int is_transparent; // int because -1 is unset
-    struct Entity* connected_to;
+    int rotation; // 0, 1, 2, 3
+    struct Entity_struct* connected_to;
     Combat combat;
     Hunger hunger;
     Health health;
@@ -33,7 +34,10 @@ bool force_spawn_entity(Entity entity);
 void hit_entity(Entity* hitter, Entity* target);
 //bool switch_entities(int x1, int y1, int x2, int y2, HeightLayer layer);
 
+void spawn_player();
+
 void reset_grids();
+void generate_world(int seed);
 void create_edge_walls();
 void update_entities();
 bool update_player();

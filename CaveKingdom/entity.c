@@ -20,8 +20,8 @@ const EntityType empty_entity_types[number_of_height_layers] = {
 }; // List of empty types for every layer, ascending.
 
 
-Entity entity_list[MAP_WIDTH * MAP_HEIGHT * number_of_height_layers];
-Entity* entity_position_grid[MAP_WIDTH * MAP_HEIGHT][number_of_height_layers]; // For quicker access through coordinates
+Entity entity_list[CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers];
+Entity* entity_position_grid[CHUNK_WIDTH * CHUNK_HEIGHT][number_of_height_layers]; // For quicker access through coordinates
 
 
 bool is_empty_entity_type(EntityType entity_type) {
@@ -41,6 +41,7 @@ Entity new_entity(EntityType type, int x, int y) {
         x, y,   // position
         false,  // is obstacle
         -1,     // is transparent
+        rand() % 4, // rotation
         NULL,   // connected to
         (Combat) { 0, 0 },
         (Hunger) { -1 },
@@ -78,6 +79,7 @@ Entity new_entity(EntityType type, int x, int y) {
         new_entity.is_transparent = true;
         new_entity.combat.damage = 1;
         new_entity.hunger.saturation = 100;
+        new_entity.rotation = 0;
         break;
 
     case entity_type_enemy:
@@ -88,6 +90,7 @@ Entity new_entity(EntityType type, int x, int y) {
         new_entity.is_transparent = true;
         new_entity.combat.damage = 1;
         new_entity.hunger.saturation = 100;
+        new_entity.rotation = 0;
         break;
 
     case entity_type_zombie:
@@ -99,6 +102,7 @@ Entity new_entity(EntityType type, int x, int y) {
         new_entity.is_transparent = true;
         new_entity.combat.damage = 1;
         new_entity.hunger.saturation = 100;
+        new_entity.rotation = 0;
         break;
 
     case entity_type_wall:
@@ -147,22 +151,22 @@ Entity new_entity(EntityType type, int x, int y) {
 void destroy_entity(Entity* entity) {
     if (entity->id == main_player->id) main_player_alive = false;
     Entity empty_entity = new_entity(empty_entity_types[entity->height_layer], entity->x, entity->y);
-    *entity_position_grid[entity->y * MAP_WIDTH + entity->x][empty_entity.height_layer] = empty_entity;
+    *entity_position_grid[entity->y * CHUNK_WIDTH + entity->x][empty_entity.height_layer] = empty_entity;
 }
 
 Entity* get_entity(int x, int y, HeightLayer layer) {
-    if ( x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT) return NULL;
-    return entity_position_grid[y * MAP_WIDTH + x][layer];
+    if ( x < 0 || y < 0 || x >= CHUNK_WIDTH || y >= CHUNK_HEIGHT) return NULL;
+    return entity_position_grid[y * CHUNK_WIDTH + x][layer];
 }
 
 bool set_entity(int x, int y, Entity* enity) {
-    if (x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT) return false;
-    entity_position_grid[y * MAP_WIDTH + x][enity->height_layer] = enity;
+    if (x < 0 || y < 0 || x >= CHUNK_WIDTH || y >= CHUNK_HEIGHT) return false;
+    entity_position_grid[y * CHUNK_WIDTH + x][enity->height_layer] = enity;
     return true;
 }
 
 bool spawn_entity(Entity entity) {
-    if (entity.x < 0 || entity.y < 0 || entity.x >= MAP_WIDTH || entity.y >= MAP_HEIGHT) return false;
+    if (entity.x < 0 || entity.y < 0 || entity.x >= CHUNK_WIDTH || entity.y >= CHUNK_HEIGHT) return false;
     Entity* entity_pointer = get_entity(entity.x, entity.y, entity.height_layer);
     if (!is_empty_entity_type(entity_pointer->type)) return false;
     *entity_pointer = entity;
@@ -183,7 +187,7 @@ bool spawn_entity(Entity entity) {
 }
 
 bool force_spawn_entity(Entity entity) {
-    if (entity.x < 0 || entity.y < 0 || entity.x >= MAP_WIDTH || entity.y >= MAP_HEIGHT) return false;
+    if (entity.x < 0 || entity.y < 0 || entity.x >= CHUNK_WIDTH || entity.y >= CHUNK_HEIGHT) return false;
     Entity* old_entity = get_entity(entity.x, entity.y, entity.height_layer);
 
     *old_entity = entity;
@@ -225,38 +229,92 @@ void switch_entities(Entity* entity1, Entity* entity2) {
 
 void reset_grids() {
     for (int layer = 0; layer < number_of_height_layers; layer++) {
-        for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
-            if (layer == height_layer_ground) entity_list[i + MAP_WIDTH * MAP_HEIGHT * layer] = new_entity(entity_type_dirt, i % MAP_WIDTH, i / MAP_WIDTH);
-            if (layer == height_layer_surface) entity_list[i + MAP_WIDTH * MAP_HEIGHT * layer] = new_entity(entity_type_surface_empty, i % MAP_WIDTH, i / MAP_WIDTH);
+        for (int i = 0; i < CHUNK_WIDTH * CHUNK_HEIGHT; i++) {
+            if (layer == height_layer_ground) entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer] = new_entity(entity_type_dirt, i % CHUNK_WIDTH, i / CHUNK_WIDTH);
+            if (layer == height_layer_surface) entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer] = new_entity(entity_type_surface_empty, i % CHUNK_WIDTH, i / CHUNK_WIDTH);
 
-            entity_position_grid[i][layer] = &entity_list[i + MAP_WIDTH * MAP_HEIGHT * layer];
+            entity_position_grid[i][layer] = &entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer];
         }
     }
 }
 
+void generate_world(int seed) {
+
+    float freq = 10;
+    float amp = 0.1;
+
+
+
+    for (int y = 0; y < CHUNK_HEIGHT; y++) {
+        for (int x = 0; x < CHUNK_WIDTH; x++) {
+            if (!(x == 0 || y == 0 || x == CHUNK_WIDTH - 1 || y == CHUNK_HEIGHT - 1)) {
+
+                float noise = perlin((x + seed) * freq / CHUNK_WIDTH, (y + seed) * freq / CHUNK_HEIGHT) * amp;
+                //printf("%.2f |", noise);
+                if (noise > -0.1) force_spawn_entity(new_entity(entity_type_stone, x, y));
+                else force_spawn_entity(new_entity(entity_type_surface_empty, x, y));
+            }
+        }
+        //printf("\n");
+    }
+}
+
 void create_edge_walls() {
-    for (int y = 0; y < MAP_HEIGHT; y++)
-        for (int x = 0; x < MAP_WIDTH; x++)
-            if (x == 0 || y == 0 || x == MAP_WIDTH - 1 || y == MAP_HEIGHT - 1) {
+    for (int y = 0; y < CHUNK_HEIGHT; y++)
+        for (int x = 0; x < CHUNK_WIDTH; x++)
+            if (x == 0 || y == 0 || x == CHUNK_WIDTH - 1 || y == CHUNK_HEIGHT - 1) {
                 force_spawn_entity(new_entity(entity_type_water, x, y));
             }
 }
 
+bool is_tile_obstacle(int x, int y) {
+    for (int layer = 0; layer < number_of_height_layers; layer++) {
+        //if (layer == entity->height_layer) continue;
+        if (get_entity(x, y, layer)->is_obstacle) return true;
+    }
+    return false;
+}
+
+Vector2 find_empty_tile() {
+
+    int start_x = rand() % CHUNK_WIDTH;
+    int start_y = rand() % CHUNK_HEIGHT;
+
+    Vector2 spare_position = { -1, -1 };
+
+    int ignore_positions = 5;
+
+    int x, y;
+    for (int _y = 0; _y < CHUNK_HEIGHT; _y++) {
+        for (int _x = 0; _x < CHUNK_WIDTH; _x++) {
+            x = (_x + start_x) % CHUNK_WIDTH;
+            y = (_y + start_y) % CHUNK_HEIGHT;
+            if (!is_tile_obstacle(x, y)) {
+                if (ignore_positions-- == 0) return (Vector2){ x, y };
+                spare_position = (Vector2){ x, y };
+            }
+        }
+    }
+
+    return spare_position;
+}
+
+void spawn_player() {
+
+    Vector2 spawn_position = find_empty_tile();
+
+    force_spawn_entity(new_entity(entity_type_player, spawn_position.x, spawn_position.y));
+}
+
+
 bool move_entity(Entity* entity, int x, int y) {
     if (x == 0 && y == 0) return false;
-    if (entity->x + x < 0 || entity->y + y < 0 || entity->x + x >= MAP_WIDTH || entity->y + y >= MAP_HEIGHT) return false;
+    if (entity->x + x < 0 || entity->y + y < 0 || entity->x + x >= CHUNK_WIDTH || entity->y + y >= CHUNK_HEIGHT) return false;
 
     Entity* neigbour = get_entity(entity->x + x, entity->y + y, entity->height_layer);
 
-    for (int layer = 0; layer < number_of_height_layers; layer++) {
-        //if (layer == entity->height_layer) continue;
-        if (get_entity(entity->x + x, entity->y + y, layer)->is_obstacle) return false;
-    }
-    
-    //if (neigbour->type != empty_entity_types[neigbour->height_layer]) {
-    //    hit_entity(entity, neigbour);
-    //    return false;
-    //}
+    if (is_tile_obstacle(entity->x + x, entity->y + y)) return false;
+  
 
     switch_entities(entity, neigbour);
     return true;
@@ -271,7 +329,7 @@ float get_movement_randomisation() {
 }
 
 void update_entities() {
-    for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT * number_of_height_layers; i++)
+    for (int i = 0; i < CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers; i++)
     {
         Entity* entity = &entity_list[i];
 
@@ -361,11 +419,6 @@ bool update_player() {
         move_entity(main_player, 0, player_movement_y);
         updated = true;
     }
-
-    float freq = 1;
-    float amp = 1;
-
-    if (updated) printf("%f", perlin(main_player->x * freq / MAP_WIDTH, main_player->y * freq / MAP_HEIGHT) * amp);
 
     return updated;
 }
