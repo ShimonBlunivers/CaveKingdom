@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 
+#include "entity.h"
 #include "vector.h"
 
 
@@ -58,3 +59,9 @@ typedef struct {
     int mood;
     Vector2f desired_direction;
 } Brain;
+
+typedef struct {
+    bool seen;
+    int last_seen;
+    struct Entity_struct* last_seen_as;
+} Visibility;

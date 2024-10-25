@@ -41,6 +41,7 @@ Entity new_entity(EntityType type, int x, int y) {
         x, y,   // position
         false,  // is obstacle
         -1,     // is transparent
+        (Visibility) { false, -1, NULL },
         rand() % 4, // rotation
         NULL,   // connected to
         (Combat) { 0, 0 },
@@ -150,6 +151,13 @@ Entity new_entity(EntityType type, int x, int y) {
 
 void destroy_entity(Entity* entity) {
     if (entity->id == main_player->id) main_player_alive = false;
+
+    entity->visibility.seen = false;
+    entity->visibility.last_seen = -1; // ???? MAYBE?? TEST
+    entity->visibility.last_seen_as = NULL;
+
+
+
     Entity empty_entity = new_entity(empty_entity_types[entity->height_layer], entity->x, entity->y);
     *entity_position_grid[entity->y * CHUNK_WIDTH + entity->x][empty_entity.height_layer] = empty_entity;
 }
@@ -222,9 +230,14 @@ void switch_entities(Entity* entity1, Entity* entity2) {
     entity1->x = x2;
     entity1->y = y2;
 
-    Entity* temp = entity1;
+    Visibility temp_visibility = entity1->visibility;
+    entity1->visibility = entity2->visibility;
+    entity2->visibility = temp_visibility;
+
+
+    Entity* temp_entity = entity1;
     set_entity(x1, y1, entity2);
-    set_entity(x2, y2, temp);
+    set_entity(x2, y2, temp_entity);
 }
 
 void reset_grids() {
@@ -302,9 +315,12 @@ Vector2 find_empty_tile() {
 void spawn_player() {
 
     Vector2 spawn_position = find_empty_tile();
-
     force_spawn_entity(new_entity(entity_type_player, spawn_position.x, spawn_position.y));
 }
+
+
+
+
 
 
 bool move_entity(Entity* entity, int x, int y) {

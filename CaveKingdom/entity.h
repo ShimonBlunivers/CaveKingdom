@@ -4,6 +4,8 @@
 #include "inventory.h"
 #include "entity_component.h"
 
+
+
 struct Entity_struct;
 
 typedef struct Entity_struct {
@@ -13,6 +15,7 @@ typedef struct Entity_struct {
     int x, y;
     bool is_obstacle;
     int is_transparent; // int because -1 is unset
+    Visibility visibility;
     int rotation; // 0, 1, 2, 3
     struct Entity_struct* connected_to;
     Combat combat;
@@ -32,6 +35,7 @@ bool set_entity(int x, int y, Entity* entity);
 bool spawn_entity(Entity entity);
 bool force_spawn_entity(Entity entity);
 void hit_entity(Entity* hitter, Entity* target);
+Vector2 find_empty_tile();
 //bool switch_entities(int x1, int y1, int x2, int y2, HeightLayer layer);
 
 void spawn_player();

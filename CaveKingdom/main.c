@@ -34,11 +34,11 @@ typedef enum {
     number_of_ui_elements, // DO NOT USE AS UI ELEMENT!
 } UIElement;
 
-SDL_Texture* ui_textures[number_of_ui_elements] = { 0 };
-SDL_Texture* entity_textures[number_of_entity_types] = { 0 };
-SDL_Texture* item_textures[number_of_item_types] = { 0 };
+SDL_Texture* ui_textures[number_of_ui_elements] = { NULL };
+SDL_Texture* entity_textures[number_of_entity_types] = { NULL };
+SDL_Texture* item_textures[number_of_item_types] = { NULL };
 
-SDL_Texture* hidden_texture = 0;
+SDL_Texture* hidden_texture = NULL;
 
 void load_textures() {
     // UI textures
@@ -68,10 +68,10 @@ void load_textures() {
     item_textures[item_type_zombie_meat] = IMG_LoadTexture(renderer, "./assets/textures/items/zombie_meat.png");
 
     // Special
-    hidden_texture = IMG_LoadTexture(renderer, "./assets/textures/tiles/stone.png");
-    Uint8 r, g, b;
-    SDL_GetTextureColorMod(hidden_texture, &r, &g, &b);
-    SDL_SetTextureColorMod(hidden_texture, r / 2, g / 2, b / 2);
+    hidden_texture = IMG_LoadTexture(renderer, "./assets/textures/tiles/hidden.png");
+    //Uint8 r, g, b;
+    //SDL_GetTextureColorMod(hidden_texture, &r, &g, &b);
+    //SDL_SetTextureColorMod(hidden_texture, r / 2, g / 2, b / 2);
 }
 
 void unload_textures() {
@@ -147,10 +147,24 @@ void draw_world() {
 
     for (int y = 0; y < CHUNK_HEIGHT; y++) {
         for (int x = 0; x < CHUNK_WIDTH; x++) {
+            tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
+            SDL_RenderCopy(renderer, hidden_texture, NULL, &tile);
+
             for (int layer = 0; layer < number_of_height_layers; layer++) {
-                entity = *get_entity(x, y, layer);
-                tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
-                SDL_RenderCopy(renderer, hidden_texture, NULL, &tile);
+                entity_ptr = get_entity(x, y, layer);
+                if (entity_ptr->visibility.seen == true) {
+                    if (entity_ptr->visibility.last_seen_as != NULL) {
+                        SDL_Texture* texture = entity_textures[entity_ptr->visibility.last_seen_as->type];
+                        SDL_SetTextureColorMod(texture, 128, 128, 128); // Use values less than 255 to darken
+                        SDL_RenderCopyEx(renderer, texture, NULL, &tile, entity_ptr->visibility.last_seen_as->rotation * 90, NULL, false);
+                        SDL_SetTextureColorMod(texture, 255, 255, 255);
+                        //if (tick - entity_ptr->visibility.last_seen > 10) {
+                        //    entity_ptr->visibility.seen = false;
+                        //}
+                        // ????????????????????????? Blocks in memory, which are destroyed are replaced by air
+
+                    }
+                }
             }
         }
     }
@@ -172,8 +186,13 @@ void draw_world() {
                     Entity* entity_at_layer = get_entity(entity_ptr->x, entity_ptr->y, layer);
                     if (entity_at_layer != NULL) {
                         entity = *entity_at_layer;
+                        entity_at_layer->visibility.seen = true;
+                        entity_at_layer->visibility.last_seen = tick;
+                        entity_at_layer->visibility.last_seen_as = entity_at_layer;
+
                         if (entity_textures[entity.type] != NULL) {
                             tile = (SDL_Rect){ TILE_SIZE * entity.x, TILE_SIZE * entity.y, TILE_SIZE, TILE_SIZE };
+
                             SDL_RenderCopyEx(renderer, entity_textures[entity.type], NULL, &tile, entity.rotation * 90, NULL, false);
 
                             if (entity.health.max > 0 && entity.health.max != entity.health.value) {
@@ -276,25 +295,20 @@ int main(void) {
     generate_world(rand() % 100000);
 
     //  Testing setup
+    {
+        Vector2 pos = find_empty_tile();
+        force_spawn_entity(new_entity(entity_type_enemy, pos.x, pos.y));
+        pos = find_empty_tile();
+        force_spawn_entity(new_entity(entity_type_zombie, pos.x, pos.y));
+    }
+
    
-
-
-
-    //force_spawn_entity(new_entity(entity_type_enemy, 2, 4));
-    //force_spawn_entity(new_entity(entity_type_zombie, 10, 4));
-
-    //for (int i = 0; i < 10; i++) {
-    //    spawn_entity(new_entity(entity_type_stone, 2 + i, 6));
-    //    spawn_entity(new_entity(entity_type_stone, 3 + i, 7));
-    //    spawn_entity(new_entity(entity_type_stone, 4 + i, 8));
-    //    spawn_entity(new_entity(entity_type_stone, 4 + i, 9));
-    //    spawn_entity(new_entity(entity_type_stone, 4 + i, 10));
-    //}
-
     //
 
     spawn_player();
-    
+
+
+
     // Networking
     setup_server();
     //
