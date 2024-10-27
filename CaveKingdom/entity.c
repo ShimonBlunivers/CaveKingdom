@@ -151,14 +151,19 @@ Entity new_entity(EntityType type, int x, int y) {
 
 void destroy_entity(Entity* entity) {
     if (entity->id == main_player->id) main_player_alive = false;
-
-    entity->visibility.seen = false;
-    entity->visibility.last_seen = -1; // ???? MAYBE?? TEST
-    entity->visibility.last_seen_as = NULL;
-
-
-
     Entity empty_entity = new_entity(empty_entity_types[entity->height_layer], entity->x, entity->y);
+
+    for (int layer = 0; layer < number_of_height_layers; layer++) {
+        if (layer == empty_entity.height_layer) continue;
+        Entity* e = get_entity(empty_entity.x, empty_entity.y, layer);
+        e->visibility.seen = false;
+        e->visibility.last_seen_as = NULL;
+    }
+
+    //empty_entity.visibility.seen = entity->visibility.seen;
+    //empty_entity.visibility.last_seen = entity->visibility.last_seen;
+    //empty_entity.visibility.last_seen_as = entity->visibility.last_seen_as; // Doesn't make sense, because the 'last_seen_as' entity is gonna be deleted.
+        
     *entity_position_grid[entity->y * CHUNK_WIDTH + entity->x][empty_entity.height_layer] = empty_entity;
 }
 

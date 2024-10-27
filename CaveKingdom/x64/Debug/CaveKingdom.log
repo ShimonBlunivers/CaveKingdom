@@ -1,17 +1,13 @@
-﻿  main.c
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(178,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(207,74): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(239,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(240,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(263,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(265,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(265,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(287,81): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(287,121): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(145,15): warning C4101: 'tile_color': unreferenced local variable
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(295,10): warning C4026: function declared with formal parameter list
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(296,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(374,79): warning C4018: '<': signed/unsigned mismatch
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(377,36): warning C4018: '<': signed/unsigned mismatch
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\main.c(366,23): warning C4101: 'event': unreferenced local variable
-  CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe
+﻿  entity.c
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(33,17): warning C4101: 'height_layer': unreferenced local variable
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(262,17): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(349,15): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(378,116): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(378,125): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(382,117): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(382,126): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(386,110): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(386,138): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(388,49): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(389,49): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe

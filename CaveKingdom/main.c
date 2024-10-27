@@ -161,7 +161,6 @@ void draw_world() {
                         //if (tick - entity_ptr->visibility.last_seen > 10) {
                         //    entity_ptr->visibility.seen = false;
                         //}
-                        // ????????????????????????? Blocks in memory, which are destroyed are replaced by air
 
                     }
                 }
