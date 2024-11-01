@@ -106,33 +106,26 @@ void init_rendering() {
     SDL_SetTextureBlendMode(gui, SDL_BLENDMODE_BLEND);
 }
 
-//Entity* visible_tiles[PLAYER_VISION * PLAYER_VISION] = { NULL };
-void draw_world() {
-    Vector2 vision_edge_positions[PLAYER_VISION * 4 - 4];
 
-    {
-        int index = 0;
-        // Top edge (left to right)
-        for (int x = 0; x < PLAYER_VISION; x++) {
-            vision_edge_positions[index++] = (Vector2){ x, 0 };
-        }
+Vector2* vision_edge_positions = NULL;
 
-        // Right edge (top to bottom, excluding top corner)
-        for (int y = 1; y < PLAYER_VISION; y++) {
-            vision_edge_positions[index++] = (Vector2){ PLAYER_VISION - 1, y };
-        }
+void load_vision_edge_positions(Vector2** edges) {
+    *edges = malloc(sizeof(Vector2) * PLAYER_VIEW_DENSITY);
+    if (*edges == NULL) return;
 
-        // Bottom edge (right to left, excluding bottom-right corner)
-        for (int x = PLAYER_VISION - 2; x >= 0; x--) {
-            vision_edge_positions[index++] = (Vector2){ x, PLAYER_VISION - 1 };
-        }
+    float angle_increment = (2.0f * M_PI) / PLAYER_VIEW_DENSITY;
+    float angle = 0;
 
-        // Left edge (bottom to top, excluding top-left and bottom-left corners)
-        for (int y = PLAYER_VISION - 2; y > 0; y--) {
-            vision_edge_positions[index++] = (Vector2){ 0, y };
-        }
+    for (int i = 0; i < PLAYER_VIEW_DENSITY; i++) {
+        int x = (int)(cos(angle) * TILE_SIZE * PLAYER_VIEW_DISTANCE);
+        int y = (int)(sin(angle) * TILE_SIZE * PLAYER_VIEW_DISTANCE);
+        (*edges)[i] = (Vector2){ x, y };
+        angle += angle_increment;
     }
+}
 
+
+void draw_world() {
 
     SDL_SetRenderTarget(renderer, screen);
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
@@ -152,18 +145,15 @@ void draw_world() {
 
             for (int layer = 0; layer < number_of_height_layers; layer++) {
                 entity_ptr = get_entity(x, y, layer);
-                if (entity_ptr->visibility.seen == true) {
-                    if (entity_ptr->visibility.last_seen_as != NULL) {
-                        SDL_Texture* texture = entity_textures[entity_ptr->visibility.last_seen_as->type];
-                        SDL_SetTextureColorMod(texture, 128, 128, 128); // Use values less than 255 to darken
-                        SDL_RenderCopyEx(renderer, texture, NULL, &tile, entity_ptr->visibility.last_seen_as->rotation * 90, NULL, false);
-                        SDL_SetTextureColorMod(texture, 255, 255, 255);
-                        //if (tick - entity_ptr->visibility.last_seen > 10) {
-                        //    entity_ptr->visibility.seen = false;
-                        //}
-
-                    }
-                }
+                if (entity_ptr != NULL) 
+                    if (entity_ptr->visibility != NULL) 
+                        if (entity_ptr->visibility->seen)
+                            if (entity_ptr->visibility->last_seen_as != NULL) {
+                                SDL_Texture* texture = entity_textures[entity_ptr->visibility->last_seen_as->type];
+                                SDL_SetTextureColorMod(texture, 128, 128, 128);
+                                SDL_RenderCopyEx(renderer, texture, NULL, &tile, entity_ptr->visibility->last_seen_as->rotation * 90, NULL, false);
+                                SDL_SetTextureColorMod(texture, 255, 255, 255);
+                            }
             }
         }
     }
@@ -171,34 +161,38 @@ void draw_world() {
     int max_width = TILE_SIZE;
     int max_height = TILE_SIZE * 0.1;
     ///////////////////////////////////
-    for (int i = 0; i < PLAYER_VISION * 4 - 4; i++) {
+    for (int i = 0; i < PLAYER_VIEW_DENSITY; i++) {
         int j = 1;
-        Vector2 end_position = (Vector2){ vision_edge_positions[i].x - PLAYER_VISION / 2, vision_edge_positions[i].y - PLAYER_VISION / 2 };
-        Vector2f direction_vector = vector2f_normalize((Vector2f) { (float)end_position.x, (float)end_position.y });
+        Vector2 end_position = (Vector2){ vision_edge_positions[i].x - PLAYER_VIEW_DISTANCE / 2, vision_edge_positions[i].y - PLAYER_VIEW_DISTANCE / 2 };
+        Vector2f direction_vector = vector2f_divide(vector2_to_f(end_position), (Vector2f) { (float)(TILE_SIZE * PLAYER_VIEW_DISTANCE), (float)(TILE_SIZE * PLAYER_VIEW_DISTANCE) });
+
+        //printf("x: %d; y: %d\n", vision_edge_positions[i].x, vision_edge_positions[i].y);
         Vector2 current_position;
 
-        do {
+        for (int j = 0; j < PLAYER_VIEW_DISTANCE; j++) {
             current_position = (Vector2){ (int)(direction_vector.x * j), (int)(direction_vector.y * j) };
             entity_ptr = get_entity(current_position.x + main_player->x, current_position.y + main_player->y, height_layer_surface);
             if (entity_ptr != NULL) {
+                tile = (SDL_Rect){ TILE_SIZE * entity_ptr->x, TILE_SIZE * entity_ptr->y, TILE_SIZE, TILE_SIZE };
+
                 for (int layer = 0; layer < number_of_height_layers; layer++) {
                     Entity* entity_at_layer = get_entity(entity_ptr->x, entity_ptr->y, layer);
-                    if (entity_at_layer != NULL) {
+                    if (entity_at_layer != NULL && entity_at_layer->visibility != NULL) {
                         entity = *entity_at_layer;
-                        entity_at_layer->visibility.seen = true;
-                        entity_at_layer->visibility.last_seen = tick;
-                        entity_at_layer->visibility.last_seen_as = entity_at_layer;
+                        entity_at_layer->visibility->seen = true;
+                        entity_at_layer->visibility->last_seen = tick;
+                        entity_at_layer->visibility->last_seen_as = entity_at_layer;
 
                         if (entity_textures[entity.type] != NULL) {
                             tile = (SDL_Rect){ TILE_SIZE * entity.x, TILE_SIZE * entity.y, TILE_SIZE, TILE_SIZE };
 
                             SDL_RenderCopyEx(renderer, entity_textures[entity.type], NULL, &tile, entity.rotation * 90, NULL, false);
 
-                            if (entity.health.max > 0 && entity.health.max != entity.health.value) {
+                            if (entity.health->max > 0 && entity.health->max != entity.health->value) {
                                 int tile_x = entity.x * TILE_SIZE - max_width / 2 + TILE_SIZE / 2;
                                 int tile_y = entity.y * TILE_SIZE;
                                 SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
-                                SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity.health.value / entity.health.max)), max_height };
+                                SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity.health->value / entity.health->max)), max_height };
                                 SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                                 SDL_RenderFillRect(renderer, &background_rect);
                                 SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -208,17 +202,9 @@ void draw_world() {
                     }
                 }
             }
-            j++;
-        } while (
-            entity_ptr != NULL &&
-            entity_ptr->is_transparent &&
-            !vector2_equals(current_position, end_position) &&
-            abs(current_position.x) <= abs(end_position.x) &&
-            abs(current_position.y) <= abs(end_position.y)
-            );
+            if (entity_ptr == NULL || !entity_ptr->is_transparent) break;
+        }
     }
-
-
     // UI
 
 
@@ -228,7 +214,11 @@ void draw_world() {
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
 
-    Inventory inventory = main_player->inventory;
+
+    Inventory inventory;
+    if (main_player->inventory != NULL) inventory = *main_player->inventory;
+    else inventory = get_empty_inventory();
+    
 
     int inventory_width = SCREEN_WIDTH * .9;
     int inventory_height = SCREEN_HEIGHT * .12;
@@ -349,6 +339,8 @@ int main(void) {
             load_textures();
             load_audio();
 
+            load_vision_edge_positions(&vision_edge_positions);
+
             bool quit = false;
 
             bool player_updated = false;
@@ -391,6 +383,9 @@ int main(void) {
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
+
+    free_world();
+    free(vision_edge_positions);
 
     close_server();
 

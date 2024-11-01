@@ -25,6 +25,9 @@ typedef struct {
 } Inventory;
 
 
+void select_inventory_slot(Inventory* inventory, int slot_index);
+Inventory get_empty_inventory();
+bool is_empty_inventory(Inventory inventory);
 Inventory new_inventory(ItemStack content[INVENTORY_SIZE]);
 void collect_inventory(Inventory* from, Inventory* to);
 void print_inventory(Inventory inventory);

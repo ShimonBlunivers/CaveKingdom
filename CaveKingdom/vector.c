@@ -14,6 +14,10 @@ Vector2 vector2_subtract(Vector2 vector_a, Vector2 vector_b) {
 Vector2 vector2_multiplicate(Vector2 vector_a, Vector2 vector_b) {
 	return (Vector2) { vector_a.x * vector_b.x, vector_a.y * vector_b.y };
 }
+Vector2 vector2f_to_i(Vector2f vector_f) {
+	return (Vector2) { (int)vector_f.x, (int)vector_f.y };
+}
+
 
 
 Vector2 vector2_divide(Vector2 vector_a, Vector2 vector_b) {
@@ -24,6 +28,9 @@ Vector2 vector2_divide(Vector2 vector_a, Vector2 vector_b) {
 	return (Vector2) {(int) (vector_a.x / vector_b.x), (int) (vector_a.y / vector_b.y) };
 }
 
+Vector2f vector2_to_f(Vector2 vector_i) {
+	return (Vector2f) { (float)vector_i.x, (float)vector_i.y };
+}
 Vector2f vector2f_sum(Vector2f vector_a, Vector2f vector_b) {
 	return (Vector2f) { vector_a.x + vector_b.x, vector_a.y + vector_b.y };
 }

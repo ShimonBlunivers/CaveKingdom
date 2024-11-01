@@ -10,7 +10,8 @@
 #define SCREEN_WIDTH 720
 #define SCREEN_HEIGHT 720
 
-#define PLAYER_VISION 13
+#define PLAYER_VIEW_DISTANCE 10
+#define PLAYER_VIEW_DENSITY 100
 
 extern int tick;
 

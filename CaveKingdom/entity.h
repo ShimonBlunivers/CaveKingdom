@@ -5,7 +5,6 @@
 #include "entity_component.h"
 
 
-
 struct Entity_struct;
 
 typedef struct Entity_struct {
@@ -14,16 +13,16 @@ typedef struct Entity_struct {
     HeightLayer height_layer;
     int x, y;
     bool is_obstacle;
-    int is_transparent; // int because -1 is unset
-    Visibility visibility;
-    int rotation; // 0, 1, 2, 3
-    struct Entity_struct* connected_to;
-    Combat combat;
-    Hunger hunger;
-    Health health;
-    Brain brain;
-    Inventory inventory;
     DemeanorType demeanor;
+    int rotation; // 0, 1, 2, 3
+    int is_transparent; // int because -1 is unset
+
+    Visibility* visibility;
+    Combat* combat;
+    Hunger* hunger;
+    Health* health;
+    Brain* brain;
+    Inventory* inventory;
 } Entity;
 
 
@@ -45,7 +44,9 @@ void generate_world(int seed);
 void create_edge_walls();
 void update_entities();
 bool update_player();
+void free_world();
 
 extern Entity* main_player;
 extern bool main_player_alive;
 extern const EntityType empty_entity_types[number_of_height_layers];
+

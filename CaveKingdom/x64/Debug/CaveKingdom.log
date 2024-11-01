@@ -1,13 +1,2 @@
-﻿  entity.c
-D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(33,17): warning C4101: 'height_layer': unreferenced local variable
-D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(262,17): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(349,15): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(378,116): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(378,125): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(382,117): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(382,126): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(386,110): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(386,138): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(388,49): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\entity.c(389,49): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+﻿  chunk.c
   CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe
