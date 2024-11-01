@@ -9,6 +9,9 @@
 
 #include "world/perlin.h"
 
+#include "graphics/animation.h"
+#include "world/time.h"
+
 Entity* main_player = NULL;
 bool main_player_alive = true;
 int number_of_entities = 0;
@@ -50,11 +53,13 @@ Entity new_entity(EntityType type, int x, int y) {
         .combat = NULL,
         .brain = NULL,
         .inventory = NULL,
+
+        .tween = NULL,
     };
 
     bool has_inventory = false; // Set this to true if the entity has inventory but doesn't have any loot.
 
-    if (new_entity.visibility != NULL) *new_entity.visibility = (Visibility){ false, -1, NULL };
+    if (new_entity.visibility != NULL) *new_entity.visibility = (Visibility){ false, false, -1, NULL };
     else printf("Error: new_entity.visibility was NULL when creating new entity.\n");
     if (new_entity.health != NULL) *new_entity.health = (Health){ -1, -1 };
     else printf("Error: new_entity.health was NULL when creating new entity.\n");
@@ -180,6 +185,7 @@ void free_entity(Entity* entity) {
     free(entity->health);
     free(entity->brain);
     free(entity->inventory);
+    delete_tween(entity->tween);
 }
 
 void destroy_entity(Entity* entity) {
@@ -252,6 +258,24 @@ void switch_entities(Entity* entity1, Entity* entity2) {
     int x2 = entity2->x;
     int y2 = entity2->y;
 
+
+    if (entity1->tween == NULL) {
+        entity1->tween = new_tween(x2 * TILE_SIZE, y2 * TILE_SIZE, x1 * TILE_SIZE, y1 * TILE_SIZE, graphic_tick + move_tile_tween_duration);
+    }
+    else {
+        entity1->tween->finish_x += x1 * TILE_SIZE - entity1->tween->finish_x;
+        entity1->tween->finish_y += y1 * TILE_SIZE - entity1->tween->finish_y;
+        entity1->tween->finish_tick = graphic_tick + move_tile_tween_duration;
+    }
+
+    if (entity2->tween == NULL) {
+        entity2->tween = new_tween(x1 * TILE_SIZE, y1 * TILE_SIZE, x2 * TILE_SIZE, y2 * TILE_SIZE, graphic_tick + move_tile_tween_duration);
+    }
+    else {
+        entity2->tween->finish_x += x2 * TILE_SIZE - entity2->tween->finish_x;
+        entity2->tween->finish_y += y2 * TILE_SIZE - entity2->tween->finish_y;
+        entity2->tween->finish_tick = graphic_tick + move_tile_tween_duration;
+    }
     entity2->x = entity1->x;
     entity2->y = entity1->y;
 
@@ -261,6 +285,8 @@ void switch_entities(Entity* entity1, Entity* entity2) {
     Visibility* temp_visibility = entity1->visibility;
     entity1->visibility = entity2->visibility;
     entity2->visibility = temp_visibility;
+
+
 
     Entity* temp_entity = entity1;
     set_entity(x1, y1, entity2);

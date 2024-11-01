@@ -1,37 +1,21 @@
-﻿  entity.c
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(33,17): warning C4101: 'height_layer': unreferenced local variable
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(283,17): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(362,15): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(391,118): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(391,127): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(395,119): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(395,128): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(399,112): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(399,140): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(401,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(402,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  main.c
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(115,43): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(161,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(194,74): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(222,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(223,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(246,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(248,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(248,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(270,81): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(270,121): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(137,15): warning C4101: 'tile_color': unreferenced local variable
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(278,10): warning C4026: function declared with formal parameter list
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(279,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(359,79): warning C4018: '<': signed/unsigned mismatch
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(362,36): warning C4018: '<': signed/unsigned mismatch
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(351,23): warning C4101: 'event': unreferenced local variable
-  input.c
-D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c(25,68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c(26,68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  networking.c
-  vector.c
-D:\Programming\C\CaveKingdom\CaveKingdom\source\graphics\vector.c(68,23): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+﻿  main.c
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(116,43): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(165,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(212,78): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(241,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(242,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(265,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(267,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(267,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(289,81): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(289,121): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(138,15): warning C4101: 'tile_color': unreferenced local variable
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(134,12): warning C4101: 'entity': unreferenced local variable
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(298,10): warning C4026: function declared with formal parameter list
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(299,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(381,79): warning C4018: '<': signed/unsigned mismatch
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(388,39): warning C4018: '<': signed/unsigned mismatch
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(373,23): warning C4101: 'event': unreferenced local variable
+  animation.c
   Generating Code...
   CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe

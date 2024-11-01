@@ -45,6 +45,12 @@
     <ClCompile Include="source\world\perlin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\graphics\animation.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\world\time.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\player_texture.png">
@@ -119,6 +125,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\world\perlin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\graphics\animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\world\time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

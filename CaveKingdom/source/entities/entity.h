@@ -4,6 +4,8 @@
 #include "inventory/inventory.h"
 #include "entities/entity_component.h"
 
+#include "graphics/animation.h"
+
 
 struct Entity_struct;
 
@@ -23,6 +25,9 @@ typedef struct Entity_struct {
     Health* health;
     Brain* brain;
     Inventory* inventory;
+
+    Tween* tween;
+
 } Entity;
 
 

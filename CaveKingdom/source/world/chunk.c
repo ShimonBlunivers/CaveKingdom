@@ -4,8 +4,6 @@
 #include "graphics/vector.h"
 #include "graphics/camera.h"
 
-int tick = 0;
-
 Vector2 from_screen_to_tile_coords(Vector2 screen_coords) {
     Vector2f screen_coords_f = vector2_to_f(screen_coords);
     Vector2f camera_f = vector2_to_f((Vector2) { camera.x, camera.y });

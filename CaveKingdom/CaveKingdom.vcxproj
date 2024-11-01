@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\audio\audio.c" />
+    <ClCompile Include="source\graphics\animation.c" />
     <ClCompile Include="source\graphics\camera.c" />
     <ClCompile Include="source\world\chunk.c" />
     <ClCompile Include="source\entities\entity.c" />
@@ -143,6 +144,7 @@
     <ClCompile Include="source\networking\networking.c" />
     <ClCompile Include="source\world\perlin.c" />
     <ClCompile Include="source\graphics\vector.c" />
+    <ClCompile Include="source\world\time.c" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\items\stone_texture.png" />
@@ -162,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\audio\audio.h" />
+    <ClInclude Include="source\graphics\animation.h" />
     <ClInclude Include="source\graphics\camera.h" />
     <ClInclude Include="source\world\chunk.h" />
     <ClInclude Include="source\entities\entity.h" />
@@ -171,6 +174,7 @@
     <ClInclude Include="source\networking\networking.h" />
     <ClInclude Include="source\world\perlin.h" />
     <ClInclude Include="source\graphics\vector.h" />
+    <ClInclude Include="source\world\time.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\fonts\roboto.ttf" />

@@ -1,4 +1,5 @@
 D:\Programming\C\CaveKingdom\CaveKingdom\source\audio\audio.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\audio.obj
+D:\Programming\C\CaveKingdom\CaveKingdom\source\graphics\animation.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\animation.obj
 D:\Programming\C\CaveKingdom\CaveKingdom\source\graphics\camera.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\camera.obj
 D:\Programming\C\CaveKingdom\CaveKingdom\source\world\chunk.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\chunk.obj
 D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\entity.obj
@@ -8,3 +9,4 @@ D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c;D:\Programming\C\C
 D:\Programming\C\CaveKingdom\CaveKingdom\source\networking\networking.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\networking.obj
 D:\Programming\C\CaveKingdom\CaveKingdom\source\world\perlin.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\perlin.obj
 D:\Programming\C\CaveKingdom\CaveKingdom\source\graphics\vector.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\vector.obj
+D:\Programming\C\CaveKingdom\CaveKingdom\source\world\time.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\time.obj

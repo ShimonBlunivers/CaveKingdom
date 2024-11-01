@@ -13,6 +13,4 @@
 #define PLAYER_VIEW_DISTANCE 10
 #define PLAYER_VIEW_DENSITY 100
 
-extern int tick;
-
 Vector2 from_screen_to_tile_coords(Vector2 screen_coords);
