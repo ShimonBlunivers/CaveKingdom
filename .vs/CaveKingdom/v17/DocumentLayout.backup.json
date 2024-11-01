@@ -3,60 +3,84 @@
   "WorkspaceRootPath": "D:\\Programming\\C\\CaveKingdom\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\input\\input.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\input\\input.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\chunk.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\chunk.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\world\\perlin.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\world\\perlin.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\chunk.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\chunk.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\world\\perlin.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\world\\perlin.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\input.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\input.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\world\\chunk.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\world\\chunk.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\world\\chunk.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\world\\chunk.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\networking\\networking.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\networking\\networking.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\vector.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\vector.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\inventory\\inventory.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\inventory\\inventory.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\camera.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\camera.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\networking\\networking.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\networking\\networking.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\vector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\vector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\inventory\\inventory.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\inventory\\inventory.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\input\\input.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\input\\input.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\inventory.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\inventory.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\graphics\\vector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\graphics\\vector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\perlin.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\perlin.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\graphics\\vector.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\graphics\\vector.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity_component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\entity_component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\graphics\\camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\graphics\\camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\perlin.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\perlin.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\graphics\\camera.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\graphics\\camera.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\entities\\entity_component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\entities\\entity_component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\entities\\entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\entities\\entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\entities\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\entities\\entity.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\core\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\core\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\audio\\audio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\audio\\audio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\audio\\audio.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6DBB0D14-356E-4CD2-A1D0-6A8AAB2528E9}|CaveKingdom\\CaveKingdom.vcxproj|solutionrelative:CaveKingdom\\source\\audio\\audio.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -66,188 +90,266 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "main.c",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\main.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\main.c",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\main.c",
-              "RelativeToolTip": "CaveKingdom\\main.c",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAAAG4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-21T16:24:14.188Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "chunk.h",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\chunk.h",
-              "RelativeDocumentMoniker": "CaveKingdom\\chunk.h",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\chunk.h",
-              "RelativeToolTip": "CaveKingdom\\chunk.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-17T11:29:28.471Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "chunk.c",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\chunk.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\chunk.c",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\chunk.c",
-              "RelativeToolTip": "CaveKingdom\\chunk.c",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-11-01T19:00:47.746Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "camera.h",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\camera.h",
-              "RelativeDocumentMoniker": "CaveKingdom\\camera.h",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\camera.h",
-              "RelativeToolTip": "CaveKingdom\\camera.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-01T18:59:02.451Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "camera.c",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\camera.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\camera.c",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\camera.c",
-              "RelativeToolTip": "CaveKingdom\\camera.c",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-11-01T18:58:58.295Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "inventory.c",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\inventory.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\inventory.c",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\inventory.c",
-              "RelativeToolTip": "CaveKingdom\\inventory.c",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-11-01T14:01:52.659Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "entity.c",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\entity.c",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity.c",
-              "RelativeToolTip": "CaveKingdom\\entity.c",
-              "ViewState": "AgIAAJoBAAAAAAAAAAAUwLABAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-21T16:59:20.474Z",
+              "Title": "input.h",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\input\\input.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\input\\input.h",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\input\\input.h",
+              "RelativeToolTip": "CaveKingdom\\source\\input\\input.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-01T19:28:31.906Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "entity_component.h",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity_component.h",
-              "RelativeDocumentMoniker": "CaveKingdom\\entity_component.h",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity_component.h",
-              "RelativeToolTip": "CaveKingdom\\entity_component.h",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAewDIAAAAIAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "networking.h",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\networking\\networking.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\networking\\networking.h",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\networking\\networking.h",
+              "RelativeToolTip": "CaveKingdom\\source\\networking\\networking.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-25T08:35:28.316Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "vector.h",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\vector.h",
-              "RelativeDocumentMoniker": "CaveKingdom\\vector.h",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\vector.h",
-              "RelativeToolTip": "CaveKingdom\\vector.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-21T16:59:55.381Z",
+              "WhenOpened": "2024-11-01T19:28:17.419Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "vector.c",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\vector.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\vector.c",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\vector.c",
-              "RelativeToolTip": "CaveKingdom\\vector.c",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Title": "inventory.h",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\inventory\\inventory.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\inventory\\inventory.h",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\inventory\\inventory.h",
+              "RelativeToolTip": "CaveKingdom\\source\\inventory\\inventory.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-01T19:28:16.129Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "networking.c",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\networking\\networking.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\networking\\networking.c",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\networking\\networking.c",
+              "RelativeToolTip": "CaveKingdom\\source\\networking\\networking.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-21T16:59:52.306Z",
+              "WhenOpened": "2024-11-01T19:28:15.507Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "inventory.c",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\inventory\\inventory.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\inventory\\inventory.c",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\inventory\\inventory.c",
+              "RelativeToolTip": "CaveKingdom\\source\\inventory\\inventory.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-01T19:28:13.164Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "input.c",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\input\\input.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\input\\input.c",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\input\\input.c",
+              "RelativeToolTip": "CaveKingdom\\source\\input\\input.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-01T19:28:11.296Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "vector.h",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\graphics\\vector.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\graphics\\vector.h",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\graphics\\vector.h",
+              "RelativeToolTip": "CaveKingdom\\source\\graphics\\vector.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-01T19:28:08.767Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "vector.c",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\graphics\\vector.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\graphics\\vector.c",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\graphics\\vector.c",
+              "RelativeToolTip": "CaveKingdom\\source\\graphics\\vector.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-01T19:28:04.187Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "camera.h",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\graphics\\camera.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\graphics\\camera.h",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\graphics\\camera.h",
+              "RelativeToolTip": "CaveKingdom\\source\\graphics\\camera.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-01T19:28:03.147Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 13,
-              "Title": "perlin.h",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\perlin.h",
-              "RelativeDocumentMoniker": "CaveKingdom\\perlin.h",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\perlin.h",
-              "RelativeToolTip": "CaveKingdom\\perlin.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-21T16:59:37.306Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "perlin.c",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\perlin.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\perlin.c",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\perlin.c",
-              "RelativeToolTip": "CaveKingdom\\perlin.c",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Title": "camera.c",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\graphics\\camera.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\graphics\\camera.c",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\graphics\\camera.c",
+              "RelativeToolTip": "CaveKingdom\\source\\graphics\\camera.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-21T16:36:11.731Z",
+              "WhenOpened": "2024-11-01T19:27:55.282Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "input.c",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\input.c",
-              "RelativeDocumentMoniker": "CaveKingdom\\input.c",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\input.c",
-              "RelativeToolTip": "CaveKingdom\\input.c",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAQAAAALAAAAAAAAAA==",
+              "DocumentIndex": 16,
+              "Title": "entity.c",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\entities\\entity.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\entities\\entity.c",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\entities\\entity.c",
+              "RelativeToolTip": "CaveKingdom\\source\\entities\\entity.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-20T11:07:03.578Z",
+              "WhenOpened": "2024-11-01T19:27:32.548Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "audio.h",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\audio\\audio.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\audio\\audio.h",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\audio\\audio.h",
+              "RelativeToolTip": "CaveKingdom\\source\\audio\\audio.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-01T19:27:20.41Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "audio.c",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\audio\\audio.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\audio\\audio.c",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\audio\\audio.c",
+              "RelativeToolTip": "CaveKingdom\\source\\audio\\audio.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-01T19:27:17.23Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "entity_component.h",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\entities\\entity_component.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\entities\\entity_component.h",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\entities\\entity_component.h",
+              "RelativeToolTip": "CaveKingdom\\source\\entities\\entity_component.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-01T19:27:07.351Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "entity.h",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\entities\\entity.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\entities\\entity.h",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\entities\\entity.h",
+              "RelativeToolTip": "CaveKingdom\\source\\entities\\entity.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-01T19:26:49.254Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "entity.h",
-              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity.h",
-              "RelativeDocumentMoniker": "CaveKingdom\\entity.h",
-              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\entity.h",
-              "RelativeToolTip": "CaveKingdom\\entity.h",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAC4AAAASAAAAAAAAAA==",
+              "Title": "chunk.c",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\world\\chunk.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\world\\chunk.c",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\world\\chunk.c",
+              "RelativeToolTip": "CaveKingdom\\source\\world\\chunk.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-01T19:26:31.131Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "chunk.h",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\world\\chunk.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\world\\chunk.h",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\world\\chunk.h",
+              "RelativeToolTip": "CaveKingdom\\source\\world\\chunk.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-22T08:22:02.427Z",
+              "WhenOpened": "2024-11-01T19:26:21.13Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "perlin.c",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\world\\perlin.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\world\\perlin.c",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\world\\perlin.c",
+              "RelativeToolTip": "CaveKingdom\\source\\world\\perlin.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-01T19:25:47.63Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "perlin.h",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\world\\perlin.h",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\world\\perlin.h",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\world\\perlin.h",
+              "RelativeToolTip": "CaveKingdom\\source\\world\\perlin.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-01T19:25:46.928Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "main.c",
+              "DocumentMoniker": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\core\\main.c",
+              "RelativeDocumentMoniker": "CaveKingdom\\source\\core\\main.c",
+              "ToolTip": "D:\\Programming\\C\\CaveKingdom\\CaveKingdom\\source\\core\\main.c",
+              "RelativeToolTip": "CaveKingdom\\source\\core\\main.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-01T19:17:37.635Z",
               "EditorCaption": ""
             }
           ]

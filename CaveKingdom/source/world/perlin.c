@@ -1,4 +1,4 @@
-#include "vector.h"
+#include "graphics/vector.h"
 #include "perlin.h"
 
 Vector2 randomGradient(int ix, int iy) {

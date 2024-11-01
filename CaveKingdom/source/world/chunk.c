@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#include "chunk.h"
-#include "vector.h"
-#include "camera.h"
+#include "world/chunk.h"
+#include "graphics/vector.h"
+#include "graphics/camera.h"
 
 int tick = 0;
 

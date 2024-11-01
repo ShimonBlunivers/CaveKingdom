@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <SDL_events.h>
 
-#include "camera.h"
+#include "graphics/camera.h"
 
 typedef struct {
     int x;

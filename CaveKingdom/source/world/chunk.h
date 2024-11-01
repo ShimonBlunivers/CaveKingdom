@@ -1,6 +1,6 @@
 #pragma once
 
-#include "vector.h"
+#include "graphics/vector.h"
 
 #define CHUNK_WIDTH 64
 #define CHUNK_HEIGHT 64

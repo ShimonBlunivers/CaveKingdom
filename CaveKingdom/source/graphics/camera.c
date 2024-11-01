@@ -1,8 +1,8 @@
 #include <stdbool.h>
 
 #include "camera.h"
-#include "chunk.h"
-#include "entity.h"
+#include "world/chunk.h"
+#include "entities/entity.h"
 
 Camera camera = { 0, 0, 1. , .1, 3. };
 

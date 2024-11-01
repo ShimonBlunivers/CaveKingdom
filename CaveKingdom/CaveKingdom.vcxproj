@@ -108,6 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,16 +133,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="audio.c" />
-    <ClCompile Include="camera.c" />
-    <ClCompile Include="chunk.c" />
-    <ClCompile Include="entity.c" />
-    <ClCompile Include="inventory.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="input.c" />
-    <ClCompile Include="networking.c" />
-    <ClCompile Include="perlin.c" />
-    <ClCompile Include="vector.c" />
+    <ClCompile Include="source\audio\audio.c" />
+    <ClCompile Include="source\graphics\camera.c" />
+    <ClCompile Include="source\world\chunk.c" />
+    <ClCompile Include="source\entities\entity.c" />
+    <ClCompile Include="source\inventory\inventory.c" />
+    <ClCompile Include="source\core\main.c" />
+    <ClCompile Include="source\input\input.c" />
+    <ClCompile Include="source\networking\networking.c" />
+    <ClCompile Include="source\world\perlin.c" />
+    <ClCompile Include="source\graphics\vector.c" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\items\stone_texture.png" />
@@ -160,16 +161,16 @@
     <Image Include="assets\tiles\water_texture.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="audio.h" />
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="chunk.h" />
-    <ClInclude Include="entity.h" />
-    <ClInclude Include="entity_component.h" />
-    <ClInclude Include="inventory.h" />
-    <ClInclude Include="input.h" />
-    <ClInclude Include="networking.h" />
-    <ClInclude Include="perlin.h" />
-    <ClInclude Include="vector.h" />
+    <ClInclude Include="source\audio\audio.h" />
+    <ClInclude Include="source\graphics\camera.h" />
+    <ClInclude Include="source\world\chunk.h" />
+    <ClInclude Include="source\entities\entity.h" />
+    <ClInclude Include="source\entities\entity_component.h" />
+    <ClInclude Include="source\inventory\inventory.h" />
+    <ClInclude Include="source\input\input.h" />
+    <ClInclude Include="source\networking\networking.h" />
+    <ClInclude Include="source\world\perlin.h" />
+    <ClInclude Include="source\graphics\vector.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\fonts\roboto.ttf" />

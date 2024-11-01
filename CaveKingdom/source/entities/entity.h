@@ -1,8 +1,8 @@
 #pragma once
 #include <stdbool.h>
 
-#include "inventory.h"
-#include "entity_component.h"
+#include "inventory/inventory.h"
+#include "entities/entity_component.h"
 
 
 struct Entity_struct;

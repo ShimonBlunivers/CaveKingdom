@@ -2,12 +2,12 @@
 #include <stdbool.h>
 #include <SDL.h>
 
-#include "entity.h"
-#include "chunk.h"
-#include "inventory.h"
-#include "input.h"
+#include "entities/entity.h"
+#include "world/chunk.h"
+#include "inventory/inventory.h"
+#include "input/input.h"
 
-#include "perlin.h"
+#include "world/perlin.h"
 
 Entity* main_player = NULL;
 bool main_player_alive = true;
@@ -430,7 +430,6 @@ bool update_player() {
 
     if (mouse.left_button_pressed) {
         Vector2 clicked_tile_position = from_screen_to_tile_coords((Vector2) { mouse.x, mouse.y });
-        printf("x: %d , y: %d , zoom: %f\n", clicked_tile_position.x, clicked_tile_position.y, camera.zoom);
 
         Vector2 distance = vector2_subtract(clicked_tile_position, (Vector2) { main_player->x, main_player->y });
 

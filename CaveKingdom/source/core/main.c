@@ -7,14 +7,13 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "entity.h"
-#include "inventory.h"
-#include "audio.h"
-#include "chunk.h"
-#include "camera.h"
-#include "input.h"
-
-#include "networking.h"
+#include "entities/entity.h"
+#include "inventory/inventory.h"
+#include "audio/audio.h"
+#include "world/chunk.h"
+#include "graphics/camera.h"
+#include "input/input.h"
+#include "networking/networking.h"
 
 int game_status = 1;
 

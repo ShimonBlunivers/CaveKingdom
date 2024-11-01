@@ -15,34 +15,34 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.c">
+    <ClCompile Include="source\core\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="entity.c">
+    <ClCompile Include="source\entities\entity.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chunk.c">
+    <ClCompile Include="source\world\chunk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="inventory.c">
+    <ClCompile Include="source\inventory\inventory.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="camera.c">
+    <ClCompile Include="source\graphics\camera.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vector.c">
+    <ClCompile Include="source\graphics\vector.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="networking.c">
+    <ClCompile Include="source\networking\networking.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="input.c">
+    <ClCompile Include="source\input\input.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="audio.c">
+    <ClCompile Include="source\audio\audio.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="perlin.c">
+    <ClCompile Include="source\world\perlin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -91,34 +91,34 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="vector.h">
+    <ClInclude Include="source\graphics\vector.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="entity.h">
+    <ClInclude Include="source\entities\entity.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="chunk.h">
+    <ClInclude Include="source\world\chunk.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="inventory.h">
+    <ClInclude Include="source\inventory\inventory.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
+    <ClInclude Include="source\graphics\camera.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="entity_component.h">
+    <ClInclude Include="source\entities\entity_component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="networking.h">
+    <ClInclude Include="source\networking\networking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="input.h">
+    <ClInclude Include="source\input\input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="audio.h">
+    <ClInclude Include="source\audio\audio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="perlin.h">
+    <ClInclude Include="source\world\perlin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

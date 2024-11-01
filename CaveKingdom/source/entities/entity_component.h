@@ -2,8 +2,8 @@
 
 #include <stdlib.h>
 
-#include "entity.h"
-#include "vector.h"
+#include "entities/entity.h"
+#include "graphics/vector.h"
 
 
 typedef enum {
