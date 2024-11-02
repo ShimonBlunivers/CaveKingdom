@@ -196,9 +196,9 @@ void draw_world() {
                                         entity_ptr->tween = NULL;
                                     }
                                     else {
-                                        Vector2 shift = get_current_tween_position(*entity_ptr->tween);
-                                        tile.x = entity_ptr->tween->finish_x - shift.x;
-                                        tile.y = entity_ptr->tween->finish_y - shift.y;
+                                        Vector2 position = get_current_tween_position(*entity_ptr->tween);
+                                        tile.x = position.x;
+                                        tile.y = position.y;
                                     }
                                 }
 
@@ -206,8 +206,8 @@ void draw_world() {
 
                                 // Healthbar
                                 if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->value) {
-                                    int tile_x = entity_ptr->x * TILE_SIZE - max_width / 2 + TILE_SIZE / 2;
-                                    int tile_y = entity_ptr->y * TILE_SIZE;
+                                    int tile_x = tile.x - max_width / 2 + TILE_SIZE / 2;
+                                    int tile_y = tile.y;
                                     SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
                                     SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity_ptr->health->value / entity_ptr->health->max)), max_height };
                                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -368,11 +368,10 @@ int main(void) {
 
             int last_updated = SDL_GetTicks();
 
-            int update_delay = 150;
+            int update_delay = 250;
 
             SDL_Event event;
             while (!quit) {
-                quit = process_input();
 
                 update_entities();
                 update_server();
@@ -380,6 +379,7 @@ int main(void) {
 
                 while (main_player_alive && !player_updated && SDL_GetTicks() < last_updated + update_delay) {
                     graphic_tick = SDL_GetTicks() - start_tick;
+                    quit = process_input();
                     player_updated = update_player();
                     update_camera();
                     draw_world();

@@ -260,22 +260,19 @@ void switch_entities(Entity* entity1, Entity* entity2) {
 
 
     if (entity1->tween == NULL) {
-        entity1->tween = new_tween(x2 * TILE_SIZE, y2 * TILE_SIZE, x1 * TILE_SIZE, y1 * TILE_SIZE, graphic_tick + move_tile_tween_duration);
+        entity1->tween = new_tween(x1 * TILE_SIZE, y1 * TILE_SIZE, x2 * TILE_SIZE, y2 * TILE_SIZE, graphic_tick + move_tile_tween_duration);
     }
     else {
-        entity1->tween->finish_x += x1 * TILE_SIZE - entity1->tween->finish_x;
-        entity1->tween->finish_y += y1 * TILE_SIZE - entity1->tween->finish_y;
-        entity1->tween->finish_tick = graphic_tick + move_tile_tween_duration;
+        *entity1->tween = change_finish_tween(*entity1->tween, (Vector2) { x2* TILE_SIZE, y2* TILE_SIZE });
     }
 
     if (entity2->tween == NULL) {
-        entity2->tween = new_tween(x1 * TILE_SIZE, y1 * TILE_SIZE, x2 * TILE_SIZE, y2 * TILE_SIZE, graphic_tick + move_tile_tween_duration);
+        entity2->tween = new_tween(x2 * TILE_SIZE, y2 * TILE_SIZE, x1 * TILE_SIZE, y1 * TILE_SIZE, graphic_tick + move_tile_tween_duration);
     }
     else {
-        entity2->tween->finish_x += x2 * TILE_SIZE - entity2->tween->finish_x;
-        entity2->tween->finish_y += y2 * TILE_SIZE - entity2->tween->finish_y;
-        entity2->tween->finish_tick = graphic_tick + move_tile_tween_duration;
+        *entity2->tween = change_finish_tween(*entity2->tween, (Vector2) { x1* TILE_SIZE, y1* TILE_SIZE });
     }
+
     entity2->x = entity1->x;
     entity2->y = entity1->y;
 
@@ -285,7 +282,6 @@ void switch_entities(Entity* entity1, Entity* entity2) {
     Visibility* temp_visibility = entity1->visibility;
     entity1->visibility = entity2->visibility;
     entity2->visibility = temp_visibility;
-
 
 
     Entity* temp_entity = entity1;
@@ -392,21 +388,6 @@ void update_entities() {
     for (int i = 0; i < CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers; i++)
     {
         Entity* entity = &entity_list[i];
-
-        //if (entity->connected_to != NULL) {
-        //    if (is_empty_entity_type(entity->connected_to->type)) {
-        //        if (entity->connected) {
-        //            destroy_entity(entity);
-        //            continue;
-        //        }
-        //        else {
-        //            entity->connected_to = NULL;
-        //        }
-        //    }
-        //    else {
-        //        entity->connected = true;
-        //    }
-        //}
 
         if (entity->brain != NULL && entity->brain->active) {
             for (int j = 0; j < 4; j++) {
