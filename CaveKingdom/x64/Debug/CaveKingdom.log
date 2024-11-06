@@ -1,3 +1,5 @@
 ﻿  animation.c
-D:\Programming\C\CaveKingdom\CaveKingdom\source\graphics\animation.c(36,24): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-  CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\graphics\animation.c(12,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\graphics\animation.c(13,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\graphics\animation.c(37,24): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+  CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe

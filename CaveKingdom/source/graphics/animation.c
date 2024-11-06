@@ -1,15 +1,16 @@
 #include <stdlib.h>
+#include <math.h>
 
 #include "animation.h"
 
 #include "world/time.h"
 
-float move_tile_tween_duration = 100;
+float move_tile_tween_duration = 150;
 
 Vector2 get_current_tween_position(Tween tween) {
 	return (Vector2) {
-		tween.start_x + (int)((tween.finish_x - tween.start_x) * ((float)(graphic_tick - tween.start_tick) / (float)(tween.finish_tick - tween.start_tick))),
-		tween.start_y + (int)((tween.finish_y - tween.start_y) * ((float)(graphic_tick - tween.start_tick) / (float)(tween.finish_tick - tween.start_tick)))
+		tween.start_x + round(((tween.finish_x - tween.start_x) * ((float)(graphic_tick - tween.start_tick) / (float)(tween.finish_tick - tween.start_tick)))),
+		tween.start_y + round(((tween.finish_y - tween.start_y) * ((float)(graphic_tick - tween.start_tick) / (float)(tween.finish_tick - tween.start_tick))))
 	};
 }
 
