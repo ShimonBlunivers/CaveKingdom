@@ -59,7 +59,7 @@ Entity new_entity(EntityType type, int x, int y) {
 
     bool has_inventory = false; // Set this to true if the entity has inventory but doesn't have any loot.
 
-    if (new_entity.visibility != NULL) *new_entity.visibility = (Visibility){ false, false, -1, NULL };
+    if (new_entity.visibility != NULL) *new_entity.visibility = (Visibility){ false, false, -1 };
     else printf("Error: new_entity.visibility was NULL when creating new entity.\n");
     if (new_entity.health != NULL) *new_entity.health = (Health){ -1, -1 };
     else printf("Error: new_entity.health was NULL when creating new entity.\n");

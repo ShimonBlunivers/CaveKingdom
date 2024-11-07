@@ -1,5 +1,19 @@
-﻿  animation.c
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\graphics\animation.c(12,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\graphics\animation.c(13,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\graphics\animation.c(37,24): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+﻿  main.c
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(116,43): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(164,32): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(223,70): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(250,40): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(251,42): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(274,76): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(276,105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(276,158): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(298,81): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(298,121): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(138,15): warning C4101: 'tile_color': unreferenced local variable
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(134,12): warning C4101: 'entity': unreferenced local variable
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(307,10): warning C4026: function declared with formal parameter list
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(308,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(389,79): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(397,39): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(382,23): warning C4101: 'event': unreferenced local variable
   CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe

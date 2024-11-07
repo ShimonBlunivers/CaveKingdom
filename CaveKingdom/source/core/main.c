@@ -147,7 +147,6 @@ void draw_world() {
                 entity_ptr = get_entity(x, y, layer);
                 if (entity_ptr != NULL) {
                     if (entity_ptr->visibility != NULL) {
-                        entity_ptr->visibility->rendered = false;
                         if (entity_ptr->visibility->seen)
                             if (entity_ptr->visibility->last_seen_as != NULL) {
                                 SDL_Texture* texture = entity_textures[entity_ptr->visibility->last_seen_as->type];
@@ -183,46 +182,56 @@ void draw_world() {
                         entity_at_layer->visibility->seen = true;
                         entity_at_layer->visibility->last_seen = tick;
                         entity_at_layer->visibility->last_seen_as = entity_at_layer;
-
-                        if (entity_textures[entity_ptr->type] != NULL) {
-                            if (!entity_ptr->visibility->rendered || entity_ptr->type == entity_type_player) {
-                                entity_ptr->visibility->rendered = true;
-
-                                tile = (SDL_Rect){ TILE_SIZE * entity_ptr->x, TILE_SIZE * entity_ptr->y, TILE_SIZE, TILE_SIZE };
-
-                                if (entity_ptr->tween != NULL) {
-                                    if (entity_ptr->tween->finish_tick <= graphic_tick) {
-                                        delete_tween(entity_ptr->tween);
-                                        entity_ptr->tween = NULL;
-                                    }
-                                    else {
-                                        Vector2 position = get_current_tween_position(*entity_ptr->tween);
-                                        tile.x = position.x;
-                                        tile.y = position.y;
-                                    }
-                                }
-
-                                SDL_RenderCopyEx(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
-
-                                // Healthbar
-                                if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->value) {
-                                    int tile_x = tile.x - max_width / 2 + TILE_SIZE / 2;
-                                    int tile_y = tile.y;
-                                    SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
-                                    SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity_ptr->health->value / entity_ptr->health->max)), max_height };
-                                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-                                    SDL_RenderFillRect(renderer, &background_rect);
-                                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                                    SDL_RenderFillRect(renderer, &health_rect);
-                                }
-                            }
-                        }
                     }
                 }
             }
             if (entity_ptr == NULL || !entity_ptr->is_transparent) break;
         }
     }
+
+    for (int layer = 0; layer < number_of_height_layers; layer++) {
+        for (int y = 0; y < CHUNK_HEIGHT; y++) {
+            for (int x = 0; x < CHUNK_WIDTH; x++) {
+                entity_ptr = get_entity(x, y, layer);
+                if (entity_ptr->visibility != NULL) {
+                    if (entity_ptr->visibility->last_seen == tick && entity_textures[entity_ptr->type] != NULL) {
+                        tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
+
+                        if (entity_ptr->tween != NULL) {
+                            if (entity_ptr->tween->finish_tick <= graphic_tick) {
+                                delete_tween(entity_ptr->tween);
+                                entity_ptr->tween = NULL;
+                            }
+                            else {
+                                Vector2 position = get_current_tween_position(*entity_ptr->tween);
+                                tile.x = position.x;
+                                tile.y = position.y;
+                            }
+
+                            if (entity_ptr->type == entity_type_player) {
+                                printf("x: %d ; y: %d\n", tile.x, tile.y);
+                            }
+                        }
+
+                        SDL_RenderCopyEx(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
+
+                        // Healthbar
+                        if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->value) {
+                            int tile_x = tile.x - max_width / 2 + TILE_SIZE / 2;
+                            int tile_y = tile.y;
+                            SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
+                            SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity_ptr->health->value / entity_ptr->health->max)), max_height };
+                            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                            SDL_RenderFillRect(renderer, &background_rect);
+                            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                            SDL_RenderFillRect(renderer, &health_rect);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // UI
 
 

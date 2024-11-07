@@ -61,7 +61,6 @@ typedef struct {
 } Brain;
 
 typedef struct {
-    bool rendered;
     bool seen;
     int last_seen;
     struct Entity_struct* last_seen_as;
