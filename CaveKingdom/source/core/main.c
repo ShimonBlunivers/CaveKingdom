@@ -113,12 +113,12 @@ void load_vision_edge_positions(Vector2** edges) {
     *edges = malloc(sizeof(Vector2) * PLAYER_VIEW_DENSITY);
     if (*edges == NULL) return;
 
-    float angle_increment = (2.0f * M_PI) / PLAYER_VIEW_DENSITY;
-    float angle = 0;
+    double angle_increment = (2.0f * M_PI) / PLAYER_VIEW_DENSITY;
+    double angle = 0;
 
     for (int i = 0; i < PLAYER_VIEW_DENSITY; i++) {
-        int x = round(cos(angle) * TILE_SIZE * PLAYER_VIEW_DISTANCE);
-        int y = round(sin(angle) * TILE_SIZE * PLAYER_VIEW_DISTANCE);
+        int x = (int)round(cos(angle) * TILE_SIZE * PLAYER_VIEW_DISTANCE);
+        int y = (int)round(sin(angle) * TILE_SIZE * PLAYER_VIEW_DISTANCE);
         (*edges)[i] = (Vector2){ x, y };
         angle += angle_increment;
     }
@@ -131,51 +131,42 @@ void draw_world() {
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
     SDL_RenderClear(renderer);
 
-    Entity entity;
     Entity* entity_ptr;
 
     SDL_Rect tile;
-    SDL_Color tile_color;
 
-
-    for (int y = 0; y < CHUNK_HEIGHT; y++) {
-        for (int x = 0; x < CHUNK_WIDTH; x++) {
+    for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++) {
+        for (x = 0; x < CHUNK_WIDTH; x++) {
             tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
             SDL_RenderCopy(renderer, hidden_texture, NULL, &tile);
 
-            for (int layer = 0; layer < number_of_height_layers; layer++) {
+            for (layer = 0; layer < number_of_height_layers; layer++) {
                 entity_ptr = get_entity(x, y, layer);
-                if (entity_ptr != NULL) {
-                    if (entity_ptr->visibility != NULL) {
-                        if (entity_ptr->visibility->seen)
-                            if (entity_ptr->visibility->last_seen_as != NULL) {
-                                SDL_Texture* texture = entity_textures[entity_ptr->visibility->last_seen_as->type];
-                                SDL_SetTextureColorMod(texture, 128, 128, 128);
-                                SDL_RenderCopyEx(renderer, texture, NULL, &tile, entity_ptr->visibility->last_seen_as->rotation * 90, NULL, false);
-                                SDL_SetTextureColorMod(texture, 255, 255, 255);
-                            }
-                    }
+                if (entity_ptr != NULL && entity_ptr->visibility != NULL && entity_ptr->visibility->seen && entity_ptr->visibility->last_seen_as != NULL) {
+                    SDL_Texture* texture = entity_textures[entity_ptr->visibility->last_seen_as->type];
+                    SDL_SetTextureColorMod(texture, 128, 128, 128);
+                    SDL_RenderCopyEx(renderer, texture, NULL, &tile, entity_ptr->visibility->last_seen_as->rotation * 90, NULL, false);
+                    SDL_SetTextureColorMod(texture, 255, 255, 255);
                 }
             }
         }
     }
 
     int max_width = TILE_SIZE;
-    int max_height = TILE_SIZE * 0.1;
+    int max_height = (int)(TILE_SIZE * 0.1);
     ///////////////////////////////////
-    for (int i = 0; i < PLAYER_VIEW_DENSITY; i++) {
-        int j = 1;
+    for (int i = 0, j, layer; i < PLAYER_VIEW_DENSITY; i++) {
         Vector2 end_position = (Vector2){ vision_edge_positions[i].x - PLAYER_VIEW_DISTANCE / 2, vision_edge_positions[i].y - PLAYER_VIEW_DISTANCE / 2 };
         Vector2f direction_vector = vector2f_divide(vector2_to_f(end_position), (Vector2f) { (float)(TILE_SIZE * PLAYER_VIEW_DISTANCE), (float)(TILE_SIZE * PLAYER_VIEW_DISTANCE) });
 
         //printf("x: %d; y: %d\n", vision_edge_positions[i].x, vision_edge_positions[i].y);
         Vector2 current_position;
 
-        for (int j = 0; j < PLAYER_VIEW_DISTANCE; j++) {
+        for (j = 0; j < PLAYER_VIEW_DISTANCE; j++) {
             current_position = (Vector2){ (int)(direction_vector.x * j), (int)(direction_vector.y * j) };
             entity_ptr = get_entity(current_position.x + main_player->x, current_position.y + main_player->y, height_layer_surface);
             if (entity_ptr != NULL) {
-                for (int layer = 0; layer < number_of_height_layers; layer++) {
+                for (layer = 0; layer < number_of_height_layers; layer++) {
                     Entity* entity_at_layer = get_entity(entity_ptr->x, entity_ptr->y, layer);
                     if (entity_at_layer != NULL && entity_at_layer->visibility != NULL) {
                         entity_ptr = entity_at_layer;
@@ -189,40 +180,40 @@ void draw_world() {
         }
     }
 
-    for (int layer = 0; layer < number_of_height_layers; layer++) {
-        for (int y = 0; y < CHUNK_HEIGHT; y++) {
-            for (int x = 0; x < CHUNK_WIDTH; x++) {
+    
+    for (int layer = 0, x, y; layer < number_of_height_layers; layer++) {
+        for (y = 0; y < CHUNK_HEIGHT; y++) {
+            for (x = 0; x < CHUNK_WIDTH; x++) {
                 entity_ptr = get_entity(x, y, layer);
-                if (entity_ptr->visibility != NULL) {
-                    if (entity_ptr->visibility->last_seen == tick && entity_textures[entity_ptr->type] != NULL) {
-                        tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
+                if (entity_ptr->visibility != NULL && entity_ptr->visibility->last_seen == tick && entity_textures[entity_ptr->type] != NULL) {
+                    tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
 
-                        if (entity_ptr->tween != NULL) {
-                            Vector2 position = get_current_tween_position(*entity_ptr->tween);
-                            tile.x = position.x;
-                            tile.y = position.y;
+                    if (entity_ptr->tween != NULL) {
+                        Vector2 position = get_current_tween_position(*entity_ptr->tween);
+                        tile.x = position.x;
+                        tile.y = position.y;
 
-                            if (entity_ptr->tween->finish_tick <= graphic_tick) {
-                                delete_tween(entity_ptr->tween);
-                                entity_ptr->tween = NULL;
-                            }
-                        }
-
-                        SDL_RenderCopyEx(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
-
-                        // Healthbar
-                        if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->value) {
-                            int tile_x = tile.x - max_width / 2 + TILE_SIZE / 2;
-                            int tile_y = tile.y;
-                            SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
-                            SDL_Rect health_rect = { tile_x, tile_y, (max_width * ((float)entity_ptr->health->value / entity_ptr->health->max)), max_height };
-                            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-                            SDL_RenderFillRect(renderer, &background_rect);
-                            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                            SDL_RenderFillRect(renderer, &health_rect);
+                        if (entity_ptr->tween->finish_tick <= graphic_tick) {
+                            delete_tween(entity_ptr->tween);
+                            entity_ptr->tween = NULL;
                         }
                     }
+
+                    SDL_RenderCopyEx(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
+
+                    // Healthbar
+                    if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->value) {
+                        int tile_x = tile.x - max_width / 2 + TILE_SIZE / 2;
+                        int tile_y = tile.y;
+                        SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
+                        SDL_Rect health_rect = { tile_x, tile_y, (int)(max_width * ((float)entity_ptr->health->value / entity_ptr->health->max)), max_height };
+                        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                        SDL_RenderFillRect(renderer, &background_rect);
+                        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                        SDL_RenderFillRect(renderer, &health_rect);
+                    }
                 }
+                
             }
         }
     }
@@ -241,8 +232,8 @@ void draw_world() {
     else inventory = get_empty_inventory();
     
 
-    int inventory_width = SCREEN_WIDTH * .9;
-    int inventory_height = SCREEN_HEIGHT * .12;
+    int inventory_width = (int)(SCREEN_WIDTH * .9);
+    int inventory_height = (int)(SCREEN_HEIGHT * .12);
 
 
     SDL_Rect inventory_rect = { (SCREEN_WIDTH - inventory_width) / 2,  SCREEN_HEIGHT - inventory_height - 10, inventory_width, inventory_height };
@@ -263,9 +254,9 @@ void draw_world() {
             char amount[128];
             sprintf_s(amount, sizeof(amount), "%d", inventory.content[i].amount);
 
-            int digits = floor(log10((double)inventory.content[i].amount)) + 1;
+            int digits = (int)(floor(log10((double)inventory.content[i].amount))) + 1;
             int digit_size = 24;
-            SDL_Rect amount_rect = { slot_rect.x + padding / 2, slot_rect.h + slot_rect.y - padding / 2 - digit_size * 1.5, digit_size * digits , digit_size * 1.5 };
+            SDL_Rect amount_rect = { (int)(slot_rect.x + padding / 2), (int)(slot_rect.h + slot_rect.y - padding / 2 - digit_size * 1.5), digit_size * digits , (int)(digit_size * 1.5) };
 
             SDL_Surface* text_surface = TTF_RenderText_Solid(font, amount, (SDL_Color) { 0, 0, 0, 0 });
             text = SDL_CreateTextureFromSurface(renderer, text_surface);
@@ -287,7 +278,7 @@ void draw_world() {
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
     SDL_RenderClear(renderer);
 
-    SDL_Rect destination_rect = { -camera.x, -camera.y, CHUNK_WIDTH * TILE_SIZE * camera.zoom, CHUNK_HEIGHT * TILE_SIZE * camera.zoom };
+    SDL_Rect destination_rect = { -camera.x, -camera.y, (int)(CHUNK_WIDTH * TILE_SIZE * camera.zoom), (int)(CHUNK_HEIGHT * TILE_SIZE * camera.zoom) };
 
 
     SDL_RenderCopy(renderer, screen, NULL, &destination_rect);
@@ -296,8 +287,8 @@ void draw_world() {
 }
 
 
-int main(void) {
-    srand(time(NULL));
+int main(int argc, char* argv[]) {
+    srand((int)(time(NULL)));
 
     reset_grids();
     create_edge_walls();
@@ -361,17 +352,16 @@ int main(void) {
 
             load_vision_edge_positions(&vision_edge_positions);
 
-            int start_tick = SDL_GetTicks();
+            Uint32 start_tick = SDL_GetTicks();
 
             bool quit = false;
 
             bool player_updated = false;
 
-            int last_updated = SDL_GetTicks();
+            Uint32 last_updated = SDL_GetTicks();
 
-            int update_delay = 250;
-
-            SDL_Event event;
+            Uint32 update_delay = 250;
+            
             while (!quit) {
 
                 update_entities();
