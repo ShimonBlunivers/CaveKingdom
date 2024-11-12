@@ -18,4 +18,4 @@ Tween* new_tween(int start_x, int start_y, int finish_x, int finish_y, int finis
 void delete_tween(Tween* tween);
 Tween change_finish_tween(Tween tween1, Vector2 position);
 
-extern float move_tile_tween_duration;
+extern int move_tile_tween_duration;

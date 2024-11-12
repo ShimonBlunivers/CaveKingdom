@@ -117,8 +117,8 @@ void load_vision_edge_positions(Vector2** edges) {
     float angle = 0;
 
     for (int i = 0; i < PLAYER_VIEW_DENSITY; i++) {
-        int x = (int)(cos(angle) * TILE_SIZE * PLAYER_VIEW_DISTANCE);
-        int y = (int)(sin(angle) * TILE_SIZE * PLAYER_VIEW_DISTANCE);
+        int x = round(cos(angle) * TILE_SIZE * PLAYER_VIEW_DISTANCE);
+        int y = round(sin(angle) * TILE_SIZE * PLAYER_VIEW_DISTANCE);
         (*edges)[i] = (Vector2){ x, y };
         angle += angle_increment;
     }
@@ -198,18 +198,13 @@ void draw_world() {
                         tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
 
                         if (entity_ptr->tween != NULL) {
+                            Vector2 position = get_current_tween_position(*entity_ptr->tween);
+                            tile.x = position.x;
+                            tile.y = position.y;
+
                             if (entity_ptr->tween->finish_tick <= graphic_tick) {
                                 delete_tween(entity_ptr->tween);
                                 entity_ptr->tween = NULL;
-                            }
-                            else {
-                                Vector2 position = get_current_tween_position(*entity_ptr->tween);
-                                tile.x = position.x;
-                                tile.y = position.y;
-                            }
-
-                            if (entity_ptr->type == entity_type_player) {
-                                printf("x: %d ; y: %d\n", tile.x, tile.y);
                             }
                         }
 
@@ -234,7 +229,6 @@ void draw_world() {
 
     // UI
 
-
     SDL_SetRenderTarget(renderer, gui);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
@@ -252,8 +246,6 @@ void draw_world() {
 
 
     SDL_Rect inventory_rect = { (SCREEN_WIDTH - inventory_width) / 2,  SCREEN_HEIGHT - inventory_height - 10, inventory_width, inventory_height };
-    //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    //SDL_RenderFillRect(renderer, &inventory_rect);
 
     int slot_size = inventory_width / INVENTORY_SIZE;
 

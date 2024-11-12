@@ -3,9 +3,9 @@
 typedef struct {
     int x;
     int y;
-    float zoom;
-    float min_zoom;
-    float max_zoom;
+    double zoom;
+    double min_zoom;
+    double max_zoom;
 } Camera;
 
 extern Camera camera;

@@ -15,7 +15,7 @@ Vector2 vector2_multiplicate(Vector2 vector_a, Vector2 vector_b) {
 	return (Vector2) { vector_a.x * vector_b.x, vector_a.y * vector_b.y };
 }
 Vector2 vector2f_to_i(Vector2f vector_f) {
-	return (Vector2) { (int)vector_f.x, (int)vector_f.y };
+	return (Vector2) { round(vector_f.x), round(vector_f.y) };
 }
 
 
@@ -25,7 +25,7 @@ Vector2 vector2_divide(Vector2 vector_a, Vector2 vector_b) {
 		printf("vector2_divide exception: Attempted dividing by zero!");
 		return (Vector2) { 0, 0 };
 	}
-	return (Vector2) {(int) (vector_a.x / vector_b.x), (int) (vector_a.y / vector_b.y) };
+	return (Vector2) { round(vector_a.x / vector_b.x), round(vector_a.y / vector_b.y) };
 }
 
 Vector2f vector2_to_f(Vector2 vector_i) {
