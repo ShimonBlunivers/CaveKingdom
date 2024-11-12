@@ -5,7 +5,7 @@
 
 #include "world/time.h"
 
-int move_tile_tween_duration = 150;
+int move_tile_tween_duration = 225;
 
 Vector2 get_current_tween_position(Tween tween) {
 	return (Vector2) {
@@ -28,7 +28,6 @@ void delete_tween(Tween* tween) {
 Tween change_finish_tween(Tween tween1, Vector2 new_finish_position) {
 	Vector2 new_start_position = get_current_tween_position(tween1);
 
-
 	tween1.start_x = new_start_position.x;
 	tween1.start_y = new_start_position.y;
 
@@ -36,7 +35,8 @@ Tween change_finish_tween(Tween tween1, Vector2 new_finish_position) {
 	tween1.finish_y = new_finish_position.y;
 
 	tween1.start_tick = graphic_tick;
-	tween1.finish_tick += move_tile_tween_duration;
-	
+
+	tween1.finish_tick = (int)round(sqrt(pow(tween1.finish_tick - tween1.start_tick, 2) + pow(move_tile_tween_duration, 2))) + graphic_tick;
+
 	return tween1;
 }
