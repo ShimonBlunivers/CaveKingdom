@@ -51,6 +51,9 @@
     <ClCompile Include="source\world\time.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\graphics\particles\particles.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\player_texture.png">
@@ -131,6 +134,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\world\time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\graphics\particles\particles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

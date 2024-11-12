@@ -185,7 +185,7 @@ void draw_world() {
         for (y = 0; y < CHUNK_HEIGHT; y++) {
             for (x = 0; x < CHUNK_WIDTH; x++) {
                 entity_ptr = get_entity(x, y, layer);
-                if (entity_ptr->visibility != NULL && entity_ptr->visibility->last_seen == tick && entity_textures[entity_ptr->type] != NULL) {
+                if (entity_ptr->visibility != NULL && entity_ptr->visibility->last_seen == tick && entity_ptr->visibility->seen && entity_textures[entity_ptr->type] != NULL) {
                     tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
 
                     if (entity_ptr->tween != NULL) {
@@ -201,7 +201,7 @@ void draw_world() {
 
                     SDL_RenderCopyEx(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
 
-                    // Healthbar
+                    // Health
                     if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->value) {
                         int tile_x = tile.x - max_width / 2 + TILE_SIZE / 2;
                         int tile_y = tile.y;

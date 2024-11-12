@@ -15,7 +15,7 @@ Vector2 vector2_multiplicate(Vector2 vector_a, Vector2 vector_b) {
 	return (Vector2) { vector_a.x * vector_b.x, vector_a.y * vector_b.y };
 }
 Vector2 vector2f_to_i(Vector2f vector_f) {
-	return (Vector2) { round(vector_f.x), round(vector_f.y) };
+	return (Vector2) { (int)(vector_f.x), (int)(vector_f.y) };
 }
 
 

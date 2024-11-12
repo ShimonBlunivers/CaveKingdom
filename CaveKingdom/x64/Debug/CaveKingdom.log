@@ -1,3 +1,2 @@
-﻿  animation.c
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\graphics\animation.c(42,2): warning C4013: 'printf' undefined; assuming extern returning int
+﻿  main.c
   CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe

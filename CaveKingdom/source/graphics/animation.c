@@ -2,7 +2,6 @@
 #include <math.h>
 
 #include "animation.h"
-
 #include "world/time.h"
 
 int move_tile_tween_duration = 225;
