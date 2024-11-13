@@ -13,4 +13,8 @@
 #define PLAYER_VIEW_DISTANCE 10
 #define PLAYER_VIEW_DENSITY 100
 
-Vector2 from_screen_to_tile_coords(Vector2 screen_coords);
+typedef struct ChunkManager {
+	int number_of_chunks;
+} ChunkManager;
+
+extern ChunkManager CHUNK_MANAGER;

@@ -6,10 +6,7 @@
 
 #include "graphics/animation.h"
 
-
-struct Entity_struct;
-
-typedef struct Entity_struct {
+typedef struct Entity {
     int id;
     EntityType type;
     HeightLayer height_layer;

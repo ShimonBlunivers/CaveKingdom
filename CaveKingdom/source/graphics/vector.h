@@ -2,12 +2,12 @@
 
 #include <stdbool.h>
 
-typedef struct {
+typedef struct Vector2 {
     int x;
     int y;
 } Vector2;
 
-typedef struct {
+typedef struct Vector2f {
     float x;
     float y;
 } Vector2f;

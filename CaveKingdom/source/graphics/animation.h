@@ -2,7 +2,7 @@
 
 #include "graphics/vector.h"
 
-typedef struct {
+typedef struct Tween {
     int start_x;
     int start_y;
     int finish_x;

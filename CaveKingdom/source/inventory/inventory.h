@@ -3,7 +3,7 @@
 
 #define INVENTORY_SIZE 8
 
-typedef enum {
+typedef enum ItemType {
     item_type_empty,
 
     item_type_stone,
@@ -13,12 +13,12 @@ typedef enum {
     number_of_item_types, // DO NOT USE AS ITEM TYPE!
 } ItemType;
 
-typedef struct {
+typedef struct ItemStack {
     ItemType type;
     int amount;
 } ItemStack;
 
-typedef struct {
+typedef struct Inventory {
     int size;
     ItemStack content[INVENTORY_SIZE];
     int selected_slot;

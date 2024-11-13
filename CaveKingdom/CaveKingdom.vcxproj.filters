@@ -51,7 +51,7 @@
     <ClCompile Include="source\world\time.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\graphics\particles\particles.c">
+    <ClCompile Include="source\graphics\particles.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -136,7 +136,7 @@
     <ClInclude Include="source\world\time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\graphics\particles\particles.h">
+    <ClInclude Include="source\graphics\particles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

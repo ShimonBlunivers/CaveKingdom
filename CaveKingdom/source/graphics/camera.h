@@ -1,6 +1,6 @@
 #pragma once
 
-typedef struct {
+typedef struct Camera {
     int x;
     int y;
     double zoom;

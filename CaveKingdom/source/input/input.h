@@ -3,8 +3,9 @@
 #include <SDL_events.h>
 
 #include "graphics/camera.h"
+#include "graphics/vector.h"
 
-typedef struct {
+typedef struct Mouse {
     int x;
     int y;
     bool left_button_pressed;
@@ -16,7 +17,7 @@ typedef struct {
 extern Mouse mouse;
 
 
-typedef struct {
+typedef struct Keyboard {
     bool w_key_pressed;
     bool s_key_pressed;
     bool a_key_pressed;
@@ -27,3 +28,5 @@ extern Keyboard keyboard;
 
 
 bool process_input();
+
+Vector2 from_screen_to_tile_coords(Vector2 screen_coords);

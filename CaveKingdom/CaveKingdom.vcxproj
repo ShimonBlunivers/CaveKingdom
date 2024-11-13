@@ -136,7 +136,7 @@
     <ClCompile Include="source\audio\audio.c" />
     <ClCompile Include="source\graphics\animation.c" />
     <ClCompile Include="source\graphics\camera.c" />
-    <ClCompile Include="source\graphics\particles\particles.c" />
+    <ClCompile Include="source\graphics\particles.c" />
     <ClCompile Include="source\world\chunk.c" />
     <ClCompile Include="source\entities\entity.c" />
     <ClCompile Include="source\inventory\inventory.c" />
@@ -167,7 +167,7 @@
     <ClInclude Include="source\audio\audio.h" />
     <ClInclude Include="source\graphics\animation.h" />
     <ClInclude Include="source\graphics\camera.h" />
-    <ClInclude Include="source\graphics\particles\particles.h" />
+    <ClInclude Include="source\graphics\particles.h" />
     <ClInclude Include="source\world\chunk.h" />
     <ClInclude Include="source\entities\entity.h" />
     <ClInclude Include="source\entities\entity_component.h" />

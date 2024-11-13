@@ -11,6 +11,7 @@
 
 #include "graphics/animation.h"
 #include "world/time.h"
+#include "graphics/particles.h"
 
 Entity* main_player = NULL;
 bool main_player_alive = true;
@@ -243,8 +244,11 @@ void hit_entity(Entity* hitter, Entity* target) {
     if (target == NULL || hitter->combat == NULL) return;
     if (hitter->combat->damage <= 0 || target->health->max < 0 ) return;
     int damage = hitter->combat->damage - ((target->combat != NULL) ? target->combat->armor : 0);
-
     target->health->value -= SDL_max(damage, 0);
+
+    for (int i = 0; i < 5; i++)
+        new_particle((target->x + 0.25 + ((float)(rand() % 6)) / 10) * TILE_SIZE, (target->y + 0.25 + ((float)(rand() % 6)) / 10) * TILE_SIZE, (SDL_Color) { 80, 80, 80, 255 });
+
     if (target->health->value <= 0) { 
         if (target->inventory != NULL && hitter->inventory != NULL) collect_inventory(target->inventory, hitter->inventory);
         destroy_entity(target); 
