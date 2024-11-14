@@ -174,7 +174,7 @@ void draw_world() {
                         if (entity_at_layer != NULL && entity_at_layer->visibility != NULL) {
                             entity_ptr = entity_at_layer;
                             entity_at_layer->visibility->seen = true;
-                            entity_at_layer->visibility->last_seen = tick;
+                            entity_at_layer->visibility->last_seen = game_tick;
                             entity_at_layer->visibility->last_seen_as = entity_at_layer;
                         }
                 }
@@ -187,7 +187,7 @@ void draw_world() {
         for (y = 0; y < CHUNK_HEIGHT; y++) 
         for (x = 0; x < CHUNK_WIDTH; x++) {
             entity_ptr = get_entity(x, y, layer);
-            if (entity_ptr->visibility != NULL && entity_ptr->visibility->last_seen == tick && entity_ptr->visibility->seen && entity_textures[entity_ptr->type] != NULL) {
+            if (entity_ptr->visibility != NULL && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen && entity_textures[entity_ptr->type] != NULL) {
                 tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
                 if (entity_ptr->tween != NULL) {
                     Vector2 position = get_current_tween_position(*entity_ptr->tween);
@@ -358,37 +358,40 @@ int main(int argc, char* argv[]) {
 
             load_vision_edge_positions(&vision_edge_positions);
 
-            Uint32 start_tick = SDL_GetTicks();
-
             bool quit = false;
 
             bool player_updated = false;
 
-            Uint32 last_updated = SDL_GetTicks();
+            graphic_tick = SDL_GetTicks();
+            last_updated_graphic_tick = SDL_GetTicks();
 
             Uint32 update_delay = 250;
-            
             while (!quit) {
+                last_updated_tick = SDL_GetTicks();
+
                 update_entities();
                 update_server();
                 
-                while (main_player_alive && !player_updated && SDL_GetTicks() < last_updated + update_delay) {
-                    graphic_tick = SDL_GetTicks() - start_tick;
+                while (main_player_alive && !player_updated && SDL_GetTicks() < last_updated_tick + update_delay) {
+                    graphic_tick = SDL_GetTicks();
+                    
                     quit = process_input();
                     player_updated = update_player();
 
                     do {
-                        graphic_tick = SDL_GetTicks() - start_tick;
+                        graphic_tick = SDL_GetTicks();
+
                         update_camera();
                         update_particles();
                         draw_world();
-                    } while (!(main_player_alive && !player_updated) && SDL_GetTicks() < last_updated + update_delay);
+
+                        last_updated_graphic_tick = SDL_GetTicks();
+                    } while (!(main_player_alive && !player_updated) && SDL_GetTicks() < last_updated_tick + update_delay);
                 }
 
                 player_updated = false;
-                last_updated = SDL_GetTicks();
-                
-                tick++;
+
+                game_tick++;
             }
         }
     }
