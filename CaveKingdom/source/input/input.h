@@ -16,16 +16,24 @@ typedef struct Mouse {
 
 extern Mouse mouse;
 
+typedef enum KeyCodes {
+    key_w,
+    key_s,
+    key_a,
+    key_d,
 
-typedef struct Keyboard {
-    bool w_key_pressed;
-    bool s_key_pressed;
-    bool a_key_pressed;
-    bool d_key_pressed;
-} Keyboard;
+    number_of_keys, // DO NOT USE AS KEY CODE !
+} KeyCodes;
 
-extern Keyboard keyboard;
 
+typedef struct Key {
+    bool pressed; // Is the key held down?
+    bool active; // Should the key be seen as pressed? E.g., if the key is pressed, but the game should act like it isn't.
+    Uint32 tick_pressed;
+    int key_code;
+} Key;
+
+extern Key keyboard[number_of_keys];
 
 bool process_input();
 

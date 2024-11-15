@@ -16,6 +16,7 @@
 #include "input/input.h"
 #include "graphics/particles.h"
 #include "networking/networking.h"
+#include "input/input.h"
 
 int game_status = 1;
 
@@ -353,6 +354,7 @@ int main(int argc, char* argv[]) {
         }
         else {
             init_rendering();
+            init_input();
             load_textures();
             load_audio();
 

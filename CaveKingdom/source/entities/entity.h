@@ -1,4 +1,5 @@
 #pragma once
+#include <SDL.h>
 #include <stdbool.h>
 
 #include "inventory/inventory.h"
@@ -9,6 +10,7 @@
 typedef struct Entity {
     int id;
     EntityType type;
+    SDL_Color color;
     HeightLayer height_layer;
     int x, y;
     bool is_obstacle;

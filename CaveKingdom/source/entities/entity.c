@@ -41,6 +41,7 @@ Entity new_entity(EntityType type, int x, int y) {
     Entity new_entity = {
         .id = number_of_entities++,
         .type = type,
+        .color = (SDL_Color){ 128, 128, 128, 255 },
         .height_layer = height_layer_ground,
         .x = x,
         .y = y,
@@ -72,11 +73,14 @@ Entity new_entity(EntityType type, int x, int y) {
     case entity_type_water:
         entity_struct_initiated = true;
 
+        new_entity.color = (SDL_Color){ 144, 203, 239, 255 };
+
         new_entity.is_obstacle = true;
         break;
 
     case entity_type_dirt:
         entity_struct_initiated = true;
+        new_entity.color = (SDL_Color){ 89, 60, 44, 255 };
         break;
 
     case entity_type_ground_empty:
@@ -89,6 +93,8 @@ Entity new_entity(EntityType type, int x, int y) {
     switch (type) {
     case entity_type_player:
         entity_struct_initiated = true;
+
+        new_entity.color = (SDL_Color){ 217, 149, 149, 255 };
 
         new_entity.combat = (Combat*)malloc(sizeof(Combat));
         new_entity.hunger = (Hunger*)malloc(sizeof(Hunger));
@@ -105,6 +111,8 @@ Entity new_entity(EntityType type, int x, int y) {
 
     case entity_type_enemy:
         entity_struct_initiated = true;
+
+        new_entity.color = (SDL_Color){ 217, 149, 149, 255 };
 
         new_entity.brain = (Brain*)malloc(sizeof(Brain));
         new_entity.combat = (Combat*)malloc(sizeof(Combat));
@@ -123,6 +131,8 @@ Entity new_entity(EntityType type, int x, int y) {
 
     case entity_type_zombie:
         entity_struct_initiated = true;
+
+        new_entity.color = (SDL_Color){ 137, 172, 140, 255 };
 
         new_entity.brain = (Brain*)malloc(sizeof(Brain));
         new_entity.combat = (Combat*)malloc(sizeof(Combat));
@@ -147,6 +157,8 @@ Entity new_entity(EntityType type, int x, int y) {
 
     case entity_type_stone:
         entity_struct_initiated = true;
+
+        new_entity.color = (SDL_Color){ 97, 97, 97, 255 };
 
         loot[0] = (ItemStack){ item_type_stone, 3 };
         new_entity.health->max = 5;
@@ -236,6 +248,7 @@ bool force_spawn_entity(Entity entity) {
     *old_entity = entity;
     if (entity.type == entity_type_player) {
         main_player = old_entity;
+        main_player = old_entity;
     }
     return true;
 }
@@ -246,8 +259,8 @@ void hit_entity(Entity* hitter, Entity* target) {
     int damage = hitter->combat->damage - ((target->combat != NULL) ? target->combat->armor : 0);
     target->health->value -= SDL_max(damage, 0);
 
-    for (int i = 0; i < 5; i++)
-        new_particle((target->x + 0.25 + ((float)(rand() % 6)) / 10) * TILE_SIZE, (target->y + 0.25 + ((float)(rand() % 6)) / 10) * TILE_SIZE, (SDL_Color) { 80, 80, 80, 255 });
+    if (target->visibility->seen) for (int i = 0; i < 5; i++)
+        new_particle((target->x + 0.25 + ((float)(rand() % 6)) / 10) * TILE_SIZE, (target->y + 0.25 + ((float)(rand() % 6)) / 10) * TILE_SIZE, target->color);
 
     if (target->health->value <= 0) { 
         if (target->inventory != NULL && hitter->inventory != NULL) collect_inventory(target->inventory, hitter->inventory);
@@ -457,10 +470,10 @@ bool update_player() {
     int player_movement_x = 0;
     int player_movement_y = 0;
 
-    if (keyboard.w_key_pressed) player_movement_y--;
-    if (keyboard.s_key_pressed) player_movement_y++;
-    if (keyboard.a_key_pressed) player_movement_x--;
-    if (keyboard.d_key_pressed) player_movement_x++;
+    if (keyboard[key_w].active) player_movement_y--;
+    if (keyboard[key_s].active) player_movement_y++;
+    if (keyboard[key_a].active) player_movement_x--;
+    if (keyboard[key_d].active) player_movement_x++;
     if (player_movement_x != 0) {
         move_entity(main_player, player_movement_x, 0);
         updated = true;
