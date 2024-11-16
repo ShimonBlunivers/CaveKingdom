@@ -474,6 +474,18 @@ bool update_player() {
     if (keyboard[key_s].active) player_movement_y++;
     if (keyboard[key_a].active) player_movement_x--;
     if (keyboard[key_d].active) player_movement_x++;
+
+    if (keyboard[key_1].active) main_player->inventory->selected_slot = 0;
+    if (keyboard[key_2].active) main_player->inventory->selected_slot = 1;
+    if (keyboard[key_3].active) main_player->inventory->selected_slot = 2;
+    if (keyboard[key_4].active) main_player->inventory->selected_slot = 3;
+    if (keyboard[key_5].active) main_player->inventory->selected_slot = 4;
+    if (keyboard[key_6].active) main_player->inventory->selected_slot = 5;
+    if (keyboard[key_7].active) main_player->inventory->selected_slot = 6;
+    if (keyboard[key_8].active) main_player->inventory->selected_slot = 7;
+    if (keyboard[key_9].active) main_player->inventory->selected_slot = 8;
+    if (keyboard[key_0].active) main_player->inventory->selected_slot = 9;
+    
     if (player_movement_x != 0) {
         move_entity(main_player, player_movement_x, 0);
         updated = true;

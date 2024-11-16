@@ -5,8 +5,8 @@
 #include "graphics/vector.h"
 
 typedef struct Particle {
-    int x;
-    int y;
+    float x;
+    float y;
     int size;
     int finish_tick;
     float weight;

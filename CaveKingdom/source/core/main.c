@@ -30,6 +30,7 @@ SDL_Texture* text = NULL;
 
 
 typedef enum {
+    ui_element_selected_inventory_slot,
     ui_element_inventory_slot,
     ui_element_death_screen,
 
@@ -44,6 +45,7 @@ SDL_Texture* hidden_texture = NULL;
 
 void load_textures() {
     // UI textures
+    ui_textures[ui_element_selected_inventory_slot] = IMG_LoadTexture(renderer, "./assets/textures/ui/selected_inventory_slot.png");
     ui_textures[ui_element_inventory_slot] = IMG_LoadTexture(renderer, "./assets/textures/ui/inventory_slot.png");
     ui_textures[ui_element_death_screen] = IMG_LoadTexture(renderer, "./assets/textures/ui/death_screen.png");
 
@@ -236,11 +238,9 @@ void draw_world() {
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
 
-
         Inventory inventory;
         if (main_player->inventory != NULL) inventory = *main_player->inventory;
         else inventory = get_empty_inventory();
-
 
         int inventory_width = (int)(SCREEN_WIDTH * .9);
         int inventory_height = (int)(SCREEN_HEIGHT * .12);
@@ -252,10 +252,12 @@ void draw_world() {
 
         int slot_index = 0;
         int padding = 20;
+        int text_padding = 10;
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         for (int i = 0; i < INVENTORY_SIZE; i++) {
             SDL_Rect slot_rect = { inventory_rect.x + slot_size * i, inventory_rect.y, slot_size, slot_size };
             SDL_RenderCopy(renderer, ui_textures[ui_element_inventory_slot], NULL, &slot_rect);
+            if (inventory.selected_slot == i) SDL_RenderCopy(renderer, ui_textures[ui_element_selected_inventory_slot], NULL, &slot_rect);
             if (inventory.content[i].type != item_type_empty) {
                 SDL_Rect item_rect = { inventory_rect.x + padding + slot_size * i * slot_index++, inventory_rect.y + padding, slot_size - padding * 2, slot_size - padding * 2 };
 
@@ -264,13 +266,24 @@ void draw_world() {
                 char amount[128];
                 sprintf_s(amount, sizeof(amount), "%d", inventory.content[i].amount);
 
-                int digits = (int)(floor(log10((double)inventory.content[i].amount))) + 1;
-                int digit_size = 24;
-                SDL_Rect amount_rect = { (int)(slot_rect.x + padding / 2), (int)(slot_rect.h + slot_rect.y - padding / 2 - digit_size * 1.5), digit_size * digits , (int)(digit_size * 1.5) };
+                int text_width, text_height;
 
-                SDL_Surface* text_surface = TTF_RenderText_Solid(font, amount, (SDL_Color) { 0, 0, 0, 0 });
+                TTF_SizeUTF8(font, amount, &text_width, &text_height);
+
+                SDL_Rect amount_rect = { 
+                    .x = (int)(slot_rect.x + text_padding),
+                    .y = (int)(slot_rect.y + slot_rect.h - text_padding / 2 - text_height),
+                    .w = text_width,
+                    .h = text_height,
+                };
+
+                SDL_Surface* text_surface = TTF_RenderText_Solid(font, amount, (SDL_Color) { 255, 255, 255, 255 });
                 text = SDL_CreateTextureFromSurface(renderer, text_surface);
+
+                SDL_FreeSurface(text_surface);
                 SDL_RenderCopy(renderer, text, NULL, &amount_rect);
+                SDL_DestroyTexture(text);
+
             }
         }
     }
@@ -339,9 +352,11 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     else {
+        //SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 16);
+
         window = SDL_CreateWindow("CaveKingdom", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_BORDERLESS);
 
-        font = TTF_OpenFont("./assets/fonts/roboto.ttf", 36);
+        font = TTF_OpenFont("./assets/fonts/roboto.ttf", 32);
 
         if (font == NULL)
         {
@@ -374,11 +389,14 @@ int main(int argc, char* argv[]) {
                 update_entities();
                 update_server();
                 
-                while (main_player_alive && !player_updated && SDL_GetTicks() < last_updated_tick + update_delay) {
+                while (!player_updated && SDL_GetTicks() < last_updated_tick + update_delay) {
                     graphic_tick = SDL_GetTicks();
-                    
+
                     quit = process_input();
-                    player_updated = update_player();
+
+                    if (main_player_alive) {
+                        player_updated = update_player();
+                    }
 
                     do {
                         graphic_tick = SDL_GetTicks();
@@ -388,7 +406,7 @@ int main(int argc, char* argv[]) {
                         draw_world();
 
                         last_updated_graphic_tick = SDL_GetTicks();
-                    } while (!(main_player_alive && !player_updated) && SDL_GetTicks() < last_updated_tick + update_delay);
+                    } while (!(!player_updated) && SDL_GetTicks() < last_updated_tick + update_delay);
                 }
 
                 player_updated = false;

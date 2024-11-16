@@ -11,7 +11,7 @@ ParticleManager PARTICLE_MANAGER = {
 };
 
 void new_particle(int x, int y, SDL_Color color) {
-	int duration = 200;
+	int duration = 300;
 	ParticleListItem* new_item = malloc(sizeof(ParticleListItem));
 
 	if (new_item == NULL) return;
@@ -26,8 +26,9 @@ void new_particle(int x, int y, SDL_Color color) {
 	particle.y -= 0.5 * particle.size;
 
 
-	particle.weight = 0.01 + (float)(rand() % 10) / 100;
-	particle.velocity = (Vector2f){ ((float)(rand() % 51) - 25) / 100, -(20 + (float)(rand() % 20)) / 100 };
+	particle.weight = ((float)(rand() % 10) + 10) / 20000;
+	particle.velocity = (Vector2f){ ((float)(rand() % 51) - 25) / 300, -(20 + (float)(rand() % 60)) / 1000 };
+
 	particle.finish_tick = graphic_tick + duration;
 	particle.color = color;
 

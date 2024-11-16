@@ -11,11 +11,11 @@ typedef enum EntityType {
     entity_type_ground_empty,
     entity_type_surface_empty,
     entity_type_air_empty,
-
+    
     // Ground types
     entity_type_water,
     entity_type_dirt,
-
+     
     // Surface types
     entity_type_player,
     entity_type_enemy,
@@ -25,6 +25,7 @@ typedef enum EntityType {
 
     // Air types
 
+                 
     number_of_entity_types, // DO NOT USE AS ENTITY TYPE !
 } EntityType;
 

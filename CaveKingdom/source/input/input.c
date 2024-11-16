@@ -25,12 +25,16 @@ bool process_input() {
 
     SDL_Event event;
 
-    //keyboard.w_key_pressed = false;
-    //keyboard.s_key_pressed = false;
-    //keyboard.a_key_pressed = false;
-    //keyboard.d_key_pressed = false;
-
-
+    keyboard[key_1].pressed = false;
+    keyboard[key_2].pressed = false;
+    keyboard[key_3].pressed = false;
+    keyboard[key_4].pressed = false;
+    keyboard[key_5].pressed = false;
+    keyboard[key_6].pressed = false;
+    keyboard[key_7].pressed = false;
+    keyboard[key_8].pressed = false;
+    keyboard[key_9].pressed = false;
+    keyboard[key_0].pressed = false;
 
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) quit = true;
@@ -59,6 +63,18 @@ bool process_input() {
             else if (SDLK_UP == event.key.keysym.sym) camera.y -= 10;
             else if (SDLK_DOWN == event.key.keysym.sym) camera.y += 10;
             //else if (SDLK_r == event.key.keysym.sym) print_inventory(&main_player->inventory);
+
+            else if (SDLK_1 == event.key.keysym.sym) keyboard[key_1].pressed = true;
+            else if (SDLK_2 == event.key.keysym.sym) keyboard[key_2].pressed = true;
+            else if (SDLK_3 == event.key.keysym.sym) keyboard[key_3].pressed = true;
+            else if (SDLK_4 == event.key.keysym.sym) keyboard[key_4].pressed = true;
+            else if (SDLK_5 == event.key.keysym.sym) keyboard[key_5].pressed = true;
+            else if (SDLK_6 == event.key.keysym.sym) keyboard[key_6].pressed = true;
+            else if (SDLK_7 == event.key.keysym.sym) keyboard[key_7].pressed = true;
+            else if (SDLK_8 == event.key.keysym.sym) keyboard[key_8].pressed = true;
+            else if (SDLK_9 == event.key.keysym.sym) keyboard[key_9].pressed = true;
+            else if (SDLK_0 == event.key.keysym.sym) keyboard[key_0].pressed = true;
+
         }
         else if (event.type == SDL_KEYUP) {
             if (SDLK_w == event.key.keysym.sym) keyboard[key_w].pressed = false;
@@ -95,7 +111,6 @@ bool process_input() {
             if (keyboard[i].tick_pressed != graphic_tick && graphic_tick - keyboard[i].tick_pressed < 200) {
                 keyboard[i].active = false;
             } // This makes sure, so the player doesn't accidentaly move 2 tiles while tapping a movement key.
-            
         }
     }
 
