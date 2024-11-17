@@ -1,6 +1,7 @@
 #include "input.h"
 #include "world/chunk.h"
 #include "world/time.h"
+#include "entities/entity.h"
 
 Mouse mouse = { 0, 0, false, false, false };
 Key keyboard[number_of_keys];
@@ -113,6 +114,17 @@ bool process_input() {
             } // This makes sure, so the player doesn't accidentaly move 2 tiles while tapping a movement key.
         }
     }
+
+    if (keyboard[key_1].active) main_player->inventory->selected_slot = 0;
+    if (keyboard[key_2].active) main_player->inventory->selected_slot = 1;
+    if (keyboard[key_3].active) main_player->inventory->selected_slot = 2;
+    if (keyboard[key_4].active) main_player->inventory->selected_slot = 3;
+    if (keyboard[key_5].active) main_player->inventory->selected_slot = 4;
+    if (keyboard[key_6].active) main_player->inventory->selected_slot = 5;
+    if (keyboard[key_7].active) main_player->inventory->selected_slot = 6;
+    if (keyboard[key_8].active) main_player->inventory->selected_slot = 7;
+    if (keyboard[key_9].active) main_player->inventory->selected_slot = 8;
+    if (keyboard[key_0].active) main_player->inventory->selected_slot = 9;
 
     //printf("%d\n", keyboard[2].active);
 

@@ -138,14 +138,14 @@ void draw_world() {
     {   // Tiles
 
         Entity* entity_ptr;
-
         SDL_Rect tile;
 
+        // Rendering the every unseen as darker and every hidden
         for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++) 
         for (x = 0; x < CHUNK_WIDTH; x++) {
             tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
             SDL_RenderCopy(renderer, hidden_texture, NULL, &tile);
-
+            
             for (layer = 0; layer < number_of_height_layers; layer++) {
                 entity_ptr = get_entity(x, y, layer);
                 if (entity_ptr != NULL && entity_ptr->visibility != NULL && entity_ptr->visibility->seen && entity_ptr->visibility->last_seen_as != NULL) {
@@ -158,10 +158,8 @@ void draw_world() {
         }
         
 
-        int max_width = TILE_SIZE;
-        int max_height = (int)(TILE_SIZE * 0.1);
-        ///////////////////////////////////
-        for (int i = 0, j, layer; i < PLAYER_VIEW_DENSITY; i++) {
+        // Checking which tiles are in the player's vision
+        for (int i = 0, j, layer; i < PLAYER_VIEW_DENSITY; i++) { 
             Vector2 end_position = (Vector2){ vision_edge_positions[i].x - PLAYER_VIEW_DISTANCE / 2, vision_edge_positions[i].y - PLAYER_VIEW_DISTANCE / 2 };
             Vector2f direction_vector = vector2f_divide(vector2_to_f(end_position), (Vector2f) { (float)(TILE_SIZE * PLAYER_VIEW_DISTANCE), (float)(TILE_SIZE * PLAYER_VIEW_DISTANCE) });
 
@@ -185,11 +183,15 @@ void draw_world() {
             }
         }
 
-
-        for (int layer = 0, x, y; layer < number_of_height_layers; layer++) 
+        // Rendering seen tiles
+        int max_healthbar_width = TILE_SIZE;
+        int max_healthbar_height = (int)(TILE_SIZE * 0.1);
+        for (int layer = 0, has_tween, y, x; layer < number_of_height_layers; layer++)
+        for (has_tween = 0; has_tween <= 1; has_tween++) // Renders tiles with animation on top of others to avoid unexpected layering
         for (y = 0; y < CHUNK_HEIGHT; y++) 
         for (x = 0; x < CHUNK_WIDTH; x++) {
             entity_ptr = get_entity(x, y, layer);
+            if (has_tween == 0 && entity_ptr->tween == NULL || has_tween == 1 && entity_ptr->tween != NULL)
             if (entity_ptr->visibility != NULL && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen && entity_textures[entity_ptr->type] != NULL) {
                 tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
                 if (entity_ptr->tween != NULL) {
@@ -205,12 +207,12 @@ void draw_world() {
 
                 SDL_RenderCopyEx(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
 
-                // Health
+                // Healthbars
                 if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->value) {
-                    int tile_x = tile.x - max_width / 2 + TILE_SIZE / 2;
+                    int tile_x = tile.x - max_healthbar_width / 2 + TILE_SIZE / 2;
                     int tile_y = tile.y;
-                    SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_width + 1), (max_height + 1) };
-                    SDL_Rect health_rect = { tile_x, tile_y, (int)(max_width * ((float)entity_ptr->health->value / entity_ptr->health->max)), max_height };
+                    SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_healthbar_width + 1), (max_healthbar_height + 1) };
+                    SDL_Rect health_rect = { tile_x, tile_y, (int)(max_healthbar_width * ((float)entity_ptr->health->value / entity_ptr->health->max)), max_healthbar_height };
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                     SDL_RenderFillRect(renderer, &background_rect);
                     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -252,8 +254,13 @@ void draw_world() {
 
         int slot_index = 0;
         int padding = 20;
-        int text_padding = 10;
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+        int text_padding = 15;
+
+        float text_scale = 0.65;
+
+        float outline_offset = 2.0;
+
         for (int i = 0; i < INVENTORY_SIZE; i++) {
             SDL_Rect slot_rect = { inventory_rect.x + slot_size * i, inventory_rect.y, slot_size, slot_size };
             SDL_RenderCopy(renderer, ui_textures[ui_element_inventory_slot], NULL, &slot_rect);
@@ -271,19 +278,44 @@ void draw_world() {
                 TTF_SizeUTF8(font, amount, &text_width, &text_height);
 
                 SDL_Rect amount_rect = { 
-                    .x = (int)(slot_rect.x + text_padding),
-                    .y = (int)(slot_rect.y + slot_rect.h - text_padding / 2 - text_height),
-                    .w = text_width,
-                    .h = text_height,
+                    .x = (int)round(slot_rect.x + text_padding),
+                    .y = (int)round(slot_rect.y + slot_rect.h - text_padding / 2 - text_height * text_scale),
+                    .w = (int)round(text_width * text_scale),
+                    .h = (int)round(text_height * text_scale),
                 };
 
-                SDL_Surface* text_surface = TTF_RenderText_Solid(font, amount, (SDL_Color) { 255, 255, 255, 255 });
-                text = SDL_CreateTextureFromSurface(renderer, text_surface);
+                SDL_Color text_color =  { 255, 255, 255, 255 };
+                SDL_Color text_outline_color = { 0, 0, 0, 255 };
+
+                SDL_Surface* text_outline_surface = TTF_RenderText_Blended(font, amount, text_outline_color);
+
+                SDL_Surface* text_surface = TTF_RenderText_Blended(font, amount, text_color);
+                
+                SDL_Texture* outline_texture = SDL_CreateTextureFromSurface(renderer, text_outline_surface);
+
+                SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
 
                 SDL_FreeSurface(text_surface);
-                SDL_RenderCopy(renderer, text, NULL, &amount_rect);
-                SDL_DestroyTexture(text);
+                SDL_FreeSurface(text_outline_surface);
+                    
+                SDL_Rect outline_rect = {
+                    .w = amount_rect.w,
+                    .h = amount_rect.h,
+                };
 
+                for (int dx = -1; dx <= 1; dx++) {
+                    for (int dy = -1; dy <= 1; dy++) {
+                        if (dx == 0 && dy == 0) continue; // Skip the center position
+                        outline_rect.x = (int)round(amount_rect.x + dx * outline_offset);
+                        outline_rect.y = (int)round(amount_rect.y + dy * outline_offset);
+                        SDL_RenderCopy(renderer, outline_texture, NULL, &outline_rect);
+                    }
+                }
+
+                SDL_RenderCopy(renderer, text_texture, NULL, &amount_rect);
+
+                SDL_DestroyTexture(outline_texture);
+                SDL_DestroyTexture(text_texture);
             }
         }
     }

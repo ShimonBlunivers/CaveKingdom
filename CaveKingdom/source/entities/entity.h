@@ -9,23 +9,22 @@
 
 typedef struct Entity {
     int id;
-    EntityType type;
-    SDL_Color color;
-    HeightLayer height_layer;
     int x, y;
     bool is_obstacle;
-    DemeanorType demeanor;
     int rotation; // 0, 1, 2, 3
     int is_transparent; // int because -1 is unset
 
-    Visibility* visibility;
+    DemeanorType demeanor;
+    EntityType type;
+    SDL_Color color;
+    HeightLayer height_layer;
     Combat* combat;
     Hunger* hunger;
     Health* health;
     Brain* brain;
     Inventory* inventory;
-
     Tween* tween;
+    Visibility* visibility;
 
 } Entity;
 

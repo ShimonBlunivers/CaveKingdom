@@ -1,6 +1,7 @@
 ﻿  main.c
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(200,56): warning C4018: '<=': signed/unsigned mismatch
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(227,55): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(227,73): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(372,13): warning C4013: 'init_input' undefined; assuming extern returning int
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(202,56): warning C4018: '<=': signed/unsigned mismatch
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(229,55): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(229,73): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(260,28): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(404,13): warning C4013: 'init_input' undefined; assuming extern returning int
   CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe
