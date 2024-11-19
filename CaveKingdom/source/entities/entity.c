@@ -47,7 +47,7 @@ Entity new_entity(EntityType type, int x, int y) {
         .y = y,
         .is_obstacle = false,
         .is_transparent = -1,
-
+        .rotation = 0,
         .visibility = malloc(sizeof(Visibility)),
         .health = malloc(sizeof(Health)),
 
@@ -60,6 +60,7 @@ Entity new_entity(EntityType type, int x, int y) {
     };
 
     bool has_inventory = false; // Set this to true if the entity has inventory but doesn't have any loot.
+    bool randomize_rotation = false;
 
     if (new_entity.visibility != NULL) *new_entity.visibility = (Visibility){ false, false, -1 };
     else printf("Error: new_entity.visibility was NULL when creating new entity.\n");
@@ -80,7 +81,11 @@ Entity new_entity(EntityType type, int x, int y) {
 
     case entity_type_dirt:
         entity_struct_initiated = true;
+        randomize_rotation = true;
+
         new_entity.color = (SDL_Color){ 89, 60, 44, 255 };
+
+
         break;
 
     case entity_type_ground_empty:
@@ -106,7 +111,6 @@ Entity new_entity(EntityType type, int x, int y) {
         new_entity.health->max = 10;
         new_entity.is_obstacle = true;
         new_entity.is_transparent = true;
-        new_entity.rotation = 0;
         break;
 
     case entity_type_enemy:
@@ -126,7 +130,6 @@ Entity new_entity(EntityType type, int x, int y) {
         new_entity.health->max = 10;
         new_entity.is_obstacle = true;
         new_entity.is_transparent = true;
-        new_entity.rotation = 0;
         break;
 
     case entity_type_zombie:
@@ -146,7 +149,6 @@ Entity new_entity(EntityType type, int x, int y) {
         new_entity.health->max = 10;
         new_entity.is_obstacle = true;
         new_entity.is_transparent = true;
-        new_entity.rotation = 0;
         break;
 
     case entity_type_wall:
@@ -185,6 +187,7 @@ Entity new_entity(EntityType type, int x, int y) {
         else printf("Error: new_entity.inventory was NULL when creating new entity.\n");
     }
 
+    if (randomize_rotation) new_entity.rotation = rand() % 5;
     if (new_entity.health->value == -1) new_entity.health->value = new_entity.health->max;
     if (new_entity.is_transparent == -1) new_entity.is_transparent = !new_entity.is_obstacle;
 

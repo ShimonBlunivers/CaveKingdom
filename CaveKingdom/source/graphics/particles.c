@@ -26,8 +26,11 @@ void new_particle(int x, int y, SDL_Color color) {
 	particle.y -= 0.5 * particle.size;
 
 
-	particle.weight = ((float)(rand() % 10) + 10) / 20000;
-	particle.velocity = (Vector2f){ ((float)(rand() % 51) - 25) / 300, -(20 + (float)(rand() % 60)) / 1000 };
+
+	float multiplier = 25.;
+
+	particle.weight = 150000.;
+	particle.velocity = (Vector2f){ ((float)(rand() % 51) - 25) * multiplier, -(20 + (float)(rand() % 60)) * multiplier };
 
 	particle.finish_tick = graphic_tick + duration;
 	particle.color = color;
@@ -71,7 +74,7 @@ void remove_particle_list_item(ParticleListItem* list_item) {
 }
 
 bool update_particle_item(ParticleListItem* item) {
-	if (item->particle.finish_tick - graphic_tick <= 0) {
+	if ((int) item->particle.finish_tick - (int) graphic_tick <= 0) {
 		remove_particle_list_item(item);
 		return false;
 	}

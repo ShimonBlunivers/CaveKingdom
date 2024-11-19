@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL_stdinc.h>
+#include <SDL.h>
 
 extern Uint32 game_tick;
 
