@@ -8,7 +8,6 @@ Uint64 previous_counter;
 Uint64 current_counter;
 double delta_time = 0;
 
-
 void update_time() {
     graphic_tick = SDL_GetTicks();
     current_counter = SDL_GetPerformanceCounter();

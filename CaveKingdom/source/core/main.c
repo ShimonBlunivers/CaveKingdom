@@ -191,34 +191,34 @@ void draw_world() {
 
         // Rendering the every unseen as darker
         for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++)
-            for (x = 0; x < CHUNK_WIDTH; x++) {
-                tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
-                for (layer = 0; layer < number_of_height_layers; layer++) {
-                    entity_ptr = get_entity(x, y, layer);
-                    if (entity_ptr != NULL && !is_empty_entity_type(entity_ptr->type) && entity_ptr->visibility != NULL && entity_ptr->visibility->seen && entity_ptr->visibility->last_seen != game_tick && entity_ptr->visibility->last_seen_as != NULL) {
-                        SDL_Texture* texture = entity_textures[entity_ptr->visibility->last_seen_as->type];
-                        SDL_SetTextureColorMod(texture, 128, 128, 128);
-                        SDL_RenderCopyEx(renderer, texture, NULL, &tile, entity_ptr->visibility->last_seen_as->rotation * 90, NULL, false);
-                        SDL_SetTextureColorMod(texture, 255, 255, 255);
-                    }
+        for (x = 0; x < CHUNK_WIDTH; x++) {
+            tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
+            for (layer = 0; layer < number_of_height_layers; layer++) {
+                entity_ptr = get_entity(x, y, layer);
+                if (entity_ptr != NULL && !is_empty_entity_type(entity_ptr->type) && entity_ptr->visibility != NULL && entity_ptr->visibility->seen && entity_ptr->visibility->last_seen != game_tick && entity_ptr->visibility->last_seen_as != NULL) {
+                    SDL_Texture* texture = entity_textures[entity_ptr->visibility->last_seen_as->type];
+                    SDL_SetTextureColorMod(texture, 128, 128, 128);
+                    SDL_RenderCopyEx(renderer, texture, NULL, &tile, entity_ptr->visibility->last_seen_as->rotation * 90, NULL, false);
+                    SDL_SetTextureColorMod(texture, 255, 255, 255);
                 }
             }
+        }
 
         for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++) // Rendering every hidden
-            for (x = 0; x < CHUNK_WIDTH; x++) {
-                bool hidden = true;
-                for (layer = 0; layer < number_of_height_layers; layer++) {
-                    entity_ptr = get_entity(x, y, layer);
-                    if (entity_ptr != NULL && entity_ptr->visibility != NULL && entity_ptr->visibility->seen && entity_ptr->visibility->last_seen_as != NULL) {
-                        hidden = false;
-                    }
-                }
-                if (hidden) {
-                    float hidden_tile_offset = TILE_SIZE * 0.3;
-                    tile = (SDL_Rect){ TILE_SIZE * x - (int)round(hidden_tile_offset), TILE_SIZE * y - (int)round(hidden_tile_offset), TILE_SIZE + (int)round(hidden_tile_offset * 2), TILE_SIZE + (int)round(hidden_tile_offset * 2) };
-                    SDL_RenderCopy(renderer, hidden_texture, NULL, &tile);
+        for (x = 0; x < CHUNK_WIDTH; x++) {
+            bool hidden = true;
+            for (layer = 0; layer < number_of_height_layers; layer++) {
+                entity_ptr = get_entity(x, y, layer);
+                if (entity_ptr != NULL && entity_ptr->visibility != NULL && entity_ptr->visibility->seen && entity_ptr->visibility->last_seen_as != NULL) {
+                    hidden = false;
                 }
             }
+            if (hidden) {
+                float hidden_tile_offset = TILE_SIZE * 0.3;
+                tile = (SDL_Rect){ TILE_SIZE * x - (int)round(hidden_tile_offset), TILE_SIZE * y - (int)round(hidden_tile_offset), TILE_SIZE + (int)round(hidden_tile_offset * 2), TILE_SIZE + (int)round(hidden_tile_offset * 2) };
+                SDL_RenderCopy(renderer, hidden_texture, NULL, &tile);
+            }
+        }
     }
 
     {   // Particles
@@ -240,28 +240,28 @@ void draw_world() {
             int max_healthbar_width = TILE_SIZE;
             int max_healthbar_height = (int)(TILE_SIZE * 0.1);
             for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++)
-                for (x = 0; x < CHUNK_WIDTH; x++) 
-                    for (layer = 0; layer < number_of_height_layers; layer++) {
-                        entity_ptr = get_entity(x, y, layer);
-                        if (entity_ptr->visibility != NULL && !is_empty_entity_type(entity_ptr->type) && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen && entity_textures[entity_ptr->type] != NULL) {
-                            if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->value) {
-                                tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
-                                if (entity_ptr->tween != NULL) {
-                                    Vector2 position = get_current_tween_position(*entity_ptr->tween);
-                                    tile.x = position.x;
-                                    tile.y = position.y;
-                                }
-                                int tile_x = tile.x - max_healthbar_width / 2 + TILE_SIZE / 2;
-                                int tile_y = tile.y;
-                                SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_healthbar_width + 1), (max_healthbar_height + 1) };
-                                SDL_Rect health_rect = { tile_x, tile_y, (int)(max_healthbar_width * ((float)entity_ptr->health->value / entity_ptr->health->max)), max_healthbar_height };
-                                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-                                SDL_RenderFillRect(renderer, &background_rect);
-                                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                                SDL_RenderFillRect(renderer, &health_rect);
-                            }
+            for (x = 0; x < CHUNK_WIDTH; x++) 
+            for (layer = 0; layer < number_of_height_layers; layer++) {
+                entity_ptr = get_entity(x, y, layer);
+                if (entity_ptr->visibility != NULL && !is_empty_entity_type(entity_ptr->type) && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen && entity_textures[entity_ptr->type] != NULL) {
+                    if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->value) {
+                        tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
+                        if (entity_ptr->tween != NULL) {
+                            Vector2 position = get_current_tween_position(*entity_ptr->tween);
+                            tile.x = position.x;
+                            tile.y = position.y;
                         }
+                        int tile_x = tile.x - max_healthbar_width / 2 + TILE_SIZE / 2;
+                        int tile_y = tile.y;
+                        SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_healthbar_width + 1), (max_healthbar_height + 1) };
+                        SDL_Rect health_rect = { tile_x, tile_y, (int)(max_healthbar_width * ((float)entity_ptr->health->value / entity_ptr->health->max)), max_healthbar_height };
+                        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                        SDL_RenderFillRect(renderer, &background_rect);
+                        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                        SDL_RenderFillRect(renderer, &health_rect);
                     }
+                }
+            }
         }
 
         SDL_SetRenderTarget(renderer, gui);
@@ -276,7 +276,6 @@ void draw_world() {
 
         int inventory_width = (int)(SCREEN_WIDTH * .9);
         int inventory_height = (int)(SCREEN_HEIGHT * .12);
-
 
         SDL_Rect inventory_rect = { (SCREEN_WIDTH - inventory_width) / 2,  SCREEN_HEIGHT - inventory_height - 10, inventory_width, inventory_height };
 

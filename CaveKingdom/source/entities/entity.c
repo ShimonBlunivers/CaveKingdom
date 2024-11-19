@@ -388,10 +388,12 @@ bool move_entity(Entity* entity, int x, int y) {
 
     Entity* neigbour = get_entity(entity->x + x, entity->y + y, entity->height_layer);
 
-    if (is_tile_obstacle(entity->x + x, entity->y + y)) return false;
-  
+    bool collided = is_tile_obstacle(entity->x + x, entity->y + y);
+    if (entity->type == entity_type_player && collided) printf("Collisions: x: %d , y: %d , layer: %d\n", entity->x + x, entity->y + y, entity->height_layer);
+    if (collided) return false;
 
     switch_entities(entity, neigbour);
+
     return true;
 }
 
@@ -404,8 +406,7 @@ float get_movement_randomisation() {
 }
 
 void update_entities() {
-    for (int i = 0; i < CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers; i++)
-    {
+    for (int i = 0; i < CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers; i++) {
         Entity* entity = &entity_list[i];
 
         if (entity->brain != NULL && entity->brain->active) {
@@ -477,14 +478,22 @@ bool update_player() {
     if (keyboard[key_a].active) player_movement_x--;
     if (keyboard[key_d].active) player_movement_x++;
     
+    bool moved_x = false;
+    bool moved_y = false;
     if (player_movement_x != 0) {
-        move_entity(main_player, player_movement_x, 0);
+        moved_x = move_entity(main_player, player_movement_x, 0);
         updated = true;
     }
     if (player_movement_y != 0) {
-        move_entity(main_player, 0, player_movement_y);
+        moved_y = move_entity(main_player, 0, player_movement_y);
         updated = true;
     }
+
+    if (moved_x && moved_y) printf("moved diagonal\n");
+    else if (moved_x) printf("moved X %d\n", moved_x);
+    else if (moved_y) printf("moved Y %d\n", moved_y);
+    
+    if (player_movement_x || player_movement_y) printf("x: %d ; y: %d\n", player_movement_x, player_movement_y);
 
     return updated;
 }
