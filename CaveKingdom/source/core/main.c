@@ -180,31 +180,26 @@ void draw_world() {
                     tile.x = position.x;
                     tile.y = position.y;
 
-                    if (entity_ptr->tween->finish_tick <= graphic_tick) {
+                    if (entity_ptr->tween->finish_tick <= (int) graphic_tick) {
                         delete_tween(entity_ptr->tween);
                         entity_ptr->tween = NULL;
                     }
                 }
-
                 SDL_RenderCopyEx(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
             }
         }
 
-        // Rendering the every unseen as darker and every hidden
+        // Rendering the every unseen as darker
         for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++)
             for (x = 0; x < CHUNK_WIDTH; x++) {
                 tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
-                bool rendered = false;
-                for (layer = number_of_height_layers - 1; layer >= 0; layer--) {
-                    if (rendered) continue;
+                for (layer = 0; layer < number_of_height_layers; layer++) {
                     entity_ptr = get_entity(x, y, layer);
                     if (entity_ptr != NULL && !is_empty_entity_type(entity_ptr->type) && entity_ptr->visibility != NULL && entity_ptr->visibility->seen && entity_ptr->visibility->last_seen != game_tick && entity_ptr->visibility->last_seen_as != NULL) {
-                        rendered = true;
                         SDL_Texture* texture = entity_textures[entity_ptr->visibility->last_seen_as->type];
                         SDL_SetTextureColorMod(texture, 128, 128, 128);
                         SDL_RenderCopyEx(renderer, texture, NULL, &tile, entity_ptr->visibility->last_seen_as->rotation * 90, NULL, false);
                         SDL_SetTextureColorMod(texture, 255, 255, 255);
-                        
                     }
                 }
             }
@@ -219,8 +214,8 @@ void draw_world() {
                     }
                 }
                 if (hidden) {
-                    int hidden_tile_offset = 9;
-                    tile = (SDL_Rect){ TILE_SIZE * x - hidden_tile_offset, TILE_SIZE * y - hidden_tile_offset, TILE_SIZE + hidden_tile_offset * 2, TILE_SIZE + hidden_tile_offset * 2 };
+                    float hidden_tile_offset = TILE_SIZE * 0.3;
+                    tile = (SDL_Rect){ TILE_SIZE * x - (int)round(hidden_tile_offset), TILE_SIZE * y - (int)round(hidden_tile_offset), TILE_SIZE + (int)round(hidden_tile_offset * 2), TILE_SIZE + (int)round(hidden_tile_offset * 2) };
                     SDL_RenderCopy(renderer, hidden_texture, NULL, &tile);
                 }
             }
@@ -230,7 +225,7 @@ void draw_world() {
         SDL_Rect particle_rect;
         ParticleListItem* item = PARTICLE_MANAGER.first_particle;
         while (item != NULL) {
-            particle_rect = (SDL_Rect){ item->particle.x, item->particle.y, item->particle.size, item->particle.size };
+            particle_rect = (SDL_Rect){ (int)round(item->particle.x), (int)round(item->particle.y), item->particle.size, item->particle.size };
             SDL_SetRenderDrawColor(renderer, item->particle.color.r, item->particle.color.g, item->particle.color.b, item->particle.color.a);
             SDL_RenderFillRect(renderer, &particle_rect);
             item = item->next_list_item;
@@ -239,34 +234,34 @@ void draw_world() {
     
     {   // UI
 
-        {// Healthbars
-        Entity* entity_ptr;
-        SDL_Rect tile;
-        int max_healthbar_width = TILE_SIZE;
-        int max_healthbar_height = (int)(TILE_SIZE * 0.1);
-        for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++)
-            for (x = 0; x < CHUNK_WIDTH; x++) 
-                for (layer = 0; layer < number_of_height_layers; layer++) {
-                    entity_ptr = get_entity(x, y, layer);
-                    if (entity_ptr->visibility != NULL && !is_empty_entity_type(entity_ptr->type) && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen && entity_textures[entity_ptr->type] != NULL) {
-                        tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
-                        if (entity_ptr->tween != NULL) {
-                            Vector2 position = get_current_tween_position(*entity_ptr->tween);
-                            tile.x = position.x;
-                            tile.y = position.y;
-                        }
-                        if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->value) {
-                            int tile_x = tile.x - max_healthbar_width / 2 + TILE_SIZE / 2;
-                            int tile_y = tile.y;
-                            SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_healthbar_width + 1), (max_healthbar_height + 1) };
-                            SDL_Rect health_rect = { tile_x, tile_y, (int)(max_healthbar_width * ((float)entity_ptr->health->value / entity_ptr->health->max)), max_healthbar_height };
-                            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-                            SDL_RenderFillRect(renderer, &background_rect);
-                            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                            SDL_RenderFillRect(renderer, &health_rect);
+        {   // Healthbars
+            Entity* entity_ptr;
+            SDL_Rect tile;
+            int max_healthbar_width = TILE_SIZE;
+            int max_healthbar_height = (int)(TILE_SIZE * 0.1);
+            for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++)
+                for (x = 0; x < CHUNK_WIDTH; x++) 
+                    for (layer = 0; layer < number_of_height_layers; layer++) {
+                        entity_ptr = get_entity(x, y, layer);
+                        if (entity_ptr->visibility != NULL && !is_empty_entity_type(entity_ptr->type) && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen && entity_textures[entity_ptr->type] != NULL) {
+                            if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->value) {
+                                tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
+                                if (entity_ptr->tween != NULL) {
+                                    Vector2 position = get_current_tween_position(*entity_ptr->tween);
+                                    tile.x = position.x;
+                                    tile.y = position.y;
+                                }
+                                int tile_x = tile.x - max_healthbar_width / 2 + TILE_SIZE / 2;
+                                int tile_y = tile.y;
+                                SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_healthbar_width + 1), (max_healthbar_height + 1) };
+                                SDL_Rect health_rect = { tile_x, tile_y, (int)(max_healthbar_width * ((float)entity_ptr->health->value / entity_ptr->health->max)), max_healthbar_height };
+                                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                                SDL_RenderFillRect(renderer, &background_rect);
+                                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                                SDL_RenderFillRect(renderer, &health_rect);
+                            }
                         }
                     }
-                }
         }
 
         SDL_SetRenderTarget(renderer, gui);
@@ -292,7 +287,7 @@ void draw_world() {
 
         int text_padding = 15;
 
-        float text_scale = 0.65;
+        float text_scale = 0.65f;
 
         float outline_offset = 2.0;
 
@@ -448,6 +443,9 @@ int main(int argc, char* argv[]) {
 
             graphic_tick = SDL_GetTicks();
 
+            previous_counter = SDL_GetPerformanceCounter();
+
+            update_time();
             Uint32 update_delay = 250;
             while (!quit) {
                 last_updated_tick = SDL_GetTicks();
@@ -456,21 +454,16 @@ int main(int argc, char* argv[]) {
                 update_server();
                 
                 while (!player_updated && SDL_GetTicks() < last_updated_tick + update_delay) {
-                    graphic_tick = SDL_GetTicks();
-
                     quit = process_input();
 
-                    if (main_player_alive) {
-                        player_updated = update_player();
-                    }
+                    if (main_player_alive) player_updated = update_player();
 
                     do {
-                        graphic_tick = SDL_GetTicks();
-
                         update_camera();
                         update_particles();
                         draw_world();
 
+                        update_time();  
                     } while (!(!player_updated) && SDL_GetTicks() < last_updated_tick + update_delay);
                 }
 

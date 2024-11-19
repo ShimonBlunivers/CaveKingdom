@@ -85,7 +85,6 @@ Entity new_entity(EntityType type, int x, int y) {
 
         new_entity.color = (SDL_Color){ 89, 60, 44, 255 };
 
-
         break;
 
     case entity_type_ground_empty:
