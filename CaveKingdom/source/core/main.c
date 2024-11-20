@@ -152,7 +152,8 @@ void draw_world() {
             for (j = 0; j < PLAYER_VIEW_DISTANCE; j++) {
                 current_position = (Vector2){ (int)(direction_vector.x * j), (int)(direction_vector.y * j) };
                 entity_ptr = get_entity(current_position.x + main_player->x, current_position.y + main_player->y, height_layer_surface);
-                if (entity_ptr != NULL) 
+                bool transparent = true;
+                if (entity_ptr != NULL)
                     for (layer = 0; layer < number_of_height_layers; layer++) {
                         Entity* entity_at_layer = get_entity(entity_ptr->x, entity_ptr->y, layer);
                         if (entity_at_layer != NULL && entity_at_layer->visibility != NULL) {
@@ -160,9 +161,10 @@ void draw_world() {
                             entity_at_layer->visibility->seen = true;
                             entity_at_layer->visibility->last_seen = game_tick;
                             entity_at_layer->visibility->last_seen_as = entity_at_layer;
+                            if (!entity_ptr->is_transparent) transparent = false;
                         }
-                }
-                if (entity_ptr == NULL || !entity_ptr->is_transparent) break;
+                    }
+                if (entity_ptr == NULL || !transparent) break;
             }
         }
 
@@ -373,9 +375,8 @@ void draw_world() {
 int main(int argc, char* argv[]) {
     srand((int)(time(NULL)));
 
-    reset_grids();
-    create_edge_walls();
-    generate_world(rand() % 100000);
+    init_chunk_manager();
+
 
     //  Testing setup
     {

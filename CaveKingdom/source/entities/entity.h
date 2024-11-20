@@ -4,7 +4,6 @@
 
 #include "inventory/inventory.h"
 #include "entities/entity_component.h"
-
 #include "graphics/animation.h"
 
 typedef struct Entity {
@@ -42,12 +41,9 @@ Vector2 find_empty_tile();
 
 void spawn_player();
 
-void reset_grids();
-void generate_world(int seed);
-void create_edge_walls();
 void update_entities();
 bool update_player();
-void free_world();
+
 
 extern Entity* main_player;
 extern bool main_player_alive;

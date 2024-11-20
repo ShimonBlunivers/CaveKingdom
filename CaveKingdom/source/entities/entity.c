@@ -3,13 +3,10 @@
 #include <SDL.h>
 
 #include "entities/entity.h"
-#include "world/chunk.h"
-#include "inventory/inventory.h"
+
 #include "input/input.h"
+#include "world/chunk.h"
 
-#include "world/perlin.h"
-
-#include "graphics/animation.h"
 #include "world/time.h"
 #include "graphics/particles.h"
 
@@ -23,9 +20,8 @@ const EntityType empty_entity_types[number_of_height_layers] = {
     entity_type_air_empty,
 }; // List of empty types for every layer, ascending.
 
-
-Entity entity_list[CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers];
-Entity* entity_position_grid[CHUNK_WIDTH * CHUNK_HEIGHT][number_of_height_layers]; // For quicker access through coordinates
+//Entity entity_list[CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers];
+//Entity* entity_position_grid[CHUNK_WIDTH * CHUNK_HEIGHT][number_of_height_layers]; // For quicker access through coordinates
 
 
 bool is_empty_entity_type(EntityType entity_type) {
@@ -34,6 +30,7 @@ bool is_empty_entity_type(EntityType entity_type) {
 }
 
 Entity new_entity(EntityType type, int x, int y) {
+
     HeightLayer height_layer;
 
     ItemStack loot[INVENTORY_SIZE] = { (ItemStack) { item_type_empty, 0 } };
@@ -217,18 +214,24 @@ void destroy_entity(Entity* entity) {
         e->visibility->seen = false;
         e->visibility->last_seen_as = NULL;
     }
-
-    *entity_position_grid[entity->y * CHUNK_WIDTH + entity->x][empty_entity.height_layer] = empty_entity;
+    
+    Chunk* chunk = get_chunk_from_global_position(entity->x, entity->y);
+    *chunk->entity_position_grid[entity->y * CHUNK_WIDTH + entity->x][empty_entity.height_layer] = empty_entity;
 }
 
 Entity* get_entity(int x, int y, HeightLayer layer) {
-    if ( x < 0 || y < 0 || x >= CHUNK_WIDTH || y >= CHUNK_HEIGHT || layer >= number_of_height_layers || layer < 0) return NULL;
-    return entity_position_grid[y * CHUNK_WIDTH + x][layer];
+    Chunk* chunk = get_chunk_from_global_position(x / CHUNK_WIDTH, y / CHUNK_HEIGHT);
+
+
+    if (chunk == NULL) return NULL;
+
+    return get_entity_from_chunk(chunk, x, y, layer);
 }
 
-bool set_entity(int x, int y, Entity* enity) {
-    if (x < 0 || y < 0 || x >= CHUNK_WIDTH || y >= CHUNK_HEIGHT) return false;
-    entity_position_grid[y * CHUNK_WIDTH + x][enity->height_layer] = enity;
+bool set_entity(int x, int y, Entity* entity) {
+    Chunk* chunk = get_chunk_from_global_position(x / CHUNK_WIDTH, y / CHUNK_HEIGHT);
+    if (chunk == NULL) return false;
+    chunk->entity_position_grid[y * CHUNK_WIDTH + x][entity->height_layer] = entity;
     return true;
 }
 
@@ -250,7 +253,6 @@ bool force_spawn_entity(Entity entity) {
     *old_entity = entity;
     if (entity.type == entity_type_player) {
         main_player = old_entity;
-        main_player = old_entity;
     }
     return true;
 }
@@ -258,6 +260,8 @@ bool force_spawn_entity(Entity entity) {
 bool hit_entity(Entity* hitter, Entity* target) {
     if (target == NULL || hitter->combat == NULL) return false;
     if (hitter->combat->damage <= 0 || target->health->max < 0 ) return false;
+
+
     int damage = hitter->combat->damage - ((target->combat != NULL) ? target->combat->armor : 0);
     target->health->value -= SDL_max(damage, 0);
 
@@ -309,39 +313,9 @@ void switch_entities(Entity* entity1, Entity* entity2) {
     set_entity(x2, y2, temp_entity);
 }
 
-void reset_grids() {
-    for (int layer = 0; layer < number_of_height_layers; layer++) {
-        for (int i = 0; i < CHUNK_WIDTH * CHUNK_HEIGHT; i++) {
-            if (layer == height_layer_ground) entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer] = new_entity(entity_type_dirt, i % CHUNK_WIDTH, i / CHUNK_WIDTH);
-            if (layer == height_layer_surface) entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer] = new_entity(entity_type_surface_empty, i % CHUNK_WIDTH, i / CHUNK_WIDTH);
 
-            entity_position_grid[i][layer] = &entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer];
-        }
-    }
-}
 
-void generate_world(int seed) {
-    float freq = 10;
-    float amp = 0.1;
 
-    for (int y = 0; y < CHUNK_HEIGHT; y++) {
-        for (int x = 0; x < CHUNK_WIDTH; x++) {
-            if (!(x == 0 || y == 0 || x == CHUNK_WIDTH - 1 || y == CHUNK_HEIGHT - 1)) {
-                float noise = perlin((x + seed) * freq / CHUNK_WIDTH, (y + seed) * freq / CHUNK_HEIGHT) * amp;
-                if (noise > -0.1) force_spawn_entity(new_entity(entity_type_stone, x, y));
-                else force_spawn_entity(new_entity(entity_type_surface_empty, x, y));
-            }
-        }
-    }
-}
-
-void create_edge_walls() {
-    for (int y = 0; y < CHUNK_HEIGHT; y++)
-        for (int x = 0; x < CHUNK_WIDTH; x++)
-            if (x == 0 || y == 0 || x == CHUNK_WIDTH - 1 || y == CHUNK_HEIGHT - 1) {
-                force_spawn_entity(new_entity(entity_type_water, x, y));
-            }
-}
 
 bool is_tile_obstacle(int x, int y) {
     for (int layer = 0; layer < number_of_height_layers; layer++) {
@@ -402,50 +376,48 @@ float get_movement_randomisation() {
 }
 
 void update_entities() {
-    for (int i = 0; i < CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers; i++) {
-        Entity* entity = &entity_list[i];
+    for (int chunk_index = 0; chunk_index < CHUNK_MANAGER.number_of_chunks; chunk_index++) {
+        Chunk* chunk = CHUNK_MANAGER.chunks[chunk_index];
+        for (int i = 0; i < CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers; i++) {
+            Entity* entity = &chunk->entity_list[i];
 
-        if (entity->brain != NULL && entity->brain->active) {
-            for (int j = 0; j < 4; j++) {
-                int x = j < 2 ? -1 + (j % 2) * 2 : 0;
-                int y = j >= 2 ? -1 + ((j + 2) % 2) * 2 : 0;
-                Entity* neighbour = get_entity(entity->x + x, entity->y + y, entity->height_layer);
-                if (neighbour->health->value > 0) {
-                    entity->brain->desired_direction = vector2f_sum(entity->brain->desired_direction, (Vector2f) { x * .5 , y * .5 });
-                    hit_entity(entity, neighbour);
+            if (entity->brain != NULL && entity->brain->active) {
+                for (int j = 0; j < 4; j++) {
+                    int x = j < 2 ? -1 + (j % 2) * 2 : 0;
+                    int y = j >= 2 ? -1 + ((j + 2) % 2) * 2 : 0;
+                    Entity* neighbour = get_entity(entity->x + x, entity->y + y, entity->height_layer);
+                    if (neighbour->health->value > 0) {
+                        entity->brain->desired_direction = vector2f_sum(entity->brain->desired_direction, (Vector2f) { x * .5, y * .5 });
+                        hit_entity(entity, neighbour);
+                    }
+                    else if (neighbour->is_obstacle || get_entity(entity->x + x, entity->y + y, entity->height_layer - 1)->is_obstacle) {
+                        entity->brain->desired_direction = vector2f_sum(entity->brain->desired_direction, (Vector2f) { -x * .2, -y * .2 });
+                    }
                 }
-                else if (neighbour->is_obstacle || get_entity(entity->x + x, entity->y + y, entity->height_layer -1)->is_obstacle) {
-                    entity->brain->desired_direction = vector2f_sum(entity->brain->desired_direction, (Vector2f) { -x * .2, -y * .2 });
-                }
+
+                entity->brain->desired_direction = vector2f_sum(entity->brain->desired_direction, (Vector2f) { -.1 + ((rand() % 3)) / 10., -.1 + ((rand() % 3)) / 10. });
+
+                entity->brain->desired_direction.x = SDL_clamp(entity->brain->desired_direction.x, -1., 1.);
+                entity->brain->desired_direction.y = SDL_clamp(entity->brain->desired_direction.y, -1., 1.);
+
+                if (entity->brain->desired_direction.x > 0.5 * get_movement_randomisation())
+                    move_entity(entity, 1, 0);
+                else if (entity->brain->desired_direction.x < -0.5)
+                    move_entity(entity, -1, 0);
+                if (entity->brain->desired_direction.y > 0.5)
+                    move_entity(entity, 0, 1);
+                else if (entity->brain->desired_direction.y < -0.5 * get_movement_randomisation())
+                    move_entity(entity, 0, -1);
             }
 
-            entity->brain->desired_direction = vector2f_sum(entity->brain->desired_direction, (Vector2f) { -.1 + ((rand() % 3)) / 10., -.1 + ((rand() % 3)) / 10. });
-            
-            entity->brain->desired_direction.x = SDL_clamp(entity->brain->desired_direction.x, -1., 1.);
-            entity->brain->desired_direction.y = SDL_clamp(entity->brain->desired_direction.y, -1., 1.);
-
-            if (entity->brain->desired_direction.x > 0.5 * get_movement_randomisation())
-                move_entity(entity, 1, 0);
-            else if (entity->brain->desired_direction.x < -0.5)
-                move_entity(entity, -1, 0);
-            if (entity->brain->desired_direction.y > 0.5)
-                move_entity(entity, 0, 1);
-            else if (entity->brain->desired_direction.y < -0.5 * get_movement_randomisation())
-                move_entity(entity, 0, -1);
-        }
-
-        switch (entity->type) {
-            break;
+            switch (entity->type) {
+                break;
             case entity_type_zombie:
             case entity_type_enemy:
                 break;
+            }
         }
     }
-}
-
-void free_world() {
-    for (int i = 0; i < CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers; i++)
-        free_entity(&entity_list[i]);
 }
 
 bool update_player() {
@@ -457,6 +429,7 @@ bool update_player() {
 
         if (abs(distance.x) <= 1 && abs(distance.y) <= 1) {
             Entity* entity_clicked = get_entity(clicked_tile_position.x, clicked_tile_position.y, height_layer_surface);
+
             if (entity_clicked->type != entity_type_player) {
                 updated |= hit_entity(main_player, entity_clicked);
             }
@@ -484,6 +457,7 @@ bool update_player() {
         }
         updated |= moved_x | moved_y;
     }
+
 
     return updated;
 }
