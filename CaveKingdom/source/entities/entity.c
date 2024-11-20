@@ -255,9 +255,9 @@ bool force_spawn_entity(Entity entity) {
     return true;
 }
 
-void hit_entity(Entity* hitter, Entity* target) {
-    if (target == NULL || hitter->combat == NULL) return;
-    if (hitter->combat->damage <= 0 || target->health->max < 0 ) return;
+bool hit_entity(Entity* hitter, Entity* target) {
+    if (target == NULL || hitter->combat == NULL) return false;
+    if (hitter->combat->damage <= 0 || target->health->max < 0 ) return false;
     int damage = hitter->combat->damage - ((target->combat != NULL) ? target->combat->armor : 0);
     target->health->value -= SDL_max(damage, 0);
 
@@ -268,6 +268,7 @@ void hit_entity(Entity* hitter, Entity* target) {
         if (target->inventory != NULL && hitter->inventory != NULL) collect_inventory(target->inventory, hitter->inventory);
         destroy_entity(target); 
     }
+    return true;
 }
 
 void switch_entities(Entity* entity1, Entity* entity2) {
@@ -326,14 +327,11 @@ void generate_world(int seed) {
     for (int y = 0; y < CHUNK_HEIGHT; y++) {
         for (int x = 0; x < CHUNK_WIDTH; x++) {
             if (!(x == 0 || y == 0 || x == CHUNK_WIDTH - 1 || y == CHUNK_HEIGHT - 1)) {
-
                 float noise = perlin((x + seed) * freq / CHUNK_WIDTH, (y + seed) * freq / CHUNK_HEIGHT) * amp;
-                //printf("%.2f |", noise);
                 if (noise > -0.1) force_spawn_entity(new_entity(entity_type_stone, x, y));
                 else force_spawn_entity(new_entity(entity_type_surface_empty, x, y));
             }
         }
-        //printf("\n");
     }
 }
 
@@ -347,7 +345,6 @@ void create_edge_walls() {
 
 bool is_tile_obstacle(int x, int y) {
     for (int layer = 0; layer < number_of_height_layers; layer++) {
-        //if (layer == entity->height_layer) continue;
         if (get_entity(x, y, layer)->is_obstacle) return true;
     }
     return false;
@@ -377,7 +374,6 @@ Vector2 find_empty_tile() {
 }
 
 void spawn_player() {
-
     Vector2 spawn_position = find_empty_tile();
     force_spawn_entity(new_entity(entity_type_player, spawn_position.x, spawn_position.y));
 }
@@ -389,13 +385,13 @@ bool move_entity(Entity* entity, int x, int y) {
     Entity* neigbour = get_entity(entity->x + x, entity->y + y, entity->height_layer);
 
     bool collided = is_tile_obstacle(entity->x + x, entity->y + y);
-    if (entity->type == entity_type_player && collided) printf("Collisions: x: %d , y: %d , layer: %d\n", entity->x + x, entity->y + y, entity->height_layer);
     if (collided) return false;
 
     switch_entities(entity, neigbour);
 
     return true;
 }
+
 
 int random_direction() {
     return 1 - rand()%3;
@@ -457,15 +453,12 @@ bool update_player() {
 
     if (mouse.left_button_pressed) {
         Vector2 clicked_tile_position = from_screen_to_tile_coords((Vector2) { mouse.x, mouse.y });
-
         Vector2 distance = vector2_subtract(clicked_tile_position, (Vector2) { main_player->x, main_player->y });
 
         if (abs(distance.x) <= 1 && abs(distance.y) <= 1) {
             Entity* entity_clicked = get_entity(clicked_tile_position.x, clicked_tile_position.y, height_layer_surface);
-
             if (entity_clicked->type != entity_type_player) {
-                hit_entity(main_player, entity_clicked);
-                updated = true;
+                updated |= hit_entity(main_player, entity_clicked);
             }
         }
     }
@@ -480,20 +473,17 @@ bool update_player() {
     
     bool moved_x = false;
     bool moved_y = false;
-    if (player_movement_x != 0) {
+    if (player_movement_x) {
         moved_x = move_entity(main_player, player_movement_x, 0);
-        updated = true;
+        updated |= moved_x;
     }
-    if (player_movement_y != 0) {
+    if (player_movement_y) {
         moved_y = move_entity(main_player, 0, player_movement_y);
-        updated = true;
+        if (player_movement_x && !moved_x) {
+            move_entity(main_player, player_movement_x, 0);
+        }
+        updated |= moved_x | moved_y;
     }
-
-    if (moved_x && moved_y) printf("moved diagonal\n");
-    else if (moved_x) printf("moved X %d\n", moved_x);
-    else if (moved_y) printf("moved Y %d\n", moved_y);
-    
-    if (player_movement_x || player_movement_y) printf("x: %d ; y: %d\n", player_movement_x, player_movement_y);
 
     return updated;
 }

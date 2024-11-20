@@ -36,7 +36,7 @@ Entity* get_entity(int x, int y, HeightLayer layer);
 bool set_entity(int x, int y, Entity* entity);
 bool spawn_entity(Entity entity);
 bool force_spawn_entity(Entity entity);
-void hit_entity(Entity* hitter, Entity* target);
+bool hit_entity(Entity* hitter, Entity* target);
 Vector2 find_empty_tile();
 //bool switch_entities(int x1, int y1, int x2, int y2, HeightLayer layer);
 

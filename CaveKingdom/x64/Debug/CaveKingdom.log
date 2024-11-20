@@ -1,16 +1,21 @@
-﻿  entity.c
+﻿  main.c
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(433,13): warning C4013: 'init_input' undefined; assuming extern returning int
+  entity.c
 D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(65,65): warning C4047: 'initializing': 'Entity *' differs in levels of indirection from 'int'
 D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(37,17): warning C4101: 'height_layer': unreferenced local variable
 D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(265,70): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
 D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(265,131): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(324,17): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(405,15): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(418,118): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(418,127): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(422,119): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(422,128): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(426,112): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(426,140): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(428,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(429,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(325,17): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(401,15): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(414,118): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(414,127): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(418,119): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(418,128): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(422,112): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(422,140): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(424,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(425,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  camera.c
+  input.c
+  Generating Code...
   CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe
