@@ -42,5 +42,5 @@ Entity* get_entity_from_chunk(Chunk* chunk, int x, int y, HeightLayer layer);
 
 void reset_grid(Chunk* chunk);
 void generate_world(Chunk* chunk, int seed);
-void create_edge_walls();
+void create_edge_walls(Chunk* chunk);
 void free_world();
