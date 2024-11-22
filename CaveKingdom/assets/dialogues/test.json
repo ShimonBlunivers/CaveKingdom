@@ -1,0 +1,5 @@
+{
+	"id": "1",
+	"text": ["This is the dialogue.", "This is the next line."],
+	"next_id": "2"
+}
