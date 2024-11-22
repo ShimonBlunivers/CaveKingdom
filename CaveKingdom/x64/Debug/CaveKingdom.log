@@ -1,2 +1,5 @@
-﻿  input.c
-  CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe
+﻿  chunk.c
+D:\Programming\C\CaveKingdom\CaveKingdom\source\world\chunk.c(99,3): warning C4013: 'free_entity' undefined; assuming extern returning int
+D:\Programming\C\CaveKingdom\CaveKingdom\source\world\chunk.c(112,45): warning C4244: 'function': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\world\chunk.c(112,78): warning C4244: 'function': conversion from 'double' to 'float', possible loss of data
+  CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe

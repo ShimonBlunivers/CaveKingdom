@@ -1,4 +1,4 @@
 #pragma once
 
 
-float perlin(float x, float y);
+double perlin(float x, float y);

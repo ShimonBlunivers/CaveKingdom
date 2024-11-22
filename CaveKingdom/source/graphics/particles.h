@@ -28,4 +28,4 @@ typedef struct ParticleManager {
 extern ParticleManager PARTICLE_MANAGER;
 
 void new_particle(int x, int y, SDL_Color color);
-bool update_particles();
+void update_particles();

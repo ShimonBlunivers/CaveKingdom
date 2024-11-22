@@ -4,6 +4,7 @@
 
 #include "graphics/camera.h"
 #include "world/perlin.h"
+#include "entities/entity.h"
 
 ChunkManager CHUNK_MANAGER;
 
@@ -100,16 +101,16 @@ void free_chunk(Chunk* chunk) {
 }
 
 void generate_world(Chunk* chunk, int seed) {
-	float freq = 10;
-	float amp = 0.1;
+	double freq = 10;
+	double amp = 0.1;
 
 	for (int y = 0; y < CHUNK_HEIGHT; y++) {
 		for (int x = 0; x < CHUNK_WIDTH; x++) {
 			if (!(x == 0 || y == 0 || x == CHUNK_WIDTH - 1 || y == CHUNK_HEIGHT - 1)) {
 				int shifted_x = x + chunk->x * CHUNK_WIDTH;
 				int shifted_y = y + chunk->y * CHUNK_HEIGHT;
-				float noise = perlin((x + seed) * freq / CHUNK_WIDTH, (y + seed) * freq / CHUNK_HEIGHT) * amp;
-				if (noise > -0.1) force_spawn_entity(new_entity(entity_type_stone, shifted_x, shifted_y));
+				double noise = perlin((x + seed) * freq / CHUNK_WIDTH, (y + seed) * freq / CHUNK_HEIGHT) * amp;
+				if (noise > 0) force_spawn_entity(new_entity(entity_type_stone, shifted_x, shifted_y));
 				else force_spawn_entity(new_entity(entity_type_surface_empty, shifted_x, shifted_y));
 			}
 		}

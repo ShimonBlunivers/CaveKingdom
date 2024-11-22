@@ -84,7 +84,7 @@ bool update_particle_item(ParticleListItem* item) {
 	return true;
 }
 
-bool update_particles() {
+void update_particles() {
 	ParticleListItem* item = PARTICLE_MANAGER.first_particle;
 	while (item != NULL) {
 		ParticleListItem* next_item = item->next_list_item;
