@@ -49,3 +49,4 @@ extern Key keyboard[number_of_keys];
 bool process_input();
 
 Vector2 from_screen_to_tile_coords(Vector2 screen_coords);
+void init_input();

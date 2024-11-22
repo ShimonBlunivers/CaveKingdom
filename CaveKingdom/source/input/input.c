@@ -115,16 +115,16 @@ bool process_input() {
         }
     }
 
-    if (keyboard[key_1].active) main_player->inventory->selected_slot = 0;
-    if (keyboard[key_2].active) main_player->inventory->selected_slot = 1;
-    if (keyboard[key_3].active) main_player->inventory->selected_slot = 2;
-    if (keyboard[key_4].active) main_player->inventory->selected_slot = 3;
-    if (keyboard[key_5].active) main_player->inventory->selected_slot = 4;
-    if (keyboard[key_6].active) main_player->inventory->selected_slot = 5;
-    if (keyboard[key_7].active) main_player->inventory->selected_slot = 6;
-    if (keyboard[key_8].active) main_player->inventory->selected_slot = 7;
-    if (keyboard[key_9].active) main_player->inventory->selected_slot = 8;
-    if (keyboard[key_0].active) main_player->inventory->selected_slot = 9;
+    if (keyboard[key_1].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 0 ? -1 : 0;
+    if (keyboard[key_2].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 1 ? -1 : 1;
+    if (keyboard[key_3].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 2 ? -1 : 2;
+    if (keyboard[key_4].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 3 ? -1 : 3;
+    if (keyboard[key_5].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 4 ? -1 : 4;
+    if (keyboard[key_6].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 5 ? -1 : 5;
+    if (keyboard[key_7].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 6 ? -1 : 6;
+    if (keyboard[key_8].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 7 ? -1 : 7;
+    if (keyboard[key_9].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 8 ? -1 : 8;
+    if (keyboard[key_0].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 9 ? -1 : 9;
 
     //printf("%d\n", keyboard[2].active);
 

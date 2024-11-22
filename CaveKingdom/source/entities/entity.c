@@ -313,10 +313,6 @@ void switch_entities(Entity* entity1, Entity* entity2) {
     set_entity(x2, y2, temp_entity);
 }
 
-
-
-
-
 bool is_tile_obstacle(int x, int y) {
     for (int layer = 0; layer < number_of_height_layers; layer++) {
         if (get_entity(x, y, layer)->is_obstacle) return true;
