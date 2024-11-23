@@ -2,6 +2,7 @@ D:\Programming\C\CaveKingdom\CaveKingdom\source\audio\audio.c;D:\Programming\C\C
 D:\Programming\C\CaveKingdom\CaveKingdom\source\graphics\animation.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\animation.obj
 D:\Programming\C\CaveKingdom\CaveKingdom\source\graphics\camera.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\camera.obj
 D:\Programming\C\CaveKingdom\CaveKingdom\source\graphics\particles.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\particles.obj
+D:\Programming\C\CaveKingdom\CaveKingdom\source\inventory\item.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\item.obj
 D:\Programming\C\CaveKingdom\CaveKingdom\source\world\chunk.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\chunk.obj
 D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\entity.obj
 D:\Programming\C\CaveKingdom\CaveKingdom\source\inventory\inventory.c;D:\Programming\C\CaveKingdom\CaveKingdom\x64\Debug\inventory.obj

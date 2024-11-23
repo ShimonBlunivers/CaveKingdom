@@ -63,6 +63,6 @@ typedef struct Brain {
 
 typedef struct Visibility {
     bool seen;
-    int last_seen;
+    Uint32 last_seen;
     struct Entity* last_seen_as;
 } Visibility;

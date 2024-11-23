@@ -23,7 +23,6 @@ const EntityType empty_entity_types[number_of_height_layers] = {
 //Entity entity_list[CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers];
 //Entity* entity_position_grid[CHUNK_WIDTH * CHUNK_HEIGHT][number_of_height_layers]; // For quicker access through coordinates
 
-
 bool is_empty_entity_type(EntityType entity_type) {
     for (int i = 0; i < number_of_height_layers; i++) if (entity_type == empty_entity_types[i]) return true;
     return false;
@@ -33,7 +32,7 @@ Entity new_entity(EntityType type, int x, int y) {
 
     HeightLayer height_layer;
 
-    ItemStack loot[INVENTORY_SIZE] = { (ItemStack) { item_type_empty, 0 } };
+    //ItemStack loot[INVENTORY_SIZE] = { (ItemStack) { item_type_empty, 0 } };
 
     Entity new_entity = {
         .id = number_of_entities++,
@@ -56,7 +55,6 @@ Entity new_entity(EntityType type, int x, int y) {
         .tween = NULL,
     };
 
-    bool has_inventory = false; // Set this to true if the entity has inventory but doesn't have any loot.
     bool randomize_rotation = false;
 
     if (new_entity.visibility != NULL) *new_entity.visibility = (Visibility){ false, false, -1 };
@@ -103,7 +101,7 @@ Entity new_entity(EntityType type, int x, int y) {
         if (new_entity.combat != NULL) *new_entity.combat = (Combat){ 1, 0 };
         if (new_entity.hunger != NULL) *new_entity.hunger = (Hunger){100};
 
-        has_inventory = true;
+        new_entity.inventory = new_inventory(INVENTORY_SIZE);
         new_entity.health->max = 10;
         new_entity.is_obstacle = true;
         new_entity.is_transparent = true;
@@ -122,7 +120,7 @@ Entity new_entity(EntityType type, int x, int y) {
         if (new_entity.combat != NULL) *new_entity.combat = (Combat){ 1, 0 };
         if (new_entity.hunger != NULL) *new_entity.hunger = (Hunger){ 100 };
 
-        has_inventory = true;
+        new_entity.inventory = new_inventory(INVENTORY_SIZE);
         new_entity.health->max = 10;
         new_entity.is_obstacle = true;
         new_entity.is_transparent = true;
@@ -141,7 +139,9 @@ Entity new_entity(EntityType type, int x, int y) {
         if (new_entity.combat != NULL) *new_entity.combat = (Combat){ 1, 0 };
         if (new_entity.hunger != NULL) *new_entity.hunger = (Hunger){ 100 };
 
-        loot[0] = (ItemStack){ item_type_zombie_meat, 2 };
+        new_entity.inventory = new_inventory(INVENTORY_SIZE);
+        add_to_inventory(new_entity.inventory, (ItemStack) { item_type_zombie_meat, 2 });
+
         new_entity.health->max = 10;
         new_entity.is_obstacle = true;
         new_entity.is_transparent = true;
@@ -158,7 +158,9 @@ Entity new_entity(EntityType type, int x, int y) {
 
         new_entity.color = (SDL_Color){ 97, 97, 97, 255 };
 
-        loot[0] = (ItemStack){ item_type_stone, 3 };
+        new_entity.inventory = new_inventory(1);
+        add_to_inventory(new_entity.inventory, (ItemStack) { item_type_stone, 3 });
+
         new_entity.health->max = 5;
         new_entity.is_obstacle = true;
         break;
@@ -176,13 +178,6 @@ Entity new_entity(EntityType type, int x, int y) {
         break;
     }
 
-    Inventory inventory = new_inventory(loot);
-    if (!is_empty_inventory(inventory) || has_inventory) {
-        new_entity.inventory = (Inventory*)malloc(sizeof(Inventory));
-        if (new_entity.inventory != NULL) *new_entity.inventory = inventory;
-        else printf("Error: new_entity.inventory was NULL when creating new entity.\n");
-    }
-
     if (randomize_rotation) new_entity.rotation = rand() % 5;
     if (new_entity.health->value == -1) new_entity.health->value = new_entity.health->max;
     if (new_entity.is_transparent == -1) new_entity.is_transparent = !new_entity.is_obstacle;
@@ -196,7 +191,7 @@ void free_entity(Entity* entity) {
     free(entity->hunger);
     free(entity->health);
     free(entity->brain);
-    free(entity->inventory);
+    free_inventory(entity->inventory);
     delete_tween(entity->tween);
 }
 
@@ -265,7 +260,7 @@ bool hit_entity(Entity* hitter, Entity* target) {
     int damage = hitter->combat->damage - ((target->combat != NULL) ? target->combat->armor : 0);
     target->health->value -= SDL_max(damage, 0);
 
-    if (target->visibility->seen) for (int i = 0; i < 5; i++)
+    if (target->visibility->seen && game_tick - target->visibility->last_seen <= 2) for (int i = 0; i < 5; i++)
         new_particle((target->x + 0.25 + ((float)(rand() % 6)) / 10) * TILE_SIZE, (target->y + 0.25 + ((float)(rand() % 6)) / 10) * TILE_SIZE, target->color);
 
     if (target->health->value <= 0) { 

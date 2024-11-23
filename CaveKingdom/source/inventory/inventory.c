@@ -1,29 +1,41 @@
 #include <stdio.h>
+#include <stdlib.h>
+
+#include <stdarg.h>
 
 #include "inventory.h"
 
+bool add_to_inventory(Inventory* inventory, ItemStack item_stack) {
+    for (int i = 0; i < inventory->size; i++) 
+        if (inventory->content[i].type == item_type_empty) {
+            inventory->content[i] = item_stack;
+            return true;
+        }
+    return false;
+}
 
-Inventory new_inventory(ItemStack content[INVENTORY_SIZE]) {
-    Inventory inventory;
-    inventory.selected_slot = -1;
-    inventory.size = INVENTORY_SIZE;
-
-    for (int i = 0; i < inventory.size; i++) {
-        if (content != NULL && content[i].type != item_type_empty) inventory.content[i] = content[i];
-        else inventory.content[i] = (ItemStack){ item_type_empty, -1 };
+Inventory* new_inventory(int size) {
+    if (size <= 0) {
+        printf("Error: Inventory size must be greater than zero.\n");
+        return NULL;
     }
+
+    Inventory* inventory = malloc(sizeof(Inventory) + size * sizeof(ItemStack));
+    if (inventory == NULL) {
+        printf("Error: Failed to allocate memory for inventory.\n");
+        return NULL;
+    }
+    
+    inventory->size = size;
+    inventory->selected_slot = -1;
+
+    for (int i = 0; i < size; i++) inventory->content[i] = (ItemStack){ item_type_empty, -1 };
 
     return inventory;
 }
 
-Inventory get_empty_inventory() {
-    Inventory inventory;
-    inventory.selected_slot = -1;
-    inventory.size = INVENTORY_SIZE;
-
-    for (int i = 0; i < inventory.size; i++) inventory.content[i] = (ItemStack){ item_type_empty, -1 };
-
-    return inventory;
+void free_inventory(Inventory* inventory) {
+    free(inventory);
 }
 
 void select_inventory_slot(Inventory* inventory, int slot_index) {
@@ -51,7 +63,7 @@ void collect_inventory(Inventory* from, Inventory* to) {
 }
 
 bool is_empty_inventory(Inventory inventory) {
-    for (int i = 0; i < inventory.size; i++) { // SHOULD IMPLEMENT inventory.used_slots!
+    for (int i = 0; i < inventory.size; i++) {
         if (inventory.content[i].type != item_type_empty) return false;
     }
     return true;

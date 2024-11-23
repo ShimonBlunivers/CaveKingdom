@@ -162,6 +162,7 @@ void draw_world() {
                             entity_at_layer->visibility->last_seen = game_tick;
                             entity_at_layer->visibility->last_seen_as = entity_at_layer;
                             if (!entity_ptr->is_transparent) transparent = false;
+
                         }
                     }
                 if (entity_ptr == NULL || !transparent) break;
@@ -272,9 +273,8 @@ void draw_world() {
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
 
-        Inventory inventory;
-        if (main_player->inventory != NULL) inventory = *main_player->inventory;
-        else inventory = get_empty_inventory();
+
+        Inventory* inventory = main_player->inventory;
 
         int inventory_width = (int)(SCREEN_WIDTH * .9);
         int inventory_height = (int)(SCREEN_HEIGHT * .12);
@@ -292,17 +292,22 @@ void draw_world() {
 
         float outline_offset = 2.0;
 
-        for (int i = 0; i < INVENTORY_SIZE; i++) {
+
+
+        for (int i = 0; i < INVENTORY_HOTBAR_SLOTS; i++) {
             SDL_Rect slot_rect = { inventory_rect.x + slot_size * i, inventory_rect.y, slot_size, slot_size };
             SDL_RenderCopy(renderer, ui_textures[ui_element_inventory_slot], NULL, &slot_rect);
-            if (inventory.selected_slot == i) SDL_RenderCopy(renderer, ui_textures[ui_element_selected_inventory_slot], NULL, &slot_rect);
-            if (inventory.content[i].type != item_type_empty) {
+
+            if (inventory == NULL || i >= inventory->size) continue;
+
+            if (inventory->selected_slot == i) SDL_RenderCopy(renderer, ui_textures[ui_element_selected_inventory_slot], NULL, &slot_rect);
+            if (inventory->content[i].type != item_type_empty) {
                 SDL_Rect item_rect = { inventory_rect.x + padding + slot_size * i * slot_index++, inventory_rect.y + padding, slot_size - padding * 2, slot_size - padding * 2 };
 
-                if (item_textures[inventory.content[i].type]) SDL_RenderCopy(renderer, item_textures[inventory.content[i].type], NULL, &item_rect);
+                if (item_textures[inventory->content[i].type]) SDL_RenderCopy(renderer, item_textures[inventory->content[i].type], NULL, &item_rect);
 
                 char amount[128];
-                sprintf_s(amount, sizeof(amount), "%d", inventory.content[i].amount);
+                sprintf_s(amount, sizeof(amount), "%d", inventory->content[i].amount);
 
                 int text_width, text_height;
 
