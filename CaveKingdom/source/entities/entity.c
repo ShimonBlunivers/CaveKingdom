@@ -90,6 +90,12 @@ Entity new_entity(EntityType type, int x, int y) {
     if (!entity_struct_initiated) new_entity.height_layer = height_layer_surface;
 
     switch (type) {
+    case entity_type_dropped_items:
+        entity_struct_initiated = true;
+        randomize_rotation = true;
+        new_entity.inventory = new_inventory(INVENTORY_SIZE);
+        break;
+
     case entity_type_player:
         entity_struct_initiated = true;
 
@@ -198,25 +204,30 @@ void free_entity(Entity* entity) {
 void destroy_entity(Entity* entity) {
     if (entity->id == main_player->id) main_player_alive = false;
 
+    Entity created_entity;
+
+    if (entity->inventory != NULL && entity->type != entity_type_dropped_items) {
+        created_entity = new_entity(entity_type_dropped_items, entity->x, entity->y);
+        collect_inventory(entity->inventory, created_entity.inventory);
+    }
+    else created_entity = new_entity(empty_entity_types[entity->height_layer], entity->x, entity->y);
+
     free_entity(entity);
 
-    Entity empty_entity = new_entity(empty_entity_types[entity->height_layer], entity->x, entity->y);
-
     for (int layer = 0; layer < number_of_height_layers; layer++) {
-        if (layer == empty_entity.height_layer) continue;
-        Entity* e = get_entity(empty_entity.x, empty_entity.y, layer);
+        if (layer == created_entity.height_layer) continue;
+        Entity* e = get_entity(created_entity.x, created_entity.y, layer);
         if (e->visibility == NULL) continue;
         e->visibility->seen = false;
         e->visibility->last_seen_as = NULL;
     }
     
     Chunk* chunk = get_chunk_from_global_position(entity->x, entity->y);
-    *chunk->entity_position_grid[entity->y * CHUNK_WIDTH + entity->x][empty_entity.height_layer] = empty_entity;
+    *chunk->entity_position_grid[entity->y * CHUNK_WIDTH + entity->x][created_entity.height_layer] = created_entity;
 }
 
 Entity* get_entity(int x, int y, HeightLayer layer) {
     Chunk* chunk = get_chunk_from_global_position(x / CHUNK_WIDTH, y / CHUNK_HEIGHT);
-
 
     if (chunk == NULL) return NULL;
 
@@ -264,47 +275,51 @@ bool hit_entity(Entity* hitter, Entity* target) {
         new_particle((target->x + 0.25 + ((float)(rand() % 6)) / 10) * TILE_SIZE, (target->y + 0.25 + ((float)(rand() % 6)) / 10) * TILE_SIZE, target->color);
 
     if (target->health->value <= 0) { 
-        if (target->inventory != NULL && hitter->inventory != NULL) collect_inventory(target->inventory, hitter->inventory);
+        //if (target->inventory != NULL && hitter->inventory != NULL) collect_inventory(target->inventory, hitter->inventory);
         destroy_entity(target); 
     }
     return true;
 }
 
-void switch_entities(Entity* entity1, Entity* entity2) {
-    int x1 = entity1->x;
-    int y1 = entity1->y;
+void switch_entities(Entity* entity, Entity* neighbour_entity) {
+    int x1 = entity->x;
+    int y1 = entity->y;
 
-    int x2 = entity2->x;
-    int y2 = entity2->y;
+    int x2 = neighbour_entity->x;
+    int y2 = neighbour_entity->y;
 
+    if (neighbour_entity->type == entity_type_dropped_items && entity->inventory != NULL) {
+        collect_inventory(neighbour_entity->inventory, entity->inventory);
+        destroy_entity(neighbour_entity);
+    }
 
-    if (entity1->tween == NULL) {
-        entity1->tween = new_tween(x1 * TILE_SIZE, y1 * TILE_SIZE, x2 * TILE_SIZE, y2 * TILE_SIZE, graphic_tick + move_tile_tween_duration);
+    if (entity->tween == NULL) {
+        entity->tween = new_tween(x1 * TILE_SIZE, y1 * TILE_SIZE, x2 * TILE_SIZE, y2 * TILE_SIZE, graphic_tick + move_tile_tween_duration);
     }
     else {
-        *entity1->tween = change_finish_tween(*entity1->tween, (Vector2) { x2* TILE_SIZE, y2* TILE_SIZE });
+        *entity->tween = change_finish_tween(*entity->tween, (Vector2) { x2* TILE_SIZE, y2* TILE_SIZE });
     }
 
-    if (entity2->tween == NULL) {
-        entity2->tween = new_tween(x2 * TILE_SIZE, y2 * TILE_SIZE, x1 * TILE_SIZE, y1 * TILE_SIZE, graphic_tick + move_tile_tween_duration);
+    if (neighbour_entity->tween == NULL) {
+        neighbour_entity->tween = new_tween(x2 * TILE_SIZE, y2 * TILE_SIZE, x1 * TILE_SIZE, y1 * TILE_SIZE, graphic_tick + move_tile_tween_duration);
     }
     else {
-        *entity2->tween = change_finish_tween(*entity2->tween, (Vector2) { x1* TILE_SIZE, y1* TILE_SIZE });
+        *neighbour_entity->tween = change_finish_tween(*neighbour_entity->tween, (Vector2) { x1* TILE_SIZE, y1* TILE_SIZE });
     }
 
-    entity2->x = entity1->x;
-    entity2->y = entity1->y;
+    neighbour_entity->x = entity->x;
+    neighbour_entity->y = entity->y;
 
-    entity1->x = x2;
-    entity1->y = y2;
+    entity->x = x2;
+    entity->y = y2;
 
-    Visibility* temp_visibility = entity1->visibility;
-    entity1->visibility = entity2->visibility;
-    entity2->visibility = temp_visibility;
+    Visibility* temp_visibility = entity->visibility;
+    entity->visibility = neighbour_entity->visibility;
+    neighbour_entity->visibility = temp_visibility;
 
 
-    Entity* temp_entity = entity1;
-    set_entity(x1, y1, entity2);
+    Entity* temp_entity = entity;
+    set_entity(x1, y1, neighbour_entity);
     set_entity(x2, y2, temp_entity);
 }
 

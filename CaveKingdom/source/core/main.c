@@ -42,6 +42,7 @@ SDL_Texture* entity_textures[number_of_entity_types] = { NULL };
 SDL_Texture* item_textures[number_of_item_types] = { NULL };
 
 SDL_Texture* hidden_texture = NULL;
+SDL_Texture* shadow_texture = NULL;
 
 void load_textures() {
     // UI textures
@@ -72,7 +73,8 @@ void load_textures() {
     item_textures[item_type_zombie_meat] = IMG_LoadTexture(renderer, "./assets/textures/items/zombie_meat.png");
 
     // Special
-    hidden_texture = IMG_LoadTexture(renderer, "./assets/textures/tiles/hidden.png");
+    hidden_texture = IMG_LoadTexture(renderer, "./assets/textures/special/hidden.png");
+    shadow_texture = IMG_LoadTexture(renderer, "./assets/textures/special/shadow.png");
     //Uint8 r, g, b;
     //SDL_GetTextureColorMod(hidden_texture, &r, &g, &b);
     //SDL_SetTextureColorMod(hidden_texture, r / 2, g / 2, b / 2);
@@ -90,6 +92,7 @@ void unload_textures() {
     }
 
     SDL_DestroyTexture(hidden_texture);
+    SDL_DestroyTexture(shadow_texture);
 }
 
 void load_audio() {
@@ -175,8 +178,9 @@ void draw_world() {
         for (y = 0; y < CHUNK_HEIGHT; y++) 
         for (x = 0; x < CHUNK_WIDTH; x++) {
             entity_ptr = get_entity(x, y, layer);
+            if (entity_ptr != NULL && !is_empty_entity_type(entity_ptr->type))
             if (has_tween == 0 && entity_ptr->tween == NULL || has_tween == 1 && entity_ptr->tween != NULL)
-            if (entity_ptr->visibility != NULL && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen && entity_textures[entity_ptr->type] != NULL) {
+            if (entity_ptr->visibility != NULL && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen && (entity_textures[entity_ptr->type] != NULL || entity_ptr->type == entity_type_dropped_items)) {
                 tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
                 if (entity_ptr->tween != NULL) {
                     Vector2 position = get_current_tween_position(*entity_ptr->tween);
@@ -188,7 +192,46 @@ void draw_world() {
                         entity_ptr->tween = NULL;
                     }
                 }
-                SDL_RenderCopyEx(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
+                if (entity_ptr->type == entity_type_dropped_items) {
+                    int item_size = tile.w * 0.25;
+                    int padding = 10;
+
+                    int rendered_items = 0;
+                    for (int i = 0; i < entity_ptr->inventory->size; i++) {
+                        SDL_Rect item_tile = tile;
+                        item_tile.w = item_size;
+                        item_tile.h = item_size;
+
+                        float relative_x = -tile.w / 2; // Centering
+                        float relative_y = -tile.h / 2;
+
+                        relative_x += (rendered_items * item_size) % (tile.w - padding * 2) + padding;
+                        relative_y += (rendered_items * item_size) / (tile.w - padding * 2) + padding;
+
+                        relative_x *= cos((float)entity_ptr->rotation / 2);
+                        relative_y *= sin((float)entity_ptr->rotation / 2);
+
+                        relative_x += tile.w / 2; // Moving it back
+                        relative_y += tile.h / 2;
+
+                        item_tile.x += relative_x;
+                        item_tile.y += relative_y;
+
+                        SDL_Rect item_shadow_tile = item_tile;
+                        item_shadow_tile.y += 6; // Shadow offset
+
+                        ItemStack item_stack = entity_ptr->inventory->content[i];
+                        if (item_stack.type != item_type_empty) {
+                            rendered_items++;
+
+                            SDL_RenderCopyEx(renderer, shadow_texture, NULL, &item_shadow_tile, entity_ptr->rotation * 90, NULL, false);
+
+
+                            SDL_RenderCopyEx(renderer, item_textures[item_stack.type], NULL, &item_tile, entity_ptr->rotation * 90, NULL, false);
+                        }
+                    }
+                } 
+                else SDL_RenderCopyEx(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
             }
         }
 
@@ -291,8 +334,6 @@ void draw_world() {
         float text_scale = 0.65f;
 
         float outline_offset = 2.0;
-
-
 
         for (int i = 0; i < INVENTORY_HOTBAR_SLOTS; i++) {
             SDL_Rect slot_rect = { inventory_rect.x + slot_size * i, inventory_rect.y, slot_size, slot_size };

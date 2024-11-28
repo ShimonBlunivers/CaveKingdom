@@ -25,6 +25,11 @@ typedef enum EntityType {
 
     // Air types
 
+
+
+    // Special types
+
+    entity_type_dropped_items,
                  
     number_of_entity_types, // DO NOT USE AS ENTITY TYPE !
 } EntityType;
