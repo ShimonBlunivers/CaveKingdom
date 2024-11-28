@@ -7,6 +7,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "core/game.h"
 #include "entities/entity.h"
 #include "inventory/inventory.h"
 #include "audio/audio.h"
@@ -143,7 +144,6 @@ void draw_world() {
         Entity* entity_ptr;
         SDL_Rect tile;
 
-
         // Checking which tiles are in the player's vision
         for (int i = 0, j, layer; i < PLAYER_VIEW_DENSITY; i++) { 
             Vector2 end_position = (Vector2){ vision_edge_positions[i].x - PLAYER_VIEW_DISTANCE / 2, vision_edge_positions[i].y - PLAYER_VIEW_DISTANCE / 2 };
@@ -218,14 +218,13 @@ void draw_world() {
                         item_tile.y += relative_y;
 
                         SDL_Rect item_shadow_tile = item_tile;
-                        item_shadow_tile.y += 6; // Shadow offset
+                        item_shadow_tile.y += 5; // Shadow offset
 
                         ItemStack item_stack = entity_ptr->inventory->content[i];
                         if (item_stack.type != item_type_empty) {
                             rendered_items++;
 
                             SDL_RenderCopyEx(renderer, shadow_texture, NULL, &item_shadow_tile, entity_ptr->rotation * 90, NULL, false);
-
 
                             SDL_RenderCopyEx(renderer, item_textures[item_stack.type], NULL, &item_tile, entity_ptr->rotation * 90, NULL, false);
                         }
@@ -254,7 +253,9 @@ void draw_world() {
         for (x = 0; x < CHUNK_WIDTH; x++) {
             bool hidden = true;
             for (layer = 0; layer < number_of_height_layers; layer++) {
+
                 entity_ptr = get_entity(x, y, layer);
+
                 if (entity_ptr != NULL && entity_ptr->visibility != NULL && entity_ptr->visibility->seen && entity_ptr->visibility->last_seen_as != NULL) {
                     hidden = false;
                 }
@@ -289,8 +290,14 @@ void draw_world() {
             for (x = 0; x < CHUNK_WIDTH; x++) 
             for (layer = 0; layer < number_of_height_layers; layer++) {
                 entity_ptr = get_entity(x, y, layer);
+                if (entity_ptr != NULL && thermal_vision) { // !!!!!!!!!
+                    tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
+                    SDL_SetTextureColorMod(entity_textures[entity_ptr->type], (int)(255 * (entity_ptr->thermal.temperature - 250) / entity_ptr->thermal.max_temperature) % 255, 0, 0);
+                    SDL_RenderCopyEx(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
+                    SDL_SetTextureColorMod(entity_textures[entity_ptr->type], 255, 255, 255);
+                }// !!!!!!!!!!!!
                 if (entity_ptr->visibility != NULL && !is_empty_entity_type(entity_ptr->type) && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen && entity_textures[entity_ptr->type] != NULL) {
-                    if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->value) {
+                    if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->current) {
                         tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
                         if (entity_ptr->tween != NULL) {
                             Vector2 position = get_current_tween_position(*entity_ptr->tween);
@@ -300,7 +307,7 @@ void draw_world() {
                         int tile_x = tile.x - max_healthbar_width / 2 + TILE_SIZE / 2;
                         int tile_y = tile.y;
                         SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_healthbar_width + 1), (max_healthbar_height + 1) };
-                        SDL_Rect health_rect = { tile_x, tile_y, (int)(max_healthbar_width * ((float)entity_ptr->health->value / entity_ptr->health->max)), max_healthbar_height };
+                        SDL_Rect health_rect = { tile_x, tile_y, (int)(max_healthbar_width * ((float)entity_ptr->health->current / entity_ptr->health->max)), max_healthbar_height };
                         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                         SDL_RenderFillRect(renderer, &background_rect);
                         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);

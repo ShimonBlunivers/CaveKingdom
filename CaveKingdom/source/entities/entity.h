@@ -13,7 +13,7 @@ typedef struct Entity {
     int rotation; // 0, 1, 2, 3
     int is_transparent; // int because -1 is unset
 
-    DemeanorType demeanor;
+    Thermal thermal;
     EntityType type;
     SDL_Color color;
     HeightLayer height_layer;
@@ -43,7 +43,6 @@ void spawn_player();
 
 void update_entities();
 bool update_player();
-
 
 extern Entity* main_player;
 extern bool main_player_alive;

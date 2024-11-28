@@ -49,7 +49,7 @@ typedef enum DemeanorType {
 } DemeanorType;
 
 typedef struct Health {
-    int value, max;
+    int current, max;
 } Health;
 
 typedef struct Hunger {
@@ -64,6 +64,7 @@ typedef struct Brain {
     bool active;
     int mood;
     Vector2f desired_direction;
+    DemeanorType demeanor;
 } Brain;
 
 typedef struct Visibility {
@@ -71,3 +72,12 @@ typedef struct Visibility {
     Uint32 last_seen;
     struct Entity* last_seen_as;
 } Visibility;
+
+typedef struct Thermal {
+    float temperature; // in kelvins
+    float max_temperature; // -1 means no limit
+    float min_temperature; // -1 means no limit
+    float conductivity; // 0 means isolant; 1 let's everything through
+
+    float generated_heat_per_tick;
+} Thermal;

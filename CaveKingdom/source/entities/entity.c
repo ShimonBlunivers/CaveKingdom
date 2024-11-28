@@ -46,7 +46,13 @@ Entity new_entity(EntityType type, int x, int y) {
         .rotation = 0,
         .visibility = malloc(sizeof(Visibility)),
         .health = malloc(sizeof(Health)),
-
+        .thermal = (Thermal) {
+            .temperature = 300,
+            .conductivity = 0.01, 
+            .max_temperature = 400, // 10000
+            .min_temperature = 1, // 0.1
+            .generated_heat_per_tick = 0,
+        },
         .hunger = NULL,
         .combat = NULL,
         .brain = NULL,
@@ -79,7 +85,6 @@ Entity new_entity(EntityType type, int x, int y) {
         randomize_rotation = true;
 
         new_entity.color = (SDL_Color){ 89, 60, 44, 255 };
-
         break;
 
     case entity_type_ground_empty:
@@ -183,9 +188,14 @@ Entity new_entity(EntityType type, int x, int y) {
         entity_struct_initiated = true;
         break;
     }
+    
+    if (is_empty_entity_type(new_entity.type) || new_entity.type == entity_type_dropped_items) {
+        new_entity.thermal.conductivity = 0.1;
+    }
+
 
     if (randomize_rotation) new_entity.rotation = rand() % 5;
-    if (new_entity.health->value == -1) new_entity.health->value = new_entity.health->max;
+    if (new_entity.health->current == -1) new_entity.health->current = new_entity.health->max;
     if (new_entity.is_transparent == -1) new_entity.is_transparent = !new_entity.is_obstacle;
 
     return new_entity;
@@ -212,6 +222,8 @@ void destroy_entity(Entity* entity) {
     }
     else created_entity = new_entity(empty_entity_types[entity->height_layer], entity->x, entity->y);
 
+    created_entity.thermal.temperature = entity->thermal.temperature;
+
     free_entity(entity);
 
     for (int layer = 0; layer < number_of_height_layers; layer++) {
@@ -227,12 +239,15 @@ void destroy_entity(Entity* entity) {
 }
 
 Entity* get_entity(int x, int y, HeightLayer layer) {
+    if (layer < 0 || layer >= number_of_height_layers) return NULL;
+
     Chunk* chunk = get_chunk_from_global_position(x / CHUNK_WIDTH, y / CHUNK_HEIGHT);
 
     if (chunk == NULL) return NULL;
 
     return get_entity_from_chunk(chunk, x, y, layer);
 }
+
 
 bool set_entity(int x, int y, Entity* entity) {
     Chunk* chunk = get_chunk_from_global_position(x / CHUNK_WIDTH, y / CHUNK_HEIGHT);
@@ -269,12 +284,12 @@ bool hit_entity(Entity* hitter, Entity* target) {
 
 
     int damage = hitter->combat->damage - ((target->combat != NULL) ? target->combat->armor : 0);
-    target->health->value -= SDL_max(damage, 0);
+    target->health->current -= SDL_max(damage, 0);
 
     if (target->visibility->seen && game_tick - target->visibility->last_seen <= 2) for (int i = 0; i < 5; i++)
         new_particle((target->x + 0.25 + ((float)(rand() % 6)) / 10) * TILE_SIZE, (target->y + 0.25 + ((float)(rand() % 6)) / 10) * TILE_SIZE, target->color);
 
-    if (target->health->value <= 0) { 
+    if (target->health->current <= 0) { 
         //if (target->inventory != NULL && hitter->inventory != NULL) collect_inventory(target->inventory, hitter->inventory);
         destroy_entity(target); 
     }
@@ -324,9 +339,8 @@ void switch_entities(Entity* entity, Entity* neighbour_entity) {
 }
 
 bool is_tile_obstacle(int x, int y) {
-    for (int layer = 0; layer < number_of_height_layers; layer++) {
+    for (int layer = 0; layer < number_of_height_layers; layer++) 
         if (get_entity(x, y, layer)->is_obstacle) return true;
-    }
     return false;
 }
 
@@ -381,18 +395,52 @@ float get_movement_randomisation() {
     return .9 + ((rand() % 3)) / 10.;
 }
 
+void add_heat_entity(Entity* entity, float heat) {
+    heat *= entity->thermal.conductivity;
+    if (entity->thermal.temperature + heat >= entity->thermal.max_temperature) entity->thermal.temperature = entity->thermal.max_temperature;
+    else if (entity->thermal.temperature + heat <= entity->thermal.min_temperature) entity->thermal.temperature = entity->thermal.min_temperature;
+    else entity->thermal.temperature += heat;
+}
+
+void update_temperature_entity(Entity* entity) {
+    for (int j = 0; j < 6; j++) {
+        int x = 0;
+        int y = 0;
+        int layer = 0;
+
+        if (j < 2) x += j % 2 == 0 ? -1 : 1;
+        else if (j > 3) y += j % 2 == 0 ? -1 : 1;
+        else layer += j % 2 == 0 ? -1 : 1;
+
+        Entity* neighbour = get_entity(entity->x + x, entity->y + y, entity->height_layer + layer);
+        if (neighbour == NULL) continue;
+
+        float delta_temp = entity->thermal.temperature - neighbour->thermal.temperature;
+        if (round(delta_temp) != 0) {
+            float heat_transfer = delta_temp / 2;
+
+            add_heat_entity(entity, -heat_transfer);
+            add_heat_entity(neighbour, +heat_transfer);
+
+            //printf("Heat transfer: %f\n", heat_transfer);
+            //printf("Neighbour temperature: %f\n", neighbour->thermal.temperature);
+        }
+    }
+    entity->thermal.temperature += entity->thermal.generated_heat_per_tick;
+}
 void update_entities() {
     for (int chunk_index = 0; chunk_index < CHUNK_MANAGER.number_of_chunks; chunk_index++) {
         Chunk* chunk = CHUNK_MANAGER.chunks[chunk_index];
         for (int i = 0; i < CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers; i++) {
             Entity* entity = &chunk->entity_list[i];
-
+            update_temperature_entity(entity);
             if (entity->brain != NULL && entity->brain->active) {
                 for (int j = 0; j < 4; j++) {
                     int x = j < 2 ? -1 + (j % 2) * 2 : 0;
                     int y = j >= 2 ? -1 + ((j + 2) % 2) * 2 : 0;
                     Entity* neighbour = get_entity(entity->x + x, entity->y + y, entity->height_layer);
-                    if (neighbour->health->value > 0) {
+                    if (neighbour == NULL) continue;
+                    if (neighbour->health->current > 0) {
                         entity->brain->desired_direction = vector2f_sum(entity->brain->desired_direction, (Vector2f) { x * .5, y * .5 });
                         hit_entity(entity, neighbour);
                     }
@@ -427,6 +475,10 @@ void update_entities() {
 }
 
 bool update_player() {
+    Vector2 mouse_position = from_screen_to_tile_coords((Vector2) { mouse.x, mouse.y });
+    Entity* entity_hovered = get_entity(mouse_position.x, mouse_position.y, height_layer_surface);
+    //printf("Temperature: %f\n", entity_hovered->thermal.temperature);
+
     bool updated = false;
 
     if (mouse.left_button_pressed) {
@@ -438,6 +490,8 @@ bool update_player() {
 
             if (entity_clicked->type != entity_type_player) {
                 updated |= hit_entity(main_player, entity_clicked);
+                
+                entity_clicked->thermal.temperature = 1000; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             }
         }
     }

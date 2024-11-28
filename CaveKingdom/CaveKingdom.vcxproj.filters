@@ -57,6 +57,9 @@
     <ClCompile Include="source\inventory\item.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\core\game.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\player_texture.png">
@@ -143,6 +146,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\inventory\item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\core\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

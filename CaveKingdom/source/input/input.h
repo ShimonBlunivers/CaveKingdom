@@ -22,6 +22,8 @@ typedef enum KeyCodes {
     key_a,
     key_d,
 
+    key_f,
+
     key_1,
     key_2,
     key_3,

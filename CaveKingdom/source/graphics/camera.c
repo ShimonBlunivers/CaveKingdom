@@ -1,10 +1,11 @@
 #include <stdbool.h>
 #include <math.h>
+#include <SDL.h>
 
+#include "core/game.h"
 #include "camera.h"
 #include "world/chunk.h"
 #include "entities/entity.h"
-#include <SDL.h>
 
 Camera camera = { 0, 0, 1.0, 0.1, 3.0 };
 

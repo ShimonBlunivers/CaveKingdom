@@ -1,4 +1,5 @@
 #include "input.h"
+#include "core/game.h"
 #include "world/chunk.h"
 #include "world/time.h"
 #include "entities/entity.h"
@@ -6,11 +7,10 @@
 Mouse mouse = { 0, 0, false, false, false };
 Key keyboard[number_of_keys];
 
-Key default_key_state = { false, false, 0, -1};
-
 void init_input() {
     for (int i = 0; i < number_of_keys; i++) {
         keyboard[i] = (Key){
+            .active = false,
             .pressed = false,
             .tick_pressed = 0,
             .key_code = i,
@@ -25,6 +25,8 @@ bool process_input() {
     mouse.right_button_clicked = false;
 
     SDL_Event event;
+
+    keyboard[key_f].pressed = false;
 
     keyboard[key_1].pressed = false;
     keyboard[key_2].pressed = false;
@@ -57,6 +59,10 @@ bool process_input() {
                 keyboard[key_d].pressed = true;
                 keyboard[key_d].tick_pressed = graphic_tick;
             }
+            else if (SDLK_f == event.key.keysym.sym) {
+                keyboard[key_f].pressed = true;
+                keyboard[key_f].tick_pressed = graphic_tick;
+            }
             else if (SDLK_e == event.key.keysym.sym) camera.zoom = SDL_clamp(camera.zoom + .1, camera.min_zoom, camera.max_zoom);
             else if (SDLK_q == event.key.keysym.sym) camera.zoom = SDL_clamp(camera.zoom - .1, camera.min_zoom, camera.max_zoom);
             else if (SDLK_LEFT == event.key.keysym.sym) camera.x -= 10;
@@ -75,7 +81,6 @@ bool process_input() {
             else if (SDLK_8 == event.key.keysym.sym) keyboard[key_8].pressed = true;
             else if (SDLK_9 == event.key.keysym.sym) keyboard[key_9].pressed = true;
             else if (SDLK_0 == event.key.keysym.sym) keyboard[key_0].pressed = true;
-
         }
         else if (event.type == SDL_KEYUP) {
             if (SDLK_w == event.key.keysym.sym) keyboard[key_w].pressed = false;
@@ -106,6 +111,8 @@ bool process_input() {
         }
     }
 
+    if (keyboard[key_f].pressed) thermal_vision = !thermal_vision;
+
     for (int i = 0; i < number_of_keys; i++) {
         keyboard[i].active = keyboard[i].pressed;
         if (keyboard[i].pressed) {
@@ -116,17 +123,18 @@ bool process_input() {
     }
 
     if (keyboard[key_1].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 0 ? -1 : 0;
-    if (keyboard[key_2].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 1 ? -1 : 1;
-    if (keyboard[key_3].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 2 ? -1 : 2;
-    if (keyboard[key_4].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 3 ? -1 : 3;
-    if (keyboard[key_5].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 4 ? -1 : 4;
-    if (keyboard[key_6].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 5 ? -1 : 5;
-    if (keyboard[key_7].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 6 ? -1 : 6;
-    if (keyboard[key_8].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 7 ? -1 : 7;
-    if (keyboard[key_9].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 8 ? -1 : 8;
-    if (keyboard[key_0].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 9 ? -1 : 9;
+    else if (keyboard[key_2].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 1 ? -1 : 1;
+    else if (keyboard[key_3].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 2 ? -1 : 2;
+    else if (keyboard[key_4].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 3 ? -1 : 3;
+    else if (keyboard[key_5].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 4 ? -1 : 4;
+    else if (keyboard[key_6].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 5 ? -1 : 5;
+    else if (keyboard[key_7].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 6 ? -1 : 6;
+    else if (keyboard[key_8].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 7 ? -1 : 7;
+    else if (keyboard[key_9].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 8 ? -1 : 8;
+    else if (keyboard[key_0].active) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 9 ? -1 : 9;
 
-    //printf("%d\n", keyboard[2].active);
+
+        
 
     return quit;
 }
