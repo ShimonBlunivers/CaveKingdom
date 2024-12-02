@@ -44,6 +44,7 @@ void spawn_player();
 void update_entities();
 bool update_player();
 
+
 extern Entity* main_player;
 extern bool main_player_alive;
 extern const EntityType empty_entity_types[number_of_height_layers];

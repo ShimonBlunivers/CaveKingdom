@@ -41,3 +41,6 @@ void reset_grid(Chunk* chunk);
 void generate_world(Chunk* chunk, int seed);
 void create_edge_walls(Chunk* chunk);
 void free_world();
+
+bool save_world(char* path); 
+bool load_world(char* path);

@@ -129,3 +129,11 @@ void free_world() {
 		free_chunk(CHUNK_MANAGER.chunks[chunk_index]);
 	}
 }
+
+bool save_world(char* path) {
+
+}
+
+bool load_world(char* path) {
+
+}

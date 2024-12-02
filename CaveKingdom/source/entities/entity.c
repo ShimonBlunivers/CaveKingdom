@@ -174,6 +174,7 @@ Entity new_entity(EntityType type, int x, int y) {
 
         new_entity.health->max = 5;
         new_entity.is_obstacle = true;
+
         break;
 
     case entity_type_surface_empty:

@@ -17,7 +17,6 @@
 #include "input/input.h"
 #include "graphics/particles.h"
 #include "networking/networking.h"
-#include "input/input.h"
 
 int game_status = 1;
 
@@ -34,6 +33,7 @@ typedef enum {
     ui_element_selected_inventory_slot,
     ui_element_inventory_slot,
     ui_element_death_screen,
+    ui_element_healthbar_outline,
 
     number_of_ui_elements, // DO NOT USE AS UI ELEMENT!
 } UIElement;
@@ -50,13 +50,14 @@ void load_textures() {
     ui_textures[ui_element_selected_inventory_slot] = IMG_LoadTexture(renderer, "./assets/textures/ui/selected_inventory_slot.png");
     ui_textures[ui_element_inventory_slot] = IMG_LoadTexture(renderer, "./assets/textures/ui/inventory_slot.png");
     ui_textures[ui_element_death_screen] = IMG_LoadTexture(renderer, "./assets/textures/ui/death_screen.png");
+    ui_textures[ui_element_healthbar_outline] = IMG_LoadTexture(renderer, "./assets/textures/ui/healthbar_outline.png");
 
     // Entity textures
         // Ground
     entity_textures[entity_type_water] = IMG_LoadTexture(renderer, "./assets/textures/tiles/water.png");
     entity_textures[entity_type_dirt] = IMG_LoadTexture(renderer, "./assets/textures/tiles/dirt.png");
 
-        // Surface
+    // Surface
     entity_textures[entity_type_player] = IMG_LoadTexture(renderer, "./assets/textures/tiles/player.png");
     entity_textures[entity_type_enemy] = IMG_LoadTexture(renderer, "./assets/textures/tiles/enemy.png");
     entity_textures[entity_type_zombie] = IMG_LoadTexture(renderer, "./assets/textures/tiles/zombie.png");
@@ -306,12 +307,17 @@ void draw_world() {
                         }
                         int tile_x = tile.x - max_healthbar_width / 2 + TILE_SIZE / 2;
                         int tile_y = tile.y;
-                        SDL_Rect background_rect = { (tile_x - 1), (tile_y - 1), (max_healthbar_width + 1), (max_healthbar_height + 1) };
+                        SDL_Rect background_rect = { tile_x, tile_y, max_healthbar_width, max_healthbar_height };
                         SDL_Rect health_rect = { tile_x, tile_y, (int)(max_healthbar_width * ((float)entity_ptr->health->current / entity_ptr->health->max)), max_healthbar_height };
+                        
+                        int padding = 3;
+                        SDL_Rect outline_rect = { background_rect.x - padding, background_rect.y - padding, background_rect.w + padding * 2, background_rect.h + padding * 2};
+                        
                         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                         SDL_RenderFillRect(renderer, &background_rect);
                         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
                         SDL_RenderFillRect(renderer, &health_rect);
+                        SDL_RenderCopy(renderer, ui_textures[ui_element_healthbar_outline], NULL, &outline_rect);
                     }
                 }
             }
