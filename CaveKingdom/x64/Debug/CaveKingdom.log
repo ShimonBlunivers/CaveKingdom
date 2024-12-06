@@ -1,9 +1,9 @@
 ﻿  main.c
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(212,39): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(213,39): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(218,40): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(219,40): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(197,44): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(206,52): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(207,52): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-  CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(214,22): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(215,22): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(220,23): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(221,23): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(197,44): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(208,35): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(209,35): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe

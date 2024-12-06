@@ -193,41 +193,46 @@ void draw_world() {
                         entity_ptr->tween = NULL;
                     }
                 }
-                if (entity_ptr->type == entity_type_dropped_items) {
+                if (entity_ptr->type == entity_type_dropped_items) { // Rendering items on the ground
                     int item_size = tile.w * 0.25;
                     int padding = 10;
 
                     int rendered_items = 0;
                     for (int i = 0; i < entity_ptr->inventory->size; i++) {
-                        SDL_Rect item_tile = tile;
-                        item_tile.w = item_size;
-                        item_tile.h = item_size;
-
-                        float relative_x = -tile.w / 2; // Centering
-                        float relative_y = -tile.h / 2;
-
-                        relative_x += (rendered_items * item_size) % (tile.w - padding * 2) + padding;
-                        relative_y += (rendered_items * item_size) / (tile.w - padding * 2) + padding;
-
-                        relative_x *= cos((float)entity_ptr->rotation / 2);
-                        relative_y *= sin((float)entity_ptr->rotation / 2);
-
-                        relative_x += tile.w / 2; // Moving it back
-                        relative_y += tile.h / 2;
-
-                        item_tile.x += relative_x;
-                        item_tile.y += relative_y;
-
-                        SDL_Rect item_shadow_tile = item_tile;
-                        item_shadow_tile.y += 5; // Shadow offset
-
                         ItemStack item_stack = entity_ptr->inventory->content[i];
-                        if (item_stack.type != item_type_empty) {
-                            rendered_items++;
+					    if (item_stack.type != item_type_empty) {
+							SDL_Rect item_tile = tile;
+							item_tile.w = item_size;
+							item_tile.h = item_size;
 
-                            SDL_RenderCopyEx(renderer, shadow_texture, NULL, &item_shadow_tile, entity_ptr->rotation * 90, NULL, false);
+							float relative_x = -tile.w / 2; // Centering
+							float relative_y = -tile.h / 2;
 
-                            SDL_RenderCopyEx(renderer, item_textures[item_stack.type], NULL, &item_tile, entity_ptr->rotation * 90, NULL, false);
+							relative_x += (rendered_items * item_size) % (tile.w - padding * 2) + padding;
+							relative_y += (rendered_items * item_size) / (tile.w - padding * 2) + padding;
+
+							relative_x *= cos((float)entity_ptr->rotation / 2);
+							relative_y *= sin((float)entity_ptr->rotation / 2);
+
+							relative_x += tile.w / 2; // Moving it back
+							relative_y += tile.h / 2;
+
+							item_tile.x += relative_x;
+							item_tile.y += relative_y;
+
+							SDL_Rect item_shadow_tile = item_tile;
+							item_shadow_tile.y += 5; // Shadow offset
+
+							int item_stack_shift = 3;
+							for (int rendered_items_in_stack = 0; rendered_items_in_stack < 4 && rendered_items_in_stack < item_stack.amount; rendered_items_in_stack++) {
+								item_tile.x += item_stack_shift * rendered_items_in_stack;
+								item_shadow_tile.x += item_stack_shift * rendered_items_in_stack;
+								SDL_RenderCopyEx(renderer, shadow_texture, NULL, &item_shadow_tile, (rendered_items_in_stack + entity_ptr->rotation) * 90, NULL, false);
+
+								SDL_RenderCopyEx(renderer, item_textures[item_stack.type], NULL, &item_tile,  (rendered_items_in_stack + entity_ptr->rotation)  * 90, NULL, false);
+							}
+                           
+							rendered_items++;
                         }
                     }
                 } 
