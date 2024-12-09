@@ -476,9 +476,10 @@ void update_entities() {
 }
 
 bool update_player() {
-    Vector2 mouse_position = from_screen_to_tile_coords((Vector2) { mouse.x, mouse.y });
-    Entity* entity_hovered = get_entity(mouse_position.x, mouse_position.y, height_layer_surface);
+    //Vector2 mouse_position = from_screen_to_tile_coords((Vector2) { mouse.x, mouse.y });
+    //Entity* entity_hovered = get_entity(mouse_position.x, mouse_position.y, height_layer_surface);
     //printf("Temperature: %f\n", entity_hovered->thermal.temperature);
+
 
     bool updated = false;
 
@@ -491,8 +492,8 @@ bool update_player() {
 
             if (entity_clicked->type != entity_type_player) {
                 updated |= hit_entity(main_player, entity_clicked);
-                
-                entity_clicked->thermal.temperature = 1000; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                //entity_clicked->thermal.temperature = 1000; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             }
         }
     }
@@ -500,10 +501,11 @@ bool update_player() {
     int player_movement_x = 0;
     int player_movement_y = 0;
 
-    if (keyboard[key_w].active) player_movement_y--;
-    if (keyboard[key_s].active) player_movement_y++;
-    if (keyboard[key_a].active) player_movement_x--;
-    if (keyboard[key_d].active) player_movement_x++;
+
+    if (keyboard[key_w].pressed) player_movement_y--;
+    if (keyboard[key_s].pressed) player_movement_y++;
+    if (keyboard[key_a].pressed) player_movement_x--;
+    if (keyboard[key_d].pressed) player_movement_x++;
     
     bool moved_x = false;
     bool moved_y = false;
@@ -518,7 +520,7 @@ bool update_player() {
         }
         updated |= moved_x | moved_y;
     }
-
+    //printf("player_movement_x: %d ; player_movement_y: %d ; moved_x: %d ; moved_y: %d\n", player_movement_x, player_movement_y, moved_x, moved_y);
 
     return updated;
 }

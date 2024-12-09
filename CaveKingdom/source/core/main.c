@@ -291,7 +291,7 @@ void draw_world() {
             Entity* entity_ptr;
             SDL_Rect tile;
             int max_healthbar_width = TILE_SIZE;
-            int max_healthbar_height = (int)(TILE_SIZE * 0.1);
+            int max_healthbar_height = TILE_SIZE / 5;
             for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++)
             for (x = 0; x < CHUNK_WIDTH; x++) 
             for (layer = 0; layer < number_of_height_layers; layer++) {
@@ -312,12 +312,12 @@ void draw_world() {
                         }
                         int tile_x = tile.x - max_healthbar_width / 2 + TILE_SIZE / 2;
                         int tile_y = tile.y;
-                        SDL_Rect background_rect = { tile_x, tile_y, max_healthbar_width, max_healthbar_height };
-                        SDL_Rect health_rect = { tile_x, tile_y, (int)(max_healthbar_width * ((float)entity_ptr->health->current / entity_ptr->health->max)), max_healthbar_height };
-                        
-                        int padding = 3;
-                        SDL_Rect outline_rect = { background_rect.x - padding, background_rect.y - padding, background_rect.w + padding * 2, background_rect.h + padding * 2};
-                        
+
+                        Vector2 padding = { 2, 3 };
+                        SDL_Rect outline_rect = { tile_x, tile_y, max_healthbar_width, max_healthbar_height };
+                        SDL_Rect background_rect = { outline_rect.x + padding.x, outline_rect.y + padding.y, outline_rect.w - padding.x * 2, outline_rect.h - padding.y * 2 };
+                        SDL_Rect health_rect = { background_rect.x, background_rect.y, (int)(background_rect.w * ((float)entity_ptr->health->current / entity_ptr->health->max)), background_rect.h };
+
                         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                         SDL_RenderFillRect(renderer, &background_rect);
                         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -462,19 +462,19 @@ int main(int argc, char* argv[]) {
 
     if (TTF_Init() == -1)
     {
-        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+        fprintf(stderr, "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
         return 1;
     }
     else if (!main_player) {
-        printf("The main player is NULL!\n");
+        fprintf(stderr, "The main player is NULL!\n");
         return 1;
     }
     else if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0) {
-        printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+        fprintf(stderr, "SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
     else if (!IMG_Init(IMG_INIT_PNG)) {
-        printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+        fprintf(stderr, "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
         return 1;
     }
     else {
@@ -486,11 +486,11 @@ int main(int argc, char* argv[]) {
 
         if (font == NULL)
         {
-            printf("Failed to load roboto font! SDL_ttf Error: %s\n", TTF_GetError());
+            fprintf(stderr, "Failed to load roboto font! SDL_ttf Error: %s\n", TTF_GetError());
             return 1;
         }
         else if (window == NULL) {
-            printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+            fprintf(stderr, "Window could not be created! SDL_Error: %s\n", SDL_GetError());
             return 1;
         }
         else {
@@ -503,35 +503,34 @@ int main(int argc, char* argv[]) {
 
             bool quit = false;
 
-            bool player_updated = false;
+            bool player_updated;
 
             graphic_tick = SDL_GetTicks();
 
             previous_counter = SDL_GetPerformanceCounter();
 
             update_time();
-            Uint32 update_delay = 250;
+            Uint32 update_delay = 250; // 250
             while (!quit) {
                 last_updated_tick = SDL_GetTicks();
+
+                player_updated = false;
 
                 update_entities();
                 update_server();
                 
-                while (!player_updated && SDL_GetTicks() < last_updated_tick + update_delay) {
+                while (SDL_GetTicks() < last_updated_tick + update_delay) {
                     quit = process_input();
+                    update_player_inventory();
 
-                    if (main_player_alive) player_updated = update_player();
+                    if (!player_updated && main_player_alive) player_updated = update_player();
 
-                    do {
-                        update_camera();
-                        update_particles();
-                        draw_world();
+                    update_camera();
+                    update_particles();
+                    draw_world();
 
-                        update_time();  
-                    } while (!(!player_updated) && SDL_GetTicks() < last_updated_tick + update_delay);
+                    update_time();
                 }
-
-                player_updated = false;
 
                 game_tick++;
             }

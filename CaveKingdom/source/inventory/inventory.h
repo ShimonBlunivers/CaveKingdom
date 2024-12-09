@@ -20,3 +20,5 @@ bool add_to_inventory(Inventory* inventory, ItemStack item_stack);
 void free_inventory(Inventory* inventory);
 void collect_inventory(Inventory* from, Inventory* to);
 void print_inventory(Inventory inventory);
+
+void update_player_inventory();

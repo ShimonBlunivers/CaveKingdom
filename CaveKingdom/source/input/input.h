@@ -16,7 +16,7 @@ typedef struct Mouse {
 
 extern Mouse mouse;
 
-typedef enum KeyCodes {
+typedef enum KeyCode {
     key_w,
     key_s,
     key_a,
@@ -36,19 +36,18 @@ typedef enum KeyCodes {
     key_0,
 
     number_of_keys, // DO NOT USE AS KEY CODE !
-} KeyCodes;
+} KeyCode;
 
 
 typedef struct Key {
-    bool pressed; // Is the key held down?
-    bool active; // Should the key be seen as pressed? E.g., if the key is pressed, but the game should act like it isn't.
+    bool pressed;
     Uint32 tick_pressed;
-    int key_code;
+    SDL_KeyCode sdl_key_code;
 } Key;
 
 extern Key keyboard[number_of_keys];
 
 bool process_input();
-
+bool key_tapped(Key key);
 Vector2 from_screen_to_tile_coords(Vector2 screen_coords);
 void init_input();
