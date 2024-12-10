@@ -501,11 +501,10 @@ bool update_player() {
     int player_movement_x = 0;
     int player_movement_y = 0;
 
-
-    if (keyboard[key_w].pressed) player_movement_y--;
-    if (keyboard[key_s].pressed) player_movement_y++;
-    if (keyboard[key_a].pressed) player_movement_x--;
-    if (keyboard[key_d].pressed) player_movement_x++;
+    if (should_player_move_with_key(keyboard[key_w])) player_movement_y--;
+    if (should_player_move_with_key(keyboard[key_s])) player_movement_y++;
+    if (should_player_move_with_key(keyboard[key_a])) player_movement_x--;
+    if (should_player_move_with_key(keyboard[key_d])) player_movement_x++;
     
     bool moved_x = false;
     bool moved_y = false;

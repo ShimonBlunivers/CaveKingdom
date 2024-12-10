@@ -16,7 +16,6 @@ typedef struct Particle {
 
 typedef struct ParticleListItem {  
     Particle particle;
-    struct ParticleListItem* previous_list_item;  
     struct ParticleListItem* next_list_item;
 } ParticleListItem;
 

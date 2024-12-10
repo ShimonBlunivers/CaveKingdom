@@ -179,64 +179,68 @@ void draw_world() {
         for (y = 0; y < CHUNK_HEIGHT; y++) 
         for (x = 0; x < CHUNK_WIDTH; x++) {
             entity_ptr = get_entity(x, y, layer);
-            if (entity_ptr != NULL && !is_empty_entity_type(entity_ptr->type))
-            if (has_tween == 0 && entity_ptr->tween == NULL || has_tween == 1 && entity_ptr->tween != NULL)
-            if (entity_ptr->visibility != NULL && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen && (entity_textures[entity_ptr->type] != NULL || entity_ptr->type == entity_type_dropped_items)) {
-                tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
+            if (entity_ptr != NULL) {
                 if (entity_ptr->tween != NULL) {
-                    Vector2 position = get_current_tween_position(*entity_ptr->tween);
-                    tile.x = position.x;
-                    tile.y = position.y;
-
-                    if (entity_ptr->tween->finish_tick <= (int) graphic_tick) {
+                    if (entity_ptr->tween->finish_tick <= (int)graphic_tick) {
                         delete_tween(entity_ptr->tween);
                         entity_ptr->tween = NULL;
                     }
                 }
-                if (entity_ptr->type == entity_type_dropped_items) { // Rendering items on the ground
-                    int item_size = tile.w * 0.25;
-                    int padding = 10;
-
-                    int rendered_items = 0;
-                    for (int i = 0; i < entity_ptr->inventory->size; i++) {
-                        ItemStack item_stack = entity_ptr->inventory->content[i];
-					    if (item_stack.type != item_type_empty) {
-							SDL_Rect item_tile = tile;
-							item_tile.w = item_size;
-							item_tile.h = item_size;
-
-							float relative_x = -tile.w / 2; // Centering
-							float relative_y = -tile.h / 2;
-
-							relative_x += (rendered_items * item_size) % (tile.w - padding * 2) + padding;
-							relative_y += (rendered_items * item_size) / (tile.w - padding * 2) + padding;
-
-							relative_x *= cos((float)entity_ptr->rotation / 2);
-							relative_y *= sin((float)entity_ptr->rotation / 2);
-
-							relative_x += tile.w / 2; // Moving it back
-							relative_y += tile.h / 2;
-
-							item_tile.x += relative_x;
-							item_tile.y += relative_y;
-
-							SDL_Rect item_shadow_tile = item_tile;
-							item_shadow_tile.y += 5; // Shadow offset
-
-							int item_stack_shift = 3;
-							for (int rendered_items_in_stack = 0; rendered_items_in_stack < 4 && rendered_items_in_stack < item_stack.amount; rendered_items_in_stack++) {
-								item_tile.x += item_stack_shift * rendered_items_in_stack;
-								item_shadow_tile.x += item_stack_shift * rendered_items_in_stack;
-								SDL_RenderCopyEx(renderer, shadow_texture, NULL, &item_shadow_tile, (rendered_items_in_stack + entity_ptr->rotation) * 90, NULL, false);
-
-								SDL_RenderCopyEx(renderer, item_textures[item_stack.type], NULL, &item_tile,  (rendered_items_in_stack + entity_ptr->rotation)  * 90, NULL, false);
-							}
-                           
-							rendered_items++;
-                        }
+                if (!is_empty_entity_type(entity_ptr->type)) 
+                if (has_tween == 0 && entity_ptr->tween == NULL || has_tween == 1 && entity_ptr->tween != NULL)
+                if (entity_ptr->visibility != NULL && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen &&
+                (entity_textures[entity_ptr->type] != NULL || entity_ptr->type == entity_type_dropped_items)) {
+                    tile = (SDL_Rect){ TILE_SIZE * x, TILE_SIZE * y, TILE_SIZE, TILE_SIZE };
+                    if (entity_ptr->tween != NULL) {
+                        Vector2 position = get_current_tween_position(*entity_ptr->tween);
+                        tile.x = position.x;
+                        tile.y = position.y;
                     }
-                } 
-                else SDL_RenderCopyEx(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
+                    if (entity_ptr->type == entity_type_dropped_items) { // Rendering items on the ground
+                        int item_size = tile.w * 0.25;
+                        int padding = 10;
+
+                        int rendered_items = 0;
+                        for (int i = 0; i < entity_ptr->inventory->size; i++) {
+                            ItemStack item_stack = entity_ptr->inventory->content[i];
+					        if (item_stack.type != item_type_empty) {
+							    SDL_Rect item_tile = tile;
+							    item_tile.w = item_size;
+							    item_tile.h = item_size;
+
+							    float relative_x = -tile.w / 2; // Centering
+							    float relative_y = -tile.h / 2;
+
+							    relative_x += (rendered_items * item_size) % (tile.w - padding * 2) + padding;
+							    relative_y += (rendered_items * item_size) / (tile.w - padding * 2) + padding;
+
+							    relative_x *= cos((float)entity_ptr->rotation / 2);
+							    relative_y *= sin((float)entity_ptr->rotation / 2);
+
+							    relative_x += tile.w / 2; // Moving it back
+							    relative_y += tile.h / 2;
+
+							    item_tile.x += relative_x;
+							    item_tile.y += relative_y;
+
+							    SDL_Rect item_shadow_tile = item_tile;
+							    item_shadow_tile.y += 5; // Shadow offset
+
+							    int item_stack_shift = 3;
+							    for (int rendered_items_in_stack = 0; rendered_items_in_stack < 4 && rendered_items_in_stack < item_stack.amount; rendered_items_in_stack++) {
+								    item_tile.x += item_stack_shift * rendered_items_in_stack;
+								    item_shadow_tile.x += item_stack_shift * rendered_items_in_stack;
+								    SDL_RenderCopyEx(renderer, shadow_texture, NULL, &item_shadow_tile, (rendered_items_in_stack + entity_ptr->rotation) * 90, NULL, false);
+
+								    SDL_RenderCopyEx(renderer, item_textures[item_stack.type], NULL, &item_tile,  (rendered_items_in_stack + entity_ptr->rotation)  * 90, NULL, false);
+							    }
+                           
+							    rendered_items++;
+                            }
+                        }
+                    } 
+                    else SDL_RenderCopyEx(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
+                }
             }
         }
 
@@ -511,6 +515,7 @@ int main(int argc, char* argv[]) {
 
             update_time();
             Uint32 update_delay = 250; // 250
+            //Uint32 ummovable_delay = 100; // To prevent player moving twice when he presses his command at the end of the cycle.
             while (!quit) {
                 last_updated_tick = SDL_GetTicks();
 
@@ -519,11 +524,14 @@ int main(int argc, char* argv[]) {
                 update_entities();
                 update_server();
                 
-                while (SDL_GetTicks() < last_updated_tick + update_delay) {
+                while (graphic_tick < last_updated_tick + update_delay) {
                     quit = process_input();
                     update_player_inventory();
+                    
+                    if (!player_updated && main_player_alive/* && graphic_tick > last_updated_tick + ummovable_delay*/) {
+                        player_updated = update_player();
+                    }
 
-                    if (!player_updated && main_player_alive) player_updated = update_player();
 
                     update_camera();
                     update_particles();

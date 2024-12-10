@@ -51,3 +51,5 @@ bool process_input();
 bool key_tapped(Key key);
 Vector2 from_screen_to_tile_coords(Vector2 screen_coords);
 void init_input();
+
+bool should_player_move_with_key(Key key);

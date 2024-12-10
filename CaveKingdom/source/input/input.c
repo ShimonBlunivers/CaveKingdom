@@ -137,3 +137,10 @@ Vector2 from_screen_to_tile_coords(Vector2 screen_coords) {
 
     return vector2f_to_i(tile_coords_f);
 }
+
+bool should_player_move_with_key(Key key) {
+    if (!key.pressed) return false;
+
+    int double_move_prevention = 150;
+    return key.tick_pressed == graphic_tick || graphic_tick - key.tick_pressed > double_move_prevention;
+}       

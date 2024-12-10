@@ -35,7 +35,6 @@ void new_particle(int x, int y, SDL_Color color) {
 
 	new_item->particle = particle;
 	new_item->next_list_item = NULL;
-	new_item->previous_list_item = NULL;
 
 	PARTICLE_MANAGER.number_of_particles++;
 	if (PARTICLE_MANAGER.first_particle == NULL) {
@@ -47,7 +46,6 @@ void new_particle(int x, int y, SDL_Color color) {
 			item = item->next_list_item;
 		}
 		item->next_list_item = new_item;
-		new_item->previous_list_item = item;
 	}
 }
 
@@ -56,14 +54,6 @@ void remove_particle_list_item(ParticleListItem* list_item) {
 
 	if (PARTICLE_MANAGER.first_particle == list_item) {
 		PARTICLE_MANAGER.first_particle = list_item->next_list_item;
-	}
-
-	if (list_item->previous_list_item != NULL) {
-		list_item->previous_list_item->next_list_item = list_item->next_list_item;
-	}
-
-	if (list_item->next_list_item != NULL) {
-		list_item->next_list_item->previous_list_item = list_item->previous_list_item;
 	}
 
 	PARTICLE_MANAGER.number_of_particles--;
