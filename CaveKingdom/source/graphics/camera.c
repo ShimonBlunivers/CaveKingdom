@@ -7,7 +7,13 @@
 #include "world/chunk.h"
 #include "entities/entity.h"
 
-Camera camera = { 0, 0, 1.0, 0.1, 3.0 };
+Camera camera = { 
+    .x = 0, 
+    .y = 0, 
+    .zoom = 1.0, 
+    .min_zoom = 0.5, 
+    .max_zoom = 3.0,
+};
 
 void update_camera() {
     double player_x = (double)main_player->x;
@@ -19,6 +25,6 @@ void update_camera() {
         player_y = (double)(new_position.y) / TILE_SIZE;
     }
 
-    camera.x = (int)round(TILE_SIZE * camera.zoom * (0.5 + player_x) - 0.5 * SCREEN_WIDTH);
-    camera.y = (int)round(TILE_SIZE * camera.zoom * (0.5 + player_y) - 0.5 * SCREEN_HEIGHT);
+    camera.x = (int)round(TILE_SIZE * (0.5 + player_x) - (0.5 * SCREEN_WIDTH) / camera.zoom);
+    camera.y = (int)round(TILE_SIZE * (0.5 + player_y) - (0.5 * SCREEN_HEIGHT) / camera.zoom);
 }

@@ -3,8 +3,8 @@
 #include "graphics/vector.h"
 #include "entities/entity.h"
 
-#define CHUNK_WIDTH 64
-#define CHUNK_HEIGHT 64
+#define CHUNK_WIDTH 16
+#define CHUNK_HEIGHT 16
 
 #define TILE_SIZE 60
 
@@ -14,6 +14,7 @@
 typedef struct Entity Entity;
 
 typedef struct Chunk {
+	bool visible;
 	int x;
 	int y;
 
@@ -42,5 +43,5 @@ void generate_world(Chunk* chunk, int seed);
 void create_edge_walls(Chunk* chunk);
 void free_world();
 
-bool save_world(char* path); 
+bool save_world(char* path);
 bool load_world(char* path);

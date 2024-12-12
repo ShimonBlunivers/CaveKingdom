@@ -34,6 +34,23 @@ void reset_grid(Chunk* chunk) {
 	}
 }
 
+void generate_world(Chunk* chunk, int seed) {
+	double freq = 10;
+	double amp = 0.1;
+
+	for (int y = 0; y < CHUNK_HEIGHT; y++) {
+		for (int x = 0; x < CHUNK_WIDTH; x++) {
+			if (!(x == 0 || y == 0 || x == CHUNK_WIDTH - 1 || y == CHUNK_HEIGHT - 1)) {
+				int shifted_x = x + chunk->x * CHUNK_WIDTH;
+				int shifted_y = y + chunk->y * CHUNK_HEIGHT;
+				double noise = perlin((x + seed) * freq / CHUNK_WIDTH, (y + seed) * freq / CHUNK_HEIGHT) * amp;
+				if (noise > 0) force_spawn_entity(new_entity(entity_type_stone, shifted_x, shifted_y));
+				else force_spawn_entity(new_entity(entity_type_surface_empty, shifted_x, shifted_y));
+			}
+		}
+	}
+}
+
 Chunk* new_chunk(int x, int y) {
 	Chunk* chunk = malloc(sizeof(Chunk));
 	if (chunk == NULL) {
@@ -42,6 +59,7 @@ Chunk* new_chunk(int x, int y) {
 	}
 	chunk->x = x;
 	chunk->y = y;
+	chunk->visible = true;
 
 	reset_grid(chunk);
 
@@ -56,15 +74,20 @@ bool init_chunk_manager() {
 	CHUNK_MANAGER.number_of_chunks = 0;
 	CHUNK_MANAGER.chunks = malloc(sizeof(Chunk*));
 
-	create_edge_walls(new_chunk(0, 0));
-	
+	//create_edge_walls(new_chunk(0, 0));
+
+	new_chunk(0, 0);
+	new_chunk(0, 1);
+	new_chunk(-1, 0);
+
 	return true;
 }
 
 
 Chunk* get_chunk_from_global_position(int x, int y) {
-	x /= CHUNK_WIDTH;
-	y /= CHUNK_HEIGHT;
+	x = (int)floor((float)x / CHUNK_WIDTH);
+	y = (int)floor((float)y / CHUNK_HEIGHT);
+
 	for (int i = 0; i < CHUNK_MANAGER.number_of_chunks; i++) {
 		Chunk* chunk = CHUNK_MANAGER.chunks[i];
 		if (chunk->x == x && chunk->y == y) return chunk;
@@ -100,27 +123,12 @@ void free_chunk(Chunk* chunk) {
 	free(chunk);
 }
 
-void generate_world(Chunk* chunk, int seed) {
-	double freq = 10;
-	double amp = 0.1;
 
-	for (int y = 0; y < CHUNK_HEIGHT; y++) {
-		for (int x = 0; x < CHUNK_WIDTH; x++) {
-			if (!(x == 0 || y == 0 || x == CHUNK_WIDTH - 1 || y == CHUNK_HEIGHT - 1)) {
-				int shifted_x = x + chunk->x * CHUNK_WIDTH;
-				int shifted_y = y + chunk->y * CHUNK_HEIGHT;
-				double noise = perlin((x + seed) * freq / CHUNK_WIDTH, (y + seed) * freq / CHUNK_HEIGHT) * amp;
-				if (noise > 0) force_spawn_entity(new_entity(entity_type_stone, shifted_x, shifted_y));
-				else force_spawn_entity(new_entity(entity_type_surface_empty, shifted_x, shifted_y));
-			}
-		}
-	}
-}
 
 void create_edge_walls(Chunk* chunk) {
 	for (int y = 0; y < CHUNK_HEIGHT; y++)
 		for (int x = 0; x < CHUNK_WIDTH; x++)
-			if (x == 0 || y == 0 || x == CHUNK_WIDTH - 1 || y == CHUNK_HEIGHT - 1) 
+			if (x == 0 || y == 0 || x == CHUNK_WIDTH - 1 || y == CHUNK_HEIGHT - 1)
 				force_spawn_entity(new_entity(entity_type_water, x + chunk->x * CHUNK_WIDTH, y + chunk->y * CHUNK_HEIGHT));
 }
 

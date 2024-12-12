@@ -241,24 +241,24 @@ void destroy_entity(Entity* entity) {
 
 Entity* get_entity(int x, int y, HeightLayer layer) {
     if (layer < 0 || layer >= number_of_height_layers) return NULL;
+    
 
-    Chunk* chunk = get_chunk_from_global_position(x / CHUNK_WIDTH, y / CHUNK_HEIGHT);
-
+    Chunk* chunk = get_chunk_from_global_position(x, y);
     if (chunk == NULL) return NULL;
+
 
     return get_entity_from_chunk(chunk, x, y, layer);
 }
 
 
 bool set_entity(int x, int y, Entity* entity) {
-    Chunk* chunk = get_chunk_from_global_position(x / CHUNK_WIDTH, y / CHUNK_HEIGHT);
+    Chunk* chunk = get_chunk_from_global_position(x, y);
     if (chunk == NULL) return false;
     chunk->entity_position_grid[y * CHUNK_WIDTH + x][entity->height_layer] = entity;
     return true;
 }
 
 bool spawn_entity(Entity entity) {
-    if (entity.x < 0 || entity.y < 0 || entity.x >= CHUNK_WIDTH || entity.y >= CHUNK_HEIGHT) return false;
     Entity* entity_pointer = get_entity(entity.x, entity.y, entity.height_layer);
     if (!is_empty_entity_type(entity_pointer->type)) return false;
     *entity_pointer = entity;
@@ -269,7 +269,6 @@ bool spawn_entity(Entity entity) {
 }
 
 bool force_spawn_entity(Entity entity) {
-    if (entity.x < 0 || entity.y < 0 || entity.x >= CHUNK_WIDTH || entity.y >= CHUNK_HEIGHT) return false;
     Entity* old_entity = get_entity(entity.x, entity.y, entity.height_layer);
     free_entity(old_entity);
     *old_entity = entity;
@@ -490,7 +489,7 @@ bool update_player() {
         if (abs(distance.x) <= 1 && abs(distance.y) <= 1) {
             Entity* entity_clicked = get_entity(clicked_tile_position.x, clicked_tile_position.y, height_layer_surface);
 
-            if (entity_clicked->type != entity_type_player) {
+            if (entity_clicked != NULL && entity_clicked->type != entity_type_player) {
                 updated |= hit_entity(main_player, entity_clicked);
 
                 //entity_clicked->thermal.temperature = 1000; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
