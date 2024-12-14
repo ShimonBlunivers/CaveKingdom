@@ -236,7 +236,13 @@ void destroy_entity(Entity* entity) {
 
 	Chunk* chunk = get_chunk_from_global_position(entity->x, entity->y);
 
-	*chunk->entity_position_grid[(entity->y % CHUNK_HEIGHT) * CHUNK_WIDTH + entity->x % CHUNK_WIDTH][created_entity.height_layer] = created_entity;
+	int x = entity->x;
+	int y = entity->y;
+
+	if (x < 0) x += CHUNK_WIDTH;
+	if (y < 0) y += CHUNK_HEIGHT;
+
+	*chunk->entity_position_grid[(y % CHUNK_HEIGHT) * CHUNK_WIDTH + x % CHUNK_WIDTH][created_entity.height_layer] = created_entity;
 }
 
 Entity* get_entity(int x, int y, HeightLayer layer) {
@@ -249,10 +255,13 @@ Entity* get_entity(int x, int y, HeightLayer layer) {
 	return get_entity_from_chunk(chunk, x, y, layer);
 }
 
-
 bool set_entity(int x, int y, Entity* entity) {
 	Chunk* chunk = get_chunk_from_global_position(x, y);
 	if (chunk == NULL) return false;
+
+	if (x < 0) x += CHUNK_WIDTH;
+	if (y < 0) y += CHUNK_HEIGHT;
+
 	chunk->entity_position_grid[(y % CHUNK_HEIGHT) * CHUNK_WIDTH + x % CHUNK_WIDTH][entity->height_layer] = entity;
 	return true;
 }
@@ -296,7 +305,6 @@ bool hit_entity(Entity* hitter, Entity* target) {
 void switch_entities(Entity* entity, Entity* neighbour_entity) {
 	int x1 = entity->x;
 	int y1 = entity->y;
-
 
 	int x2 = neighbour_entity->x;
 	int y2 = neighbour_entity->y;

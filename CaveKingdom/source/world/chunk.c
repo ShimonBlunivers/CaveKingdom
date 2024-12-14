@@ -25,9 +25,11 @@ bool add_chunk_to_manager(Chunk* chunk) {
 void reset_grid(Chunk* chunk) {
 	for (int layer = 0; layer < number_of_height_layers; layer++) {
 		for (int i = 0; i < CHUNK_WIDTH * CHUNK_HEIGHT; i++) {
-			if (layer == height_layer_ground) chunk->entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer] = new_entity(entity_type_dirt, i % CHUNK_WIDTH, i / CHUNK_WIDTH);
-			if (layer == height_layer_surface) chunk->entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer] = new_entity(entity_type_surface_empty, i % CHUNK_WIDTH, i / CHUNK_WIDTH);
-			if (layer == height_layer_air) chunk->entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer] = new_entity(entity_type_air_empty, i % CHUNK_WIDTH, i / CHUNK_WIDTH);
+			int x = i % CHUNK_WIDTH + chunk->x * CHUNK_WIDTH;
+			int y = i / CHUNK_WIDTH + chunk->y * CHUNK_HEIGHT;
+			if (layer == height_layer_ground) chunk->entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer] = new_entity(entity_type_dirt, x, y);
+			if (layer == height_layer_surface) chunk->entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer] = new_entity(entity_type_surface_empty, x, y);
+			if (layer == height_layer_air) chunk->entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer] = new_entity(entity_type_air_empty, x, y);
 
 			chunk->entity_position_grid[i][layer] = &chunk->entity_list[i + CHUNK_WIDTH * CHUNK_HEIGHT * layer];
 		}
@@ -76,7 +78,7 @@ bool init_chunk_manager() {
 
 	new_chunk(0, 0);
 	new_chunk(0, 1);
-	//new_chunk(-1, 0);
+	new_chunk(-1, 0);
 
 	return true;
 }
@@ -114,7 +116,6 @@ Entity* get_entity_from_chunk(Chunk* chunk, int x, int y, HeightLayer layer) {
 
 	return chunk->entity_position_grid[y * CHUNK_WIDTH + x][layer];
 }
-
 
 
 void free_chunk(Chunk* chunk) {

@@ -268,7 +268,6 @@ void draw_world() {
 										if (has_tween == 0 && entity_ptr->tween == NULL || has_tween == 1 && entity_ptr->tween != NULL) {
 											if (entity_ptr->visibility != NULL && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen
 												&& (entity_textures[entity_ptr->type] != NULL || entity_ptr->type == entity_type_dropped_items)) {
-
 												tile = (SDL_Rect){ TILE_SIZE * x_shifted, TILE_SIZE * y_shifted, TILE_SIZE, TILE_SIZE };
 												if (entity_ptr->tween != NULL) {
 													Vector2 position = get_current_tween_position(*entity_ptr->tween);
@@ -560,10 +559,10 @@ int main(int argc, char* argv[]) {
 
 	//  Testing setup
 	{
-		//Vector2 pos = find_empty_tile();
-		//force_spawn_entity(new_entity(entity_type_enemy, pos.x, pos.y));
-		//pos = find_empty_tile();
-		//force_spawn_entity(new_entity(entity_type_zombie, pos.x, pos.y));
+		Vector2 pos = find_empty_tile();
+		force_spawn_entity(new_entity(entity_type_enemy, pos.x, pos.y));
+		pos = find_empty_tile();
+		force_spawn_entity(new_entity(entity_type_zombie, pos.x, pos.y));
 	}
 
 

@@ -3,7 +3,7 @@
 #include "graphics/vector.h"
 #include "entities/entity.h"
 
-#define CHUNK_WIDTH 16
+#define CHUNK_WIDTH 8
 #define CHUNK_HEIGHT CHUNK_WIDTH
 
 #define TILE_SIZE 60
@@ -39,6 +39,7 @@ Chunk* get_chunk(int x, int y);
 Chunk* get_chunk_from_global_position(int x, int y);
 void free_chunk(Chunk* chunk);
 Entity* get_entity_from_chunk(Chunk* chunk, int x, int y, HeightLayer layer);
+
 
 void reset_grid(Chunk* chunk);
 void generate_world(Chunk* chunk, int seed);
