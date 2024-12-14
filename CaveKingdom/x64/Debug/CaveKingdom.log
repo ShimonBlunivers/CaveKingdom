@@ -1,9 +1,39 @@
 ﻿  main.c
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(294,30): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(295,30): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(300,31): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(301,31): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(277,37): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(288,43): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\shimo\source\repos\CaveKingdom\CaveKingdom\source\core\main.c(289,43): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-  CaveKingdom.vcxproj -> C:\Users\shimo\source\repos\CaveKingdom\x64\Debug\CaveKingdom.exe
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(298,30): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(299,30): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(304,31): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(305,31): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(281,37): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(292,43): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\core\main.c(293,43): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  entity.c
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(50,20): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(65,62): warning C4047: 'initializing': 'Entity *' differs in levels of indirection from 'int'
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(193,37): warning C4305: '=': truncation from 'double' to 'float'
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(34,14): warning C4101: 'height_layer': unreferenced local variable
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(287,64): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(287,125): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(397,12): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(446,104): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(446,112): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(450,105): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(450,114): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(454,104): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(454,132): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(456,42): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\entities\entity.c(457,42): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  camera.c
+  input.c
+D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c(15,29): warning C4013: 'get_sdl_key_code' undefined; assuming extern returning int
+D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c(131,73): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c(131,86): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c(148,80): warning C4018: '>': signed/unsigned mismatch
+  inventory.c
+  chunk.c
+D:\Programming\C\CaveKingdom\CaveKingdom\source\world\chunk.c(45,44): warning C4244: 'function': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\world\chunk.c(45,77): warning C4244: 'function': conversion from 'double' to 'float', possible loss of data
+D:\Programming\C\CaveKingdom\CaveKingdom\source\world\chunk.c(122,3): warning C4013: 'free_entity' undefined; assuming extern returning int
+  Generating Code...
+D:\Programming\C\CaveKingdom\CaveKingdom\source\world\chunk.c(141,1): warning C4716: 'save_world': must return a value
+D:\Programming\C\CaveKingdom\CaveKingdom\source\world\chunk.c(145,1): warning C4716: 'load_world': must return a value
+  CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe

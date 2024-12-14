@@ -9,7 +9,7 @@ int move_tile_tween_duration = 225;
 Vector2 get_current_tween_position(Tween tween) {
 	return (Vector2) {
 		.x = tween.start_x + (int)round(((tween.finish_x - tween.start_x) * ((double)(graphic_tick - tween.start_tick) / (double)(tween.finish_tick - tween.start_tick)))),
-		.y = tween.start_y + (int)round(((tween.finish_y - tween.start_y) * ((double)(graphic_tick - tween.start_tick) / (double)(tween.finish_tick - tween.start_tick)))),
+			.y = tween.start_y + (int)round(((tween.finish_y - tween.start_y) * ((double)(graphic_tick - tween.start_tick) / (double)(tween.finish_tick - tween.start_tick)))),
 	};
 }
 

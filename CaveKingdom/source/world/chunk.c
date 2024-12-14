@@ -40,13 +40,11 @@ void generate_world(Chunk* chunk, int seed) {
 
 	for (int y = 0; y < CHUNK_HEIGHT; y++) {
 		for (int x = 0; x < CHUNK_WIDTH; x++) {
-			if (!(x == 0 || y == 0 || x == CHUNK_WIDTH - 1 || y == CHUNK_HEIGHT - 1)) {
-				int shifted_x = x + chunk->x * CHUNK_WIDTH;
-				int shifted_y = y + chunk->y * CHUNK_HEIGHT;
-				double noise = perlin((x + seed) * freq / CHUNK_WIDTH, (y + seed) * freq / CHUNK_HEIGHT) * amp;
-				if (noise > 0) force_spawn_entity(new_entity(entity_type_stone, shifted_x, shifted_y));
-				else force_spawn_entity(new_entity(entity_type_surface_empty, shifted_x, shifted_y));
-			}
+			int shifted_x = x + chunk->x * CHUNK_WIDTH;
+			int shifted_y = y + chunk->y * CHUNK_HEIGHT;
+			double noise = perlin((x + seed) * freq / CHUNK_WIDTH, (y + seed) * freq / CHUNK_HEIGHT) * amp;
+			if (noise > 0) force_spawn_entity(new_entity(entity_type_stone, shifted_x, shifted_y));
+			else force_spawn_entity(new_entity(entity_type_surface_empty, shifted_x, shifted_y));
 		}
 	}
 }
@@ -78,7 +76,7 @@ bool init_chunk_manager() {
 
 	new_chunk(0, 0);
 	new_chunk(0, 1);
-	new_chunk(-1, 0);
+	//new_chunk(-1, 0);
 
 	return true;
 }
@@ -95,6 +93,7 @@ Chunk* get_chunk_from_global_position(int x, int y) {
 
 	return NULL;
 }
+
 
 Chunk* get_chunk(int x, int y) {
 	for (int i = 0; i < CHUNK_MANAGER.number_of_chunks; i++) {
@@ -117,13 +116,12 @@ Entity* get_entity_from_chunk(Chunk* chunk, int x, int y, HeightLayer layer) {
 }
 
 
+
 void free_chunk(Chunk* chunk) {
 	for (int i = 0; i < CHUNK_WIDTH * CHUNK_HEIGHT * number_of_height_layers; i++)
 		free_entity(&chunk->entity_list[i]);
 	free(chunk);
 }
-
-
 
 void create_edge_walls(Chunk* chunk) {
 	for (int y = 0; y < CHUNK_HEIGHT; y++)

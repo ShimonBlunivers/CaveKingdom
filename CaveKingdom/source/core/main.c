@@ -217,7 +217,6 @@ void draw_world() {
 			Vector2 end_position = (Vector2){ vision_edge_positions[i].x - PLAYER_VIEW_DISTANCE / 2, vision_edge_positions[i].y - PLAYER_VIEW_DISTANCE / 2 };
 			Vector2f direction_vector = vector2f_divide(vector2_to_f(end_position), (Vector2f) { (float)(TILE_SIZE * PLAYER_VIEW_DISTANCE), (float)(TILE_SIZE * PLAYER_VIEW_DISTANCE) });
 
-			//printf("x: %d; y: %d\n", vision_edge_positions[i].x, vision_edge_positions[i].y);
 			Vector2 current_position;
 
 			for (j = 0; j < PLAYER_VIEW_DISTANCE; j++) {
@@ -227,14 +226,18 @@ void draw_world() {
 				bool transparent = true;
 				if (entity_ptr != NULL) {
 					for (layer = 0; layer < number_of_height_layers; layer++) {
-						Entity* entity_at_layer = get_entity(entity_ptr->x, entity_ptr->y, layer);
+						Entity* entity_at_layer = get_entity(current_position.x + main_player->x, current_position.y + main_player->y, layer);
 						if (entity_at_layer != NULL && entity_at_layer->visibility != NULL) {
-							entity_ptr = entity_at_layer;
-							entity_at_layer->visibility->seen = true;
-							entity_at_layer->visibility->last_seen = game_tick;
-							entity_at_layer->visibility->last_seen_as = entity_at_layer;
-							if (!entity_ptr->is_transparent) transparent = false;
+							if (entity_at_layer->visibility != NULL) {
+								entity_at_layer->visibility->seen = true;
+								entity_at_layer->visibility->last_seen = game_tick;
+								entity_at_layer->visibility->last_seen_as = entity_at_layer;
 
+
+								//printf("x: %d ; y: %d ;", current_position.x + main_player->x, current_position.y + main_player->y);
+								//printf(" %d\n", entity_at_layer->type);
+							}
+							if (!entity_at_layer->is_transparent) transparent = false;
 						}
 					}
 				}
@@ -242,13 +245,13 @@ void draw_world() {
 			}
 		}
 
-		for (int chunk_index = 0; chunk_index < CHUNK_MANAGER.number_of_chunks; chunk_index++) {
-			Chunk* chunk = CHUNK_MANAGER.chunks[chunk_index];
-			if (chunk->visible) {
-				// Rendering seen tiles
 
-				for (int layer = 0, has_tween, y, x; layer < number_of_height_layers; layer++) {
-					for (has_tween = 0; has_tween <= 1; has_tween++) {// Renders tiles with animation on top of others to avoid unexpected layering
+		// Rendering seen tiles
+		for (int layer = 0, has_tween, y, x; layer < number_of_height_layers; layer++) {
+			for (has_tween = 0; has_tween <= 1; has_tween++) {// Renders tiles with animation on top of others to avoid unexpected layering
+				for (int chunk_index = 0; chunk_index < CHUNK_MANAGER.number_of_chunks; chunk_index++) {
+					Chunk* chunk = CHUNK_MANAGER.chunks[chunk_index];
+					if (chunk->visible) {
 						for (y = 0; y < CHUNK_HEIGHT; y++) {
 							for (x = 0; x < CHUNK_WIDTH; x++) {
 								int x_shifted = x + chunk->x * CHUNK_WIDTH;
@@ -269,6 +272,7 @@ void draw_world() {
 												tile = (SDL_Rect){ TILE_SIZE * x_shifted, TILE_SIZE * y_shifted, TILE_SIZE, TILE_SIZE };
 												if (entity_ptr->tween != NULL) {
 													Vector2 position = get_current_tween_position(*entity_ptr->tween);
+
 													tile.x = position.x;
 													tile.y = position.y;
 												}
@@ -327,11 +331,15 @@ void draw_world() {
 						}
 					}
 				}
+			}
+		}
 
-				// Rendering the every unseen as darker
-				for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++) {
+		// Rendering the every unseen as darker
+		for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++) {
+			for (int chunk_index = 0; chunk_index < CHUNK_MANAGER.number_of_chunks; chunk_index++) {
+				Chunk* chunk = CHUNK_MANAGER.chunks[chunk_index];
+				if (chunk->visible) {
 					for (x = 0; x < CHUNK_WIDTH; x++) {
-
 						int x_shifted = x + chunk->x * CHUNK_WIDTH;
 						int y_shifted = y + chunk->y * CHUNK_HEIGHT;
 						tile = (SDL_Rect){ TILE_SIZE * x_shifted, TILE_SIZE * y_shifted, TILE_SIZE, TILE_SIZE };
@@ -346,8 +354,13 @@ void draw_world() {
 						}
 					}
 				}
+			}
+		}
 
-				for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++) { // Rendering every hidden
+		for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++) { // Rendering every hidden
+			for (int chunk_index = 0; chunk_index < CHUNK_MANAGER.number_of_chunks; chunk_index++) {
+				Chunk* chunk = CHUNK_MANAGER.chunks[chunk_index];
+				if (chunk->visible) {
 					for (x = 0; x < CHUNK_WIDTH; x++) {
 						int x_shifted = x + chunk->x * CHUNK_WIDTH;
 						int y_shifted = y + chunk->y * CHUNK_HEIGHT;
@@ -367,23 +380,28 @@ void draw_world() {
 						}
 					}
 				}
+			}
+		}
 
-				{   // Particles
-					SDL_Rect particle_rect;
-					ParticleListItem* item = PARTICLE_MANAGER.first_particle;
-					while (item != NULL) {
-						particle_rect = (SDL_Rect){ (int)round(item->particle.x), (int)round(item->particle.y), item->particle.size, item->particle.size };
-						SDL_SetRenderDrawColor(renderer, item->particle.color.r, item->particle.color.g, item->particle.color.b, item->particle.color.a);
-						render_fill_rect(renderer, &particle_rect);
-						item = item->next_list_item;
-					}
-				}
-				{   // Healthbars
-					Entity* entity_ptr;
-					SDL_Rect tile;
-					int max_healthbar_width = TILE_SIZE;
-					int max_healthbar_height = TILE_SIZE / 5;
-					for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++) {
+		{   // Particles
+			SDL_Rect particle_rect;
+			ParticleListItem* item = PARTICLE_MANAGER.first_particle;
+			while (item != NULL) {
+				particle_rect = (SDL_Rect){ (int)round(item->particle.x), (int)round(item->particle.y), item->particle.size, item->particle.size };
+				SDL_SetRenderDrawColor(renderer, item->particle.color.r, item->particle.color.g, item->particle.color.b, item->particle.color.a);
+				render_fill_rect(renderer, &particle_rect);
+				item = item->next_list_item;
+			}
+		}
+		{   // Healthbars
+			Entity* entity_ptr;
+			SDL_Rect tile;
+			int max_healthbar_width = TILE_SIZE;
+			int max_healthbar_height = TILE_SIZE / 5;
+			for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++) {
+				for (int chunk_index = 0; chunk_index < CHUNK_MANAGER.number_of_chunks; chunk_index++) {
+					Chunk* chunk = CHUNK_MANAGER.chunks[chunk_index];
+					if (chunk->visible) {
 						for (x = 0; x < CHUNK_WIDTH; x++) {
 							int x_shifted = x + chunk->x * CHUNK_WIDTH;
 							int y_shifted = y + chunk->y * CHUNK_HEIGHT;
@@ -433,7 +451,6 @@ void draw_world() {
 		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 		SDL_RenderClear(renderer);
 		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
-
 
 		Inventory* inventory = main_player->inventory;
 

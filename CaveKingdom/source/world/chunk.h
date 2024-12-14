@@ -4,7 +4,7 @@
 #include "entities/entity.h"
 
 #define CHUNK_WIDTH 16
-#define CHUNK_HEIGHT 16
+#define CHUNK_HEIGHT CHUNK_WIDTH
 
 #define TILE_SIZE 60
 
@@ -33,7 +33,9 @@ extern ChunkManager CHUNK_MANAGER;
 
 bool init_chunk_manager();
 Chunk* new_chunk(int x, int y);
+// Returns chunk with given x, y
 Chunk* get_chunk(int x, int y);
+// Returns chunk on global position - use on entity coordinates
 Chunk* get_chunk_from_global_position(int x, int y);
 void free_chunk(Chunk* chunk);
 Entity* get_entity_from_chunk(Chunk* chunk, int x, int y, HeightLayer layer);
