@@ -366,14 +366,13 @@ void draw_world() {
 						bool hidden = true;
 						for (layer = 0; layer < number_of_height_layers; layer++) {
 							entity_ptr = get_entity(x_shifted, y_shifted, layer);
-
 							if (entity_ptr != NULL && entity_ptr->visibility != NULL && entity_ptr->visibility->seen) {
 								hidden = false;
 								break;
 							}
 						}
 						if (hidden) {
-							float hidden_tile_offset = TILE_SIZE * 0.3;
+							float hidden_tile_offset = TILE_SIZE * 0.31;
 							tile = (SDL_Rect){ TILE_SIZE * x_shifted - (int)round(hidden_tile_offset), TILE_SIZE * y_shifted - (int)round(hidden_tile_offset), TILE_SIZE + (int)round(hidden_tile_offset * 2), TILE_SIZE + (int)round(hidden_tile_offset * 2) };
 							render_copy_ex(renderer, hidden_texture, NULL, &tile, 0, NULL, false);
 						}
@@ -396,7 +395,7 @@ void draw_world() {
 			Entity* entity_ptr;
 			SDL_Rect tile;
 			int max_healthbar_width = TILE_SIZE;
-			int max_healthbar_height = TILE_SIZE / 5;
+			int max_healthbar_height = 16;
 			for (int y = 0, x, layer; y < CHUNK_HEIGHT; y++) {
 				for (int chunk_index = 0; chunk_index < CHUNK_MANAGER.number_of_chunks; chunk_index++) {
 					Chunk* chunk = CHUNK_MANAGER.chunks[chunk_index];
@@ -423,7 +422,7 @@ void draw_world() {
 										int tile_x = tile.x - max_healthbar_width / 2 + TILE_SIZE / 2;
 										int tile_y = tile.y;
 
-										Vector2 padding = { 2, 3 };
+										Vector2 padding = { 2, 2 };
 										SDL_Rect outline_rect = { tile_x, tile_y, max_healthbar_width, max_healthbar_height };
 										SDL_Rect background_rect = { outline_rect.x + padding.x, outline_rect.y + padding.y, outline_rect.w - padding.x * 2, outline_rect.h - padding.y * 2 };
 										SDL_Rect health_rect = { background_rect.x, background_rect.y, (int)(background_rect.w * ((float)entity_ptr->health->current / entity_ptr->health->max)), background_rect.h };
