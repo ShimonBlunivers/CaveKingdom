@@ -4,6 +4,8 @@
 
 #include "entities/entity.h"
 
+#include "core/game.h"
+
 #include "input/input.h"
 #include "world/chunk.h"
 
@@ -449,14 +451,13 @@ void update_entities() {
 					int x = j < 2 ? -1 + (j % 2) * 2 : 0;
 					int y = j >= 2 ? -1 + ((j + 2) % 2) * 2 : 0;
 					Entity* neighbour = get_entity(entity->x + x, entity->y + y, entity->height_layer);
-					if (neighbour == NULL) continue;
-					if (neighbour->health->current > 0) {
+					if (neighbour == NULL) entity->brain->desired_direction = vector2f_sum(entity->brain->desired_direction, (Vector2f) { -x * .2, -y * .2 });
+					else if (neighbour->health->current > 0) {
 						entity->brain->desired_direction = vector2f_sum(entity->brain->desired_direction, (Vector2f) { x * .5, y * .5 });
 						hit_entity(entity, neighbour);
 					}
-					else if (neighbour->is_obstacle || get_entity(entity->x + x, entity->y + y, entity->height_layer - 1)->is_obstacle) {
+					else if (neighbour->is_obstacle || get_entity(entity->x + x, entity->y + y, entity->height_layer - 1)->is_obstacle)
 						entity->brain->desired_direction = vector2f_sum(entity->brain->desired_direction, (Vector2f) { -x * .2, -y * .2 });
-					}
 				}
 
 				entity->brain->desired_direction = vector2f_sum(entity->brain->desired_direction, (Vector2f) { -.1 + ((rand() % 3)) / 10., -.1 + ((rand() % 3)) / 10. });
