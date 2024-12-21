@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdbool.h>
+
 #include "input.h"
 #include "core/game.h"
 #include "world/chunk.h"
@@ -30,6 +33,8 @@ static SDL_KeyCode get_sdl_key_code(KeyCode code) {
 		return SDLK_d;
 	case key_f:
 		return SDLK_f;
+	case key_tab:
+		return SDLK_TAB;
 	case key_1:
 		return SDLK_1;
 	case key_2:
@@ -68,7 +73,11 @@ static void key_press(KeyCode key) {
 }
 
 bool key_tapped(Key key) {
-	return key.tick_pressed == graphic_tick;
+	if (key.tick_pressed == graphic_tick) {
+		key.tick_pressed--;
+		return true;
+	}
+	return false;
 }
 
 bool process_input() {

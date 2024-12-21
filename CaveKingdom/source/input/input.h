@@ -6,43 +6,45 @@
 #include "graphics/vector.h"
 
 typedef struct Mouse {
-    int x;
-    int y;
-    bool left_button_pressed;
-    bool right_button_pressed;
-    bool left_button_clicked;
-    bool right_button_clicked;
+	int x;
+	int y;
+	bool left_button_pressed;
+	bool right_button_pressed;
+	bool left_button_clicked;
+	bool right_button_clicked;
 } Mouse;
 
 extern Mouse mouse;
 
 typedef enum KeyCode {
-    key_w,
-    key_s,
-    key_a,
-    key_d,
+	key_w,
+	key_s,
+	key_a,
+	key_d,
 
-    key_f,
+	key_f,
 
-    key_1,
-    key_2,
-    key_3,
-    key_4,
-    key_5,
-    key_6,
-    key_7,
-    key_8,
-    key_9,
-    key_0,
+	key_tab,
 
-    number_of_keys, // DO NOT USE AS KEY CODE !
+	key_1,
+	key_2,
+	key_3,
+	key_4,
+	key_5,
+	key_6,
+	key_7,
+	key_8,
+	key_9,
+	key_0,
+
+	number_of_keys, // DO NOT USE AS KEY CODE !
 } KeyCode;
 
 
 typedef struct Key {
-    bool pressed;
-    Uint32 tick_pressed;
-    SDL_KeyCode sdl_key_code;
+	bool pressed;
+	Uint32 tick_pressed;
+	SDL_KeyCode sdl_key_code;
 } Key;
 
 extern Key keyboard[number_of_keys];

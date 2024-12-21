@@ -490,7 +490,6 @@ bool update_player() {
 	//Entity* entity_hovered = get_entity(mouse_position.x, mouse_position.y, height_layer_surface);
 	//printf("Temperature: %f\n", entity_hovered->thermal.temperature);
 
-
 	bool updated = false;
 
 	if (mouse.left_button_pressed) {

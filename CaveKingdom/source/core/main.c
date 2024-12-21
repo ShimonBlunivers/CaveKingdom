@@ -35,6 +35,7 @@ typedef enum {
 	ui_element_death_screen,
 	ui_element_healthbar_outline,
 	ui_element_thermometer,
+	ui_element_player_inventory_background,
 
 	number_of_ui_elements, // DO NOT USE AS UI ELEMENT!
 } UIElement;
@@ -79,6 +80,7 @@ void load_textures() {
 	ui_textures[ui_element_death_screen] = IMG_LoadTexture(renderer, "./assets/textures/ui/death_screen.png");
 	ui_textures[ui_element_healthbar_outline] = IMG_LoadTexture(renderer, "./assets/textures/ui/healthbar_outline.png");
 	ui_textures[ui_element_thermometer] = IMG_LoadTexture(renderer, "./assets/textures/ui/thermometer.png");
+	ui_textures[ui_element_player_inventory_background] = IMG_LoadTexture(renderer, "./assets/textures/ui/player_inventory_background.png");
 
 	//Uint8 r, g, b;
 	//SDL_GetTextureColorMod(hidden_texture, &r, &g, &b);
@@ -415,7 +417,8 @@ void draw_world() {
 									render_copy_ex(renderer, entity_textures[entity_ptr->type], NULL, &tile, entity_ptr->rotation * 90, NULL, false);
 									SDL_SetTextureColorMod(entity_textures[entity_ptr->type], 255, 255, 255);
 								}// !!!!!!!!!!!!
-								if (entity_ptr != NULL && entity_ptr->visibility != NULL && !is_empty_entity_type(entity_ptr->type) && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen && entity_textures[entity_ptr->type] != NULL) {
+								if (entity_ptr != NULL && entity_ptr->visibility != NULL && !is_empty_entity_type(entity_ptr->type) && entity_ptr->visibility->last_seen == game_tick && entity_ptr->visibility->seen) {
+									if (entity_ptr->type == entity_type_player) continue;
 									if (entity_ptr->health->max > 0 && entity_ptr->health->max != entity_ptr->health->current) {
 										tile = (SDL_Rect){ TILE_SIZE * x_shifted, TILE_SIZE * y_shifted, TILE_SIZE, TILE_SIZE };
 										if (entity_ptr->tween != NULL) {
@@ -454,116 +457,145 @@ void draw_world() {
 		SDL_RenderClear(renderer);
 		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
 
-		{ // Temperature
 
-			SDL_Rect thermometer_rect = { 4 * UI_RATIO, 82 * UI_RATIO, 39 * UI_RATIO, 156 * UI_RATIO };
+		if (main_player != NULL) {
 
-			SDL_Rect background_rect = { thermometer_rect.x + 14 * UI_RATIO - 2, thermometer_rect.y + 13 * UI_RATIO - 2, thermometer_rect.w / 3, thermometer_rect.h - 27 * UI_RATIO };
+			{ // Temperature
 
-			double percentage = ((main_player->thermal.temperature - 273.15 - 36) / (100 - 36)) * 50 + 50;
+				SDL_Rect thermometer_rect = { 4 * UI_RATIO, 82 * UI_RATIO, 39 * UI_RATIO, 156 * UI_RATIO };
 
-			int difference = percentage * background_rect.h / 100;
+				SDL_Rect background_rect = { thermometer_rect.x + 14 * UI_RATIO - 2, thermometer_rect.y + 13 * UI_RATIO - 2, thermometer_rect.w / 3, thermometer_rect.h - 27 * UI_RATIO };
 
-			difference = SDL_clamp(difference, 1, background_rect.h - 1);
+				double percentage = ((main_player->thermal.temperature - 273.15 - 36) / (100 - 36)) * 50 + 50;
 
-			SDL_Rect temperature_rect = { background_rect.x, background_rect.y + background_rect.h - difference, background_rect.w, difference };
+				int difference = percentage * background_rect.h / 100;
 
-			SDL_SetRenderDrawColor(renderer, 180, 200, 220, 110);
-			SDL_RenderFillRect(renderer, &background_rect);
-			SDL_SetRenderDrawColor(renderer, 200, 60, 60, 255);
-			SDL_RenderFillRect(renderer, &temperature_rect);
-			SDL_RenderCopyEx(renderer, ui_textures[ui_element_thermometer], NULL, &thermometer_rect, 0, NULL, false);
+				difference = SDL_clamp(difference, 1, background_rect.h - 1);
 
-		}
+				SDL_Rect temperature_rect = { background_rect.x, background_rect.y + background_rect.h - difference, background_rect.w, difference };
 
-		{ // Inventory
-			Inventory* inventory = main_player->inventory;
+				SDL_SetRenderDrawColor(renderer, 180, 200, 220, 110);
+				SDL_RenderFillRect(renderer, &background_rect);
+				SDL_SetRenderDrawColor(renderer, 200, 60, 60, 255);
+				SDL_RenderFillRect(renderer, &temperature_rect);
+				SDL_RenderCopyEx(renderer, ui_textures[ui_element_thermometer], NULL, &thermometer_rect, 0, NULL, false);
 
-			int inventory_width = (int)(SCREEN_WIDTH * .9);
-			int inventory_height = (int)(SCREEN_HEIGHT * .12);
+			}
 
-			SDL_Rect inventory_rect = { (SCREEN_WIDTH - inventory_width) / 2,  SCREEN_HEIGHT - inventory_height - 10, inventory_width, inventory_height };
+			{ // Player healthbar
 
-			int slot_size = inventory_width / INVENTORY_SIZE;
+				int healthbar_width = (int)(SCREEN_WIDTH * .9);
+				int healthbar_height = 10 * UI_RATIO;
 
-			int slot_index = 0;
-			int padding = 20;
+				SDL_Rect healthbar_rect = { (SCREEN_WIDTH - healthbar_width) / 2,  SCREEN_HEIGHT - healthbar_height - 100, healthbar_width, healthbar_height };
+				Vector2 padding = { 2, 2 };
+				SDL_Rect background_rect = { healthbar_rect.x + padding.x, healthbar_rect.y + padding.y, healthbar_rect.w - padding.x * 2, healthbar_rect.h - padding.y * 2 };
+				SDL_Rect health_rect = { background_rect.x, background_rect.y, (int)(background_rect.w * ((float)main_player->health->current / main_player->health->max)), background_rect.h };
 
-			int text_padding = 15;
+				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+				SDL_RenderFillRect(renderer, &background_rect);
+				SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+				SDL_RenderFillRect(renderer, &health_rect);
+				SDL_RenderCopyEx(renderer, ui_textures[ui_element_healthbar_outline], NULL, &healthbar_rect, 0, NULL, false);
+			}
 
-			float text_scale = 0.65f;
 
-			float outline_offset = 2.0;
+			{ // Inventory
+				Inventory* inventory = main_player->inventory;
+				if (inventory_opened) {
+					int inventory_width = 351 * UI_RATIO;
+					int inventory_height = 312 * UI_RATIO;
 
-			for (int i = 0; i < INVENTORY_HOTBAR_SLOTS; i++) {
-				SDL_Rect slot_rect = { inventory_rect.x + slot_size * i, inventory_rect.y, slot_size, slot_size };
-				SDL_RenderCopyEx(renderer, ui_textures[ui_element_inventory_slot], NULL, &slot_rect, 0, NULL, false);
+					SDL_Rect inventory_rect = { (SCREEN_WIDTH - inventory_width) / 2,  (SCREEN_HEIGHT - inventory_height) / 2, inventory_width, inventory_height };
+					SDL_RenderCopyEx(renderer, ui_textures[ui_element_player_inventory_background], NULL, &inventory_rect, 0, NULL, false);
+				}
+				else {
+					int inventory_width = (int)(SCREEN_WIDTH * .9);
+					int inventory_height = (int)(SCREEN_HEIGHT * .12);
 
-				if (inventory == NULL || i >= inventory->size) continue;
+					SDL_Rect inventory_rect = { (SCREEN_WIDTH - inventory_width) / 2,  SCREEN_HEIGHT - inventory_height - 10, inventory_width, inventory_height };
 
-				if (inventory->selected_slot == i) SDL_RenderCopyEx(renderer, ui_textures[ui_element_selected_inventory_slot], NULL, &slot_rect, 0, NULL, false);
-				if (inventory->content[i].type != item_type_empty) {
-					SDL_Rect item_rect = { inventory_rect.x + padding + slot_size * i * slot_index++, inventory_rect.y + padding, slot_size - padding * 2, slot_size - padding * 2 };
+					int slot_size = inventory_width / INVENTORY_SIZE;
 
-					if (item_textures[inventory->content[i].type]) SDL_RenderCopyEx(renderer, item_textures[inventory->content[i].type], NULL, &item_rect, 0, NULL, false);
+					int slot_index = 0;
+					int padding = 20;
 
-					char amount[128];
-					sprintf_s(amount, sizeof(amount), "%d", inventory->content[i].amount);
+					int text_padding = 15;
 
-					int text_width, text_height;
+					float text_scale = 0.65f;
 
-					TTF_SizeUTF8(font, amount, &text_width, &text_height);
+					float outline_offset = 2.0;
 
-					SDL_Rect amount_rect = {
-						.x = (int)round(slot_rect.x + text_padding),
-						.y = (int)round(slot_rect.y + slot_rect.h - text_padding / 2 - text_height * text_scale),
-						.w = (int)round(text_width * text_scale),
-						.h = (int)round(text_height * text_scale),
-					};
+					for (int i = 0; i < INVENTORY_HOTBAR_SLOTS; i++) {
+						SDL_Rect slot_rect = { inventory_rect.x + slot_size * i, inventory_rect.y, slot_size, slot_size };
+						SDL_RenderCopyEx(renderer, ui_textures[ui_element_inventory_slot], NULL, &slot_rect, 0, NULL, false);
 
-					SDL_Color text_color = { 255, 255, 255, 255 };
-					SDL_Color text_outline_color = { 0, 0, 0, 255 };
+						if (inventory == NULL || i >= inventory->size) continue;
 
-					SDL_Surface* text_outline_surface = TTF_RenderText_Blended(font, amount, text_outline_color);
+						if (inventory->selected_slot == i) SDL_RenderCopyEx(renderer, ui_textures[ui_element_selected_inventory_slot], NULL, &slot_rect, 0, NULL, false);
+						if (inventory->content[i].type != item_type_empty) {
+							SDL_Rect item_rect = { inventory_rect.x + padding + slot_size * i * slot_index++, inventory_rect.y + padding, slot_size - padding * 2, slot_size - padding * 2 };
 
-					SDL_Surface* text_surface = TTF_RenderText_Blended(font, amount, text_color);
+							if (item_textures[inventory->content[i].type]) SDL_RenderCopyEx(renderer, item_textures[inventory->content[i].type], NULL, &item_rect, 0, NULL, false);
 
-					SDL_Texture* outline_texture = SDL_CreateTextureFromSurface(renderer, text_outline_surface);
-					SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
+							char amount[128];
+							sprintf_s(amount, sizeof(amount), "%d", inventory->content[i].amount);
 
-					SDL_FreeSurface(text_surface);
-					SDL_FreeSurface(text_outline_surface);
+							int text_width, text_height;
 
-					SDL_Rect outline_rect = {
-						.w = amount_rect.w,
-						.h = amount_rect.h,
-					};
+							TTF_SizeUTF8(font, amount, &text_width, &text_height);
 
-					for (int dx = -1; dx <= 1; dx++) {
-						for (int dy = -1; dy <= 1; dy++) {
-							if (dx == 0 && dy == 0) continue; // Skip the center position
-							outline_rect.x = (int)round(amount_rect.x + dx * outline_offset);
-							outline_rect.y = (int)round(amount_rect.y + dy * outline_offset);
-							SDL_RenderCopyEx(renderer, outline_texture, NULL, &outline_rect, 0, NULL, false);
+							SDL_Rect amount_rect = {
+								.x = (int)round(slot_rect.x + text_padding),
+								.y = (int)round(slot_rect.y + slot_rect.h - text_padding / 2 - text_height * text_scale),
+								.w = (int)round(text_width * text_scale),
+								.h = (int)round(text_height * text_scale),
+							};
+
+							SDL_Color text_color = { 255, 255, 255, 255 };
+							SDL_Color text_outline_color = { 0, 0, 0, 255 };
+
+							SDL_Surface* text_outline_surface = TTF_RenderText_Blended(font, amount, text_outline_color);
+
+							SDL_Surface* text_surface = TTF_RenderText_Blended(font, amount, text_color);
+
+							SDL_Texture* outline_texture = SDL_CreateTextureFromSurface(renderer, text_outline_surface);
+							SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
+
+							SDL_FreeSurface(text_surface);
+							SDL_FreeSurface(text_outline_surface);
+
+							SDL_Rect outline_rect = {
+								.w = amount_rect.w,
+								.h = amount_rect.h,
+							};
+
+							for (int dx = -1; dx <= 1; dx++) {
+								for (int dy = -1; dy <= 1; dy++) {
+									if (dx == 0 && dy == 0) continue; // Skip the center position
+									outline_rect.x = (int)round(amount_rect.x + dx * outline_offset);
+									outline_rect.y = (int)round(amount_rect.y + dy * outline_offset);
+									SDL_RenderCopyEx(renderer, outline_texture, NULL, &outline_rect, 0, NULL, false);
+								}
+							}
+
+							SDL_RenderCopyEx(renderer, text_texture, NULL, &amount_rect, 0, NULL, false);
+
+							SDL_DestroyTexture(outline_texture);
+							SDL_DestroyTexture(text_texture);
 						}
 					}
-
-					SDL_RenderCopyEx(renderer, text_texture, NULL, &amount_rect, 0, NULL, false);
-
-					SDL_DestroyTexture(outline_texture);
-					SDL_DestroyTexture(text_texture);
 				}
 			}
 		}
-	}
 
-	// Death screen
-	if (!main_player_alive) {
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128);
-		SDL_RenderFillRect(renderer, NULL);
-		render_copy_ex(renderer, ui_textures[ui_element_death_screen], NULL, NULL, 0, NULL, false);
+		// Death screen
+		if (!main_player_alive) {
+			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128);
+			SDL_RenderFillRect(renderer, NULL);
+			render_copy_ex(renderer, ui_textures[ui_element_death_screen], NULL, NULL, 0, NULL, false);
+		}
 	}
-	//
 
 	SDL_SetRenderTarget(renderer, NULL);
 	SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);

@@ -12,3 +12,4 @@
 #define TILE_SIZE (TILE_RATIO * 26) // * texture_size
 
 extern bool thermal_vision;
+extern bool inventory_opened;
