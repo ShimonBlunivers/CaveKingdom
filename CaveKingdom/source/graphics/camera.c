@@ -16,7 +16,7 @@ Camera camera = {
 };
 
 void update_camera() {
-	if (main_player == NULL) return;
+	if (main_player == NULL || !main_player_alive) return;
 	double player_x = (double)main_player->x;
 	double player_y = (double)main_player->y;
 

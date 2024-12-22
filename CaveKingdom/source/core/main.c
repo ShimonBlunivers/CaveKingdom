@@ -18,6 +18,8 @@
 #include "graphics/particles.h"
 #include "networking/networking.h"
 
+char game_description[32];
+
 int game_status = 1;
 
 SDL_Window* window = NULL;
@@ -26,8 +28,6 @@ SDL_Renderer* renderer = NULL;
 SDL_Texture* viewport = NULL;
 SDL_Texture* gui = NULL;
 TTF_Font* font = NULL;
-SDL_Texture* text = NULL;
-
 
 typedef enum {
 	ui_element_selected_inventory_slot,
@@ -205,6 +205,70 @@ void render_fill_rect(SDL_Renderer* renderer, SDL_Rect* rect) {
 	else SDL_RenderFillRect(renderer, NULL);
 }
 
+void render_outlined_text(int x, int y, char* text, float text_scale, float outline_offset) {
+	int text_width, text_height;
+
+	TTF_SizeUTF8(font, text, &text_width, &text_height);
+
+	SDL_Rect text_rect = {
+		.x = (int)round(x),
+		.y = (int)round(y),
+		.w = (int)round(text_width * text_scale),
+		.h = (int)round(text_height * text_scale),
+	};
+
+	SDL_Color text_color = { 255, 255, 255, 255 };
+	SDL_Color text_outline_color = { 0, 0, 0, 255 };
+
+	SDL_Surface* text_outline_surface = TTF_RenderText_Blended(font, text, text_outline_color);
+
+	SDL_Surface* text_surface = TTF_RenderText_Blended(font, text, text_color);
+
+	SDL_Texture* outline_texture = SDL_CreateTextureFromSurface(renderer, text_outline_surface);
+	SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
+
+	SDL_FreeSurface(text_surface);
+	SDL_FreeSurface(text_outline_surface);
+
+	SDL_Rect outline_rect = {
+		.w = text_rect.w,
+		.h = text_rect.h,
+	};
+
+	for (int dx = -1; dx <= 1; dx++) { // Outline
+		for (int dy = -1; dy <= 1; dy++) {
+			if (dx == 0 && dy == 0) continue;
+			outline_rect.x = (int)round(text_rect.x + dx * outline_offset);
+			outline_rect.y = (int)round(text_rect.y + dy * outline_offset);
+			SDL_RenderCopyEx(renderer, outline_texture, NULL, &outline_rect, 0, NULL, false);
+		}
+	}
+
+	SDL_RenderCopyEx(renderer, text_texture, NULL, &text_rect, 0, NULL, false);
+
+	SDL_DestroyTexture(outline_texture);
+	SDL_DestroyTexture(text_texture);
+}
+
+void render_item_stack(SDL_Rect item_stack_rect, ItemStack stack) {
+	if (stack.type != item_type_empty) {
+		int text_padding = 15;
+		float text_scale = 0.65f;
+		float outline_offset = 2.0;
+		int padding = 20;
+
+		SDL_Rect item_rect = { item_stack_rect.x + padding, item_stack_rect.y + padding, item_stack_rect.w - padding * 2, item_stack_rect.h - padding * 2 };
+
+		if (item_textures[stack.type]) {
+			SDL_RenderCopyEx(renderer, item_textures[stack.type], NULL, &item_rect, 0, NULL, false);
+		}
+
+		char amount[128];
+		sprintf_s(amount, sizeof(amount), "%d", stack.amount);
+
+		render_outlined_text(item_stack_rect.x + text_padding, item_stack_rect.y + item_stack_rect.h - 20 - text_padding, amount, text_scale, outline_offset);
+	}
+}
 
 void draw_world() {
 
@@ -458,134 +522,81 @@ void draw_world() {
 		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
 
 
-		if (main_player != NULL) {
+		if (main_player != NULL && main_player_alive) {
 
-			{ // Temperature
+			if (!inventory_opened) {
 
-				SDL_Rect thermometer_rect = { 4 * UI_RATIO, 82 * UI_RATIO, 39 * UI_RATIO, 156 * UI_RATIO };
+				{ // Temperature
 
-				SDL_Rect background_rect = { thermometer_rect.x + 14 * UI_RATIO - 2, thermometer_rect.y + 13 * UI_RATIO - 2, thermometer_rect.w / 3, thermometer_rect.h - 27 * UI_RATIO };
+					SDL_Rect thermometer_rect = { 4 * UI_RATIO, 82 * UI_RATIO, 39 * UI_RATIO, 156 * UI_RATIO };
 
-				double percentage = ((main_player->thermal.temperature - 273.15 - 36) / (100 - 36)) * 50 + 50;
+					SDL_Rect background_rect = { thermometer_rect.x + 14 * UI_RATIO - 2, thermometer_rect.y + 13 * UI_RATIO - 2, thermometer_rect.w / 3, thermometer_rect.h - 27 * UI_RATIO };
 
-				int difference = percentage * background_rect.h / 100;
+					double percentage = ((main_player->thermal.temperature - 273.15 - 36) / (100 - 36)) * 50 + 50;
 
-				difference = SDL_clamp(difference, 1, background_rect.h - 1);
+					int difference = percentage * background_rect.h / 100;
 
-				SDL_Rect temperature_rect = { background_rect.x, background_rect.y + background_rect.h - difference, background_rect.w, difference };
+					difference = SDL_clamp(difference, 1, background_rect.h - 1);
 
-				SDL_SetRenderDrawColor(renderer, 180, 200, 220, 110);
-				SDL_RenderFillRect(renderer, &background_rect);
-				SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-				SDL_RenderFillRect(renderer, &temperature_rect);
-				SDL_RenderCopyEx(renderer, ui_textures[ui_element_thermometer], NULL, &thermometer_rect, 0, NULL, false);
+					SDL_Rect temperature_rect = { background_rect.x, background_rect.y + background_rect.h - difference, background_rect.w, difference };
 
+					SDL_SetRenderDrawColor(renderer, 180, 200, 220, 110);
+					SDL_RenderFillRect(renderer, &background_rect);
+					SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+					SDL_RenderFillRect(renderer, &temperature_rect);
+					SDL_RenderCopyEx(renderer, ui_textures[ui_element_thermometer], NULL, &thermometer_rect, 0, NULL, false);
+				}
+
+				{ // Player healthbar
+					int healthbar_width = (int)(SCREEN_WIDTH * .9);
+					int healthbar_height = 10 * UI_RATIO;
+
+					SDL_Rect healthbar_rect = { (SCREEN_WIDTH - healthbar_width) / 2,  SCREEN_HEIGHT - healthbar_height - 100, healthbar_width, healthbar_height };
+					Vector2 padding = { 2, 2 };
+					SDL_Rect background_rect = { healthbar_rect.x + padding.x, healthbar_rect.y + padding.y, healthbar_rect.w - padding.x * 2, healthbar_rect.h - padding.y * 2 };
+					SDL_Rect health_rect = { background_rect.x, background_rect.y, (int)(background_rect.w * ((float)main_player->health->current / main_player->health->max)), background_rect.h };
+
+					SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+					SDL_RenderFillRect(renderer, &background_rect);
+					SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+					SDL_RenderFillRect(renderer, &health_rect);
+					SDL_RenderCopyEx(renderer, ui_textures[ui_element_healthbar_outline], NULL, &healthbar_rect, 0, NULL, false);
+
+				}
 			}
-
-			{ // Player healthbar
-
-				int healthbar_width = (int)(SCREEN_WIDTH * .9);
-				int healthbar_height = 10 * UI_RATIO;
-
-				SDL_Rect healthbar_rect = { (SCREEN_WIDTH - healthbar_width) / 2,  SCREEN_HEIGHT - healthbar_height - 100, healthbar_width, healthbar_height };
-				Vector2 padding = { 2, 2 };
-				SDL_Rect background_rect = { healthbar_rect.x + padding.x, healthbar_rect.y + padding.y, healthbar_rect.w - padding.x * 2, healthbar_rect.h - padding.y * 2 };
-				SDL_Rect health_rect = { background_rect.x, background_rect.y, (int)(background_rect.w * ((float)main_player->health->current / main_player->health->max)), background_rect.h };
-
-				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-				SDL_RenderFillRect(renderer, &background_rect);
-				SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-				SDL_RenderFillRect(renderer, &health_rect);
-				SDL_RenderCopyEx(renderer, ui_textures[ui_element_healthbar_outline], NULL, &healthbar_rect, 0, NULL, false);
-			}
-
 
 			{ // Inventory
 				Inventory* inventory = main_player->inventory;
-				if (inventory_opened) {
-					int inventory_width = 351 * UI_RATIO;
-					int inventory_height = 314 * UI_RATIO;
+				if (inventory) {
+					if (inventory_opened) {
+						SDL_RenderCopyEx(renderer, ui_textures[ui_element_player_inventory_background], NULL, &player_inventory_rect, 0, NULL, false);
 
-					SDL_Rect inventory_rect = { (SCREEN_WIDTH - inventory_width) / 2,  (SCREEN_HEIGHT - inventory_height) / 2, inventory_width, inventory_height };
-					SDL_RenderCopyEx(renderer, ui_textures[ui_element_player_inventory_background], NULL, &inventory_rect, 0, NULL, false);
-				}
-				else {
-					int inventory_width = (int)(SCREEN_WIDTH * .9);
-					int inventory_height = (int)(SCREEN_HEIGHT * .12);
+						for (int i = 0; i < inventory->size; i++) {
+							SDL_Rect slot_rect = get_player_slot_rect(inventory, i);
+							//SDL_RenderCopyEx(renderer, ui_textures[ui_element_inventory_slot], NULL, &slot_rect, 0, NULL, false);
 
-					SDL_Rect inventory_rect = { (SCREEN_WIDTH - inventory_width) / 2,  SCREEN_HEIGHT - inventory_height - 10, inventory_width, inventory_height };
+							if (inventory->selected_slot == i) SDL_RenderCopyEx(renderer, ui_textures[ui_element_selected_inventory_slot], NULL, &slot_rect, 0, NULL, false);
 
-					int slot_size = inventory_width / INVENTORY_SIZE;
+							render_item_stack(slot_rect, inventory->content[i]);
+						}
+					}
+					else {
+						for (int i = 0; i < INVENTORY_HOTBAR_SLOT_COUNT; i++) {
+							if (i >= inventory->size) continue;
 
-					int slot_index = 0;
-					int padding = 20;
+							SDL_Rect slot_rect = get_player_slot_rect(inventory, i);
 
-					int text_padding = 15;
+							SDL_RenderCopyEx(renderer, ui_textures[ui_element_inventory_slot], NULL, &slot_rect, 0, NULL, false);
 
-					float text_scale = 0.65f;
+							if (inventory->selected_slot == i) SDL_RenderCopyEx(renderer, ui_textures[ui_element_selected_inventory_slot], NULL, &slot_rect, 0, NULL, false);
 
-					float outline_offset = 2.0;
-
-					for (int i = 0; i < INVENTORY_HOTBAR_SLOTS; i++) {
-						SDL_Rect slot_rect = { inventory_rect.x + slot_size * i, inventory_rect.y, slot_size, slot_size };
-						SDL_RenderCopyEx(renderer, ui_textures[ui_element_inventory_slot], NULL, &slot_rect, 0, NULL, false);
-
-						if (inventory == NULL || i >= inventory->size) continue;
-
-						if (inventory->selected_slot == i) SDL_RenderCopyEx(renderer, ui_textures[ui_element_selected_inventory_slot], NULL, &slot_rect, 0, NULL, false);
-						if (inventory->content[i].type != item_type_empty) {
-							SDL_Rect item_rect = { inventory_rect.x + padding + slot_size * i * slot_index++, inventory_rect.y + padding, slot_size - padding * 2, slot_size - padding * 2 };
-
-							if (item_textures[inventory->content[i].type]) SDL_RenderCopyEx(renderer, item_textures[inventory->content[i].type], NULL, &item_rect, 0, NULL, false);
-
-							char amount[128];
-							sprintf_s(amount, sizeof(amount), "%d", inventory->content[i].amount);
-
-							int text_width, text_height;
-
-							TTF_SizeUTF8(font, amount, &text_width, &text_height);
-
-							SDL_Rect amount_rect = {
-								.x = (int)round(slot_rect.x + text_padding),
-								.y = (int)round(slot_rect.y + slot_rect.h - text_padding / 2 - text_height * text_scale),
-								.w = (int)round(text_width * text_scale),
-								.h = (int)round(text_height * text_scale),
-							};
-
-							SDL_Color text_color = { 255, 255, 255, 255 };
-							SDL_Color text_outline_color = { 0, 0, 0, 255 };
-
-							SDL_Surface* text_outline_surface = TTF_RenderText_Blended(font, amount, text_outline_color);
-
-							SDL_Surface* text_surface = TTF_RenderText_Blended(font, amount, text_color);
-
-							SDL_Texture* outline_texture = SDL_CreateTextureFromSurface(renderer, text_outline_surface);
-							SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
-
-							SDL_FreeSurface(text_surface);
-							SDL_FreeSurface(text_outline_surface);
-
-							SDL_Rect outline_rect = {
-								.w = amount_rect.w,
-								.h = amount_rect.h,
-							};
-
-							for (int dx = -1; dx <= 1; dx++) {
-								for (int dy = -1; dy <= 1; dy++) {
-									if (dx == 0 && dy == 0) continue; // Skip the center position
-									outline_rect.x = (int)round(amount_rect.x + dx * outline_offset);
-									outline_rect.y = (int)round(amount_rect.y + dy * outline_offset);
-									SDL_RenderCopyEx(renderer, outline_texture, NULL, &outline_rect, 0, NULL, false);
-								}
-							}
-
-							SDL_RenderCopyEx(renderer, text_texture, NULL, &amount_rect, 0, NULL, false);
-
-							SDL_DestroyTexture(outline_texture);
-							SDL_DestroyTexture(text_texture);
+							render_item_stack(slot_rect, inventory->content[i]);
 						}
 					}
 				}
+
+				render_item_stack((SDL_Rect) { mouse.x - 16, mouse.y - 16, 80, 80 }, item_stack_held_by_mouse);
+
 			}
 		}
 
@@ -595,6 +606,8 @@ void draw_world() {
 			SDL_RenderFillRect(renderer, NULL);
 			render_copy_ex(renderer, ui_textures[ui_element_death_screen], NULL, NULL, 0, NULL, false);
 		}
+
+		render_outlined_text(10, 10, game_description, 0.5f, 1.0);
 	}
 
 	SDL_SetRenderTarget(renderer, NULL);
@@ -632,6 +645,10 @@ int main(int argc, char* argv[]) {
 	// Networking
 	setup_server();
 	//
+
+
+	// Setup game description
+	snprintf(game_description, sizeof(game_description), "CaveKingdom v%s", GAME_VERSION);
 
 
 	if (TTF_Init() == -1)

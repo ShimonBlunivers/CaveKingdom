@@ -162,7 +162,7 @@ Vector2 from_screen_to_tile_coords(Vector2 screen_coords) {
 }
 
 bool should_player_move_with_key(Key* key) {
-	if (!key->pressed || inventory_opened) return false;
+	if (!key->pressed) return false;
 
 	int double_move_prevention = 150;
 

@@ -1,8 +1,2 @@
-﻿  input.c
-D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c(20,20): warning C4013: 'get_sdl_key_code' undefined; assuming extern returning int
-D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c(153,72): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c(153,85): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c(163,21): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c(163,45): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Programming\C\CaveKingdom\CaveKingdom\source\input\input.c(175,92): warning C4018: '>': signed/unsigned mismatch
+﻿  inventory.c
   CaveKingdom.vcxproj -> D:\Programming\C\CaveKingdom\x64\Debug\CaveKingdom.exe

@@ -1,6 +1,8 @@
 #pragma once
 #include <stdbool.h>
 
+#define GAME_VERSION "0.0.7"
+
 #define SCREEN_WIDTH 720
 #define SCREEN_HEIGHT 720
 

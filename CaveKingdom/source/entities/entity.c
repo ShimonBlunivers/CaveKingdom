@@ -101,7 +101,7 @@ Entity new_entity(EntityType type, int x, int y) {
 	case entity_type_dropped_items:
 		entity_struct_initiated = true;
 		randomize_rotation = true;
-		new_entity.inventory = new_inventory(INVENTORY_SIZE);
+		new_entity.inventory = new_inventory(MAX_INVENTORY_SIZE);
 		break;
 
 	case entity_type_player:
@@ -115,7 +115,7 @@ Entity new_entity(EntityType type, int x, int y) {
 		if (new_entity.combat != NULL) *new_entity.combat = (Combat){ 1, 0 };
 		if (new_entity.hunger != NULL) *new_entity.hunger = (Hunger){ 100 };
 
-		new_entity.inventory = new_inventory(INVENTORY_SIZE);
+		new_entity.inventory = new_inventory(36);
 		new_entity.health->max = 10;
 		new_entity.is_obstacle = true;
 		new_entity.is_transparent = true;
@@ -134,7 +134,7 @@ Entity new_entity(EntityType type, int x, int y) {
 		if (new_entity.combat != NULL) *new_entity.combat = (Combat){ 1, 0 };
 		if (new_entity.hunger != NULL) *new_entity.hunger = (Hunger){ 100 };
 
-		new_entity.inventory = new_inventory(INVENTORY_SIZE);
+		new_entity.inventory = new_inventory(16);
 		new_entity.health->max = 10;
 		new_entity.is_obstacle = true;
 		new_entity.is_transparent = true;
@@ -153,7 +153,7 @@ Entity new_entity(EntityType type, int x, int y) {
 		if (new_entity.combat != NULL) *new_entity.combat = (Combat){ 1, 0 };
 		if (new_entity.hunger != NULL) *new_entity.hunger = (Hunger){ 100 };
 
-		new_entity.inventory = new_inventory(INVENTORY_SIZE);
+		new_entity.inventory = new_inventory(16);
 		add_to_inventory(new_entity.inventory, (ItemStack) { item_type_zombie_meat, 2 });
 
 		new_entity.health->max = 10;
@@ -494,41 +494,43 @@ bool update_player() {
 
 	bool updated = false;
 
-	if (mouse.left_button_pressed) {
-		Vector2 clicked_tile_position = from_screen_to_tile_coords((Vector2) { mouse.x, mouse.y });
-		Vector2 distance = vector2_subtract(clicked_tile_position, (Vector2) { main_player->x, main_player->y });
+	if (main_player != NULL && main_player_alive && !inventory_opened) {
+		if (mouse.left_button_pressed) {
+			Vector2 clicked_tile_position = from_screen_to_tile_coords((Vector2) { mouse.x, mouse.y });
+			Vector2 distance = vector2_subtract(clicked_tile_position, (Vector2) { main_player->x, main_player->y });
 
-		if (abs(distance.x) <= 1 && abs(distance.y) <= 1) {
-			Entity* entity_clicked = get_entity(clicked_tile_position.x, clicked_tile_position.y, height_layer_surface);
+			if (abs(distance.x) <= 1 && abs(distance.y) <= 1) {
+				Entity* entity_clicked = get_entity(clicked_tile_position.x, clicked_tile_position.y, height_layer_surface);
 
-			if (entity_clicked != NULL && entity_clicked->type != entity_type_player) {
-				updated |= hit_entity(main_player, entity_clicked);
+				if (entity_clicked != NULL && entity_clicked->type != entity_type_player) {
+					updated |= hit_entity(main_player, entity_clicked);
 
-				entity_clicked->thermal.temperature = 1000; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					//entity_clicked->thermal.temperature = 1000; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				}
 			}
 		}
-	}
 
-	int player_movement_x = 0;
-	int player_movement_y = 0;
+		int player_movement_x = 0;
+		int player_movement_y = 0;
 
-	if (should_player_move_with_key(&keyboard[key_w])) player_movement_y--;
-	if (should_player_move_with_key(&keyboard[key_s])) player_movement_y++;
-	if (should_player_move_with_key(&keyboard[key_a])) player_movement_x--;
-	if (should_player_move_with_key(&keyboard[key_d])) player_movement_x++;
+		if (should_player_move_with_key(&keyboard[key_w])) player_movement_y--;
+		if (should_player_move_with_key(&keyboard[key_s])) player_movement_y++;
+		if (should_player_move_with_key(&keyboard[key_a])) player_movement_x--;
+		if (should_player_move_with_key(&keyboard[key_d])) player_movement_x++;
 
-	bool moved_x = false;
-	bool moved_y = false;
-	if (player_movement_x) {
-		moved_x = move_entity(main_player, player_movement_x, 0);
-		updated |= moved_x;
-	}
-	if (player_movement_y) {
-		moved_y = move_entity(main_player, 0, player_movement_y);
-		if (player_movement_x && !moved_x) {
-			move_entity(main_player, player_movement_x, 0);
+		bool moved_x = false;
+		bool moved_y = false;
+		if (player_movement_x) {
+			moved_x = move_entity(main_player, player_movement_x, 0);
+			updated |= moved_x;
 		}
-		updated |= moved_x | moved_y;
+		if (player_movement_y) {
+			moved_y = move_entity(main_player, 0, player_movement_y);
+			if (player_movement_x && !moved_x) {
+				move_entity(main_player, player_movement_x, 0);
+			}
+			updated |= moved_x | moved_y;
+		}
 	}
 	//printf("player_movement_x: %d ; player_movement_y: %d ; moved_x: %d ; moved_y: %d\n", player_movement_x, player_movement_y, moved_x, moved_y);
 
