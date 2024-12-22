@@ -24,8 +24,6 @@ typedef enum KeyCode {
 
 	key_f,
 
-	key_tab,
-
 	key_1,
 	key_2,
 	key_3,
@@ -37,21 +35,28 @@ typedef enum KeyCode {
 	key_9,
 	key_0,
 
+	key_tab,
+	key_esc,
+
 	number_of_keys, // DO NOT USE AS KEY CODE !
 } KeyCode;
 
 
 typedef struct Key {
 	bool pressed;
-	Uint32 tick_pressed;
+	bool pressed_this_update;
+	bool movement_key;
+	Uint32 graphic_tick_pressed;
+	Uint32 input_tick_pressed;
 	SDL_KeyCode sdl_key_code;
 } Key;
 
 extern Key keyboard[number_of_keys];
+extern Uint32 input_tick;
 
 bool process_input();
 bool key_tapped(Key key);
 Vector2 from_screen_to_tile_coords(Vector2 screen_coords);
 void init_input();
 
-bool should_player_move_with_key(Key key);
+bool should_player_move_with_key(Key* key);

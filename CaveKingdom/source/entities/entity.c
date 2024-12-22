@@ -16,6 +16,8 @@ Entity* main_player = NULL;
 bool main_player_alive = true;
 int number_of_entities = 0;
 
+bool main_player_updated = false;
+
 // List of empty types for every layer, ascending
 const EntityType empty_entity_types[number_of_height_layers] = {
 	entity_type_ground_empty,
@@ -502,7 +504,7 @@ bool update_player() {
 			if (entity_clicked != NULL && entity_clicked->type != entity_type_player) {
 				updated |= hit_entity(main_player, entity_clicked);
 
-				//entity_clicked->thermal.temperature = 1000; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				entity_clicked->thermal.temperature = 1000; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			}
 		}
 	}
@@ -510,10 +512,10 @@ bool update_player() {
 	int player_movement_x = 0;
 	int player_movement_y = 0;
 
-	if (should_player_move_with_key(keyboard[key_w])) player_movement_y--;
-	if (should_player_move_with_key(keyboard[key_s])) player_movement_y++;
-	if (should_player_move_with_key(keyboard[key_a])) player_movement_x--;
-	if (should_player_move_with_key(keyboard[key_d])) player_movement_x++;
+	if (should_player_move_with_key(&keyboard[key_w])) player_movement_y--;
+	if (should_player_move_with_key(&keyboard[key_s])) player_movement_y++;
+	if (should_player_move_with_key(&keyboard[key_a])) player_movement_x--;
+	if (should_player_move_with_key(&keyboard[key_d])) player_movement_x++;
 
 	bool moved_x = false;
 	bool moved_y = false;

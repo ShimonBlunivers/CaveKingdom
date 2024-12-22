@@ -27,7 +27,6 @@ typedef struct Entity {
 
 } Entity;
 
-
 bool is_empty_entity_type(EntityType entity_type);
 Entity new_entity(EntityType type, int x, int y);
 void destroy_entity(Entity* entity);
@@ -46,8 +45,7 @@ void spawn_player();
 void update_entities();
 bool update_player();
 
-
 extern Entity* main_player;
 extern bool main_player_alive;
+extern bool main_player_updated;
 extern const EntityType empty_entity_types[number_of_height_layers];
-

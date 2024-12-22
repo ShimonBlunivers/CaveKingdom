@@ -476,7 +476,7 @@ void draw_world() {
 
 				SDL_SetRenderDrawColor(renderer, 180, 200, 220, 110);
 				SDL_RenderFillRect(renderer, &background_rect);
-				SDL_SetRenderDrawColor(renderer, 200, 60, 60, 255);
+				SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 				SDL_RenderFillRect(renderer, &temperature_rect);
 				SDL_RenderCopyEx(renderer, ui_textures[ui_element_thermometer], NULL, &thermometer_rect, 0, NULL, false);
 
@@ -504,7 +504,7 @@ void draw_world() {
 				Inventory* inventory = main_player->inventory;
 				if (inventory_opened) {
 					int inventory_width = 351 * UI_RATIO;
-					int inventory_height = 312 * UI_RATIO;
+					int inventory_height = 314 * UI_RATIO;
 
 					SDL_Rect inventory_rect = { (SCREEN_WIDTH - inventory_width) / 2,  (SCREEN_HEIGHT - inventory_height) / 2, inventory_width, inventory_height };
 					SDL_RenderCopyEx(renderer, ui_textures[ui_element_player_inventory_background], NULL, &inventory_rect, 0, NULL, false);
@@ -677,8 +677,6 @@ int main(int argc, char* argv[]) {
 
 			bool quit = false;
 
-			bool player_updated;
-
 			graphic_tick = SDL_GetTicks();
 
 			previous_counter = SDL_GetPerformanceCounter();
@@ -688,19 +686,18 @@ int main(int argc, char* argv[]) {
 			while (!quit) {
 				last_updated_tick = SDL_GetTicks();
 
-				player_updated = false;
+				main_player_updated = false;
 
 				update_entities();
 				update_server();
 
-				while (graphic_tick < last_updated_tick + update_delay) {
+				while (!quit && graphic_tick < last_updated_tick + update_delay) {
 					quit = process_input();
 					update_player_inventory();
 
-					if (!player_updated && main_player_alive) {
-						player_updated = update_player();
+					if (!main_player_updated && main_player_alive) {
+						main_player_updated = update_player();
 					}
-
 
 					update_camera();
 					update_particles();
