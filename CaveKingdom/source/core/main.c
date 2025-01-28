@@ -29,10 +29,14 @@ SDL_Texture* viewport = NULL;
 SDL_Texture* gui = NULL;
 TTF_Font* font = NULL;
 
+SDL_Surface* cursor_surface = NULL;
+SDL_Cursor* cursor = NULL;
+
 typedef enum {
 	ui_element_selected_inventory_slot,
 	ui_element_inventory_slot,
 	ui_element_death_screen,
+	ui_element_player_healthbar_outline,
 	ui_element_healthbar_outline,
 	ui_element_thermometer,
 	ui_element_player_inventory_background,
@@ -78,9 +82,14 @@ void load_textures() {
 	ui_textures[ui_element_selected_inventory_slot] = IMG_LoadTexture(renderer, "./assets/textures/ui/selected_inventory_slot.png");
 	ui_textures[ui_element_inventory_slot] = IMG_LoadTexture(renderer, "./assets/textures/ui/inventory_slot.png");
 	ui_textures[ui_element_death_screen] = IMG_LoadTexture(renderer, "./assets/textures/ui/death_screen.png");
+	ui_textures[ui_element_player_healthbar_outline] = IMG_LoadTexture(renderer, "./assets/textures/ui/player_healthbar_outline.png");
 	ui_textures[ui_element_healthbar_outline] = IMG_LoadTexture(renderer, "./assets/textures/ui/healthbar_outline.png");
 	ui_textures[ui_element_thermometer] = IMG_LoadTexture(renderer, "./assets/textures/ui/thermometer.png");
 	ui_textures[ui_element_player_inventory_background] = IMG_LoadTexture(renderer, "./assets/textures/ui/player_inventory_background.png");
+
+	// Cursor
+	cursor_surface = IMG_Load("./assets/textures/ui/cursor.png");
+	cursor = SDL_CreateColorCursor(cursor_surface, 27, 11);
 
 	//Uint8 r, g, b;
 	//SDL_GetTextureColorMod(hidden_texture, &r, &g, &b);
@@ -100,6 +109,9 @@ void unload_textures() {
 
 	SDL_DestroyTexture(hidden_texture);
 	SDL_DestroyTexture(shadow_texture);
+
+	SDL_FreeSurface(cursor_surface);
+	SDL_FreeCursor(cursor);
 }
 
 void load_audio() {
@@ -111,7 +123,6 @@ void unload_audio() {
 }
 
 void init_rendering() {
-
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	viewport = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -548,11 +559,11 @@ void draw_world() {
 				}
 
 				{ // Player healthbar
-					int healthbar_width = (int)(SCREEN_WIDTH * .9);
-					int healthbar_height = 10 * UI_RATIO;
+					int healthbar_width = 312 * UI_RATIO;
+					int healthbar_height = 20 * UI_RATIO;
 
-					SDL_Rect healthbar_rect = { (SCREEN_WIDTH - healthbar_width) / 2,  SCREEN_HEIGHT - healthbar_height - 100, healthbar_width, healthbar_height };
-					Vector2 padding = { 2, 2 };
+					SDL_Rect healthbar_rect = { (SCREEN_WIDTH - healthbar_width) / 2,  SCREEN_HEIGHT - healthbar_height - 91, healthbar_width, healthbar_height };
+					Vector2 padding = { 2 * UI_RATIO, 2 * UI_RATIO };
 					SDL_Rect background_rect = { healthbar_rect.x + padding.x, healthbar_rect.y + padding.y, healthbar_rect.w - padding.x * 2, healthbar_rect.h - padding.y * 2 };
 					SDL_Rect health_rect = { background_rect.x, background_rect.y, (int)(background_rect.w * ((float)main_player->health->current / main_player->health->max)), background_rect.h };
 
@@ -560,7 +571,7 @@ void draw_world() {
 					SDL_RenderFillRect(renderer, &background_rect);
 					SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 					SDL_RenderFillRect(renderer, &health_rect);
-					SDL_RenderCopyEx(renderer, ui_textures[ui_element_healthbar_outline], NULL, &healthbar_rect, 0, NULL, false);
+					SDL_RenderCopyEx(renderer, ui_textures[ui_element_player_healthbar_outline], NULL, &healthbar_rect, 0, NULL, false);
 
 				}
 			}
@@ -595,7 +606,7 @@ void draw_world() {
 					}
 				}
 
-				render_item_stack((SDL_Rect) { mouse.x - 16, mouse.y - 16, 80, 80 }, item_stack_held_by_mouse);
+				render_item_stack((SDL_Rect) { mouse.x - 40, mouse.y - 16, 80, 80 }, item_stack_held_by_mouse);
 
 			}
 		}
@@ -689,6 +700,8 @@ int main(int argc, char* argv[]) {
 			init_input();
 			load_textures();
 			load_audio();
+
+			SDL_SetCursor(cursor);
 
 			load_vision_edge_positions(&vision_edge_positions);
 

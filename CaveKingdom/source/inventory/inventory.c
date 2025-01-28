@@ -15,10 +15,10 @@ SDL_Rect player_inventory_rect = {
 };
 
 SDL_Rect player_hotbar_rect = {
-	.x = (SCREEN_WIDTH - (int)(SCREEN_WIDTH * .9)) / 2,
-	.y = SCREEN_HEIGHT - (int)(SCREEN_HEIGHT * .12) - 10,
-	.w = (int)(SCREEN_WIDTH * .9),
-	.h = (int)(SCREEN_HEIGHT * .12)
+	.x = (SCREEN_WIDTH - (312 * UI_RATIO)) / 2,
+	.y = SCREEN_HEIGHT - (39 * UI_RATIO) - 10,
+	.w = (312 * UI_RATIO),
+	.h = (39 * UI_RATIO),
 };
 
 ItemStack item_stack_held_by_mouse = { item_type_empty, -1 };
@@ -129,7 +129,6 @@ SDL_Rect get_player_slot_rect(Inventory* inventory, int i) {
 }
 
 ItemStack* get_item_stack_on_position(Vector2 position) {
-
 	for (int i = 0; i < main_player->inventory->size; i++) {
 		SDL_Rect slot_rect = get_player_slot_rect(main_player->inventory, i);
 
@@ -143,7 +142,10 @@ ItemStack* get_item_stack_on_position(Vector2 position) {
 void update_player_inventory() {
 	if (main_player == NULL || !main_player_alive) return;
 
-	if (key_tapped(keyboard[key_tab])) inventory_opened = !inventory_opened;
+	if (key_tapped(keyboard[key_tab])) {
+		inventory_opened = !inventory_opened;
+
+	}
 
 	if (key_tapped(keyboard[key_1])) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 0 ? -1 : 0;
 	else if (key_tapped(keyboard[key_2])) main_player->inventory->selected_slot = main_player->inventory->selected_slot == 1 ? -1 : 1;
