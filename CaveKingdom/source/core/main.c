@@ -62,6 +62,7 @@ void load_textures() {
 	entity_textures[entity_type_enemy] = IMG_LoadTexture(renderer, "./assets/textures/tiles/enemy.png");
 	entity_textures[entity_type_zombie] = IMG_LoadTexture(renderer, "./assets/textures/tiles/zombie.png");
 	entity_textures[entity_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/tiles/stone.png");
+	entity_textures[entity_type_skeleton_corpse] = IMG_LoadTexture(renderer, "./assets/textures/tiles/skeleton_corpse.png");
 	//entity_textures[entity_type_trunk] = IMG_LoadTexture(renderer, "./assets/textures/tiles/trunk.png");
 
 		// Air
@@ -73,6 +74,7 @@ void load_textures() {
 	item_textures[item_type_stone] = IMG_LoadTexture(renderer, "./assets/textures/items/stone.png");
 	item_textures[item_type_wood] = IMG_LoadTexture(renderer, "./assets/textures/items/wood.png");
 	item_textures[item_type_zombie_meat] = IMG_LoadTexture(renderer, "./assets/textures/items/zombie_meat.png");
+	item_textures[item_type_bone] = IMG_LoadTexture(renderer, "./assets/textures/items/bone.png");
 
 	// Special
 	hidden_texture = IMG_LoadTexture(renderer, "./assets/textures/special/hidden.png");
@@ -201,9 +203,9 @@ void render_copy_ex(SDL_Renderer* renderer,
 		SDL_Rect destination_rect = *dstrect;
 		destination_rect.x -= camera.x;
 		destination_rect.y -= camera.y;
-		SDL_RenderCopyEx(renderer, texture, srcrect, &destination_rect, 0, center, flip);
+		SDL_RenderCopyEx(renderer, texture, srcrect, &destination_rect, angle, center, flip);
 	}
-	else SDL_RenderCopyEx(renderer, texture, srcrect, NULL, 0, center, flip);
+	else SDL_RenderCopyEx(renderer, texture, srcrect, NULL, angle, center, flip);
 }
 
 void render_fill_rect(SDL_Renderer* renderer, SDL_Rect* rect) {
@@ -563,7 +565,7 @@ void draw_world() {
 					int healthbar_height = 20 * UI_RATIO;
 
 					SDL_Rect healthbar_rect = { (SCREEN_WIDTH - healthbar_width) / 2,  SCREEN_HEIGHT - healthbar_height - 91, healthbar_width, healthbar_height };
-					Vector2 padding = { 2 * UI_RATIO, 2 * UI_RATIO };
+					Vector2 padding = { 3 * UI_RATIO, 3 * UI_RATIO };
 					SDL_Rect background_rect = { healthbar_rect.x + padding.x, healthbar_rect.y + padding.y, healthbar_rect.w - padding.x * 2, healthbar_rect.h - padding.y * 2 };
 					SDL_Rect health_rect = { background_rect.x, background_rect.y, (int)(background_rect.w * ((float)main_player->health->current / main_player->health->max)), background_rect.h };
 
@@ -656,7 +658,6 @@ int main(int argc, char* argv[]) {
 	// Networking
 	setup_server();
 	//
-
 
 	// Setup game description
 	snprintf(game_description, sizeof(game_description), "CaveKingdom v%s", GAME_VERSION);

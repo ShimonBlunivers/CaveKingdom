@@ -8,6 +8,7 @@ typedef enum ItemType {
 	item_type_stone,
 	item_type_wood,
 	item_type_zombie_meat,
+	item_type_bone,
 
 	number_of_item_types, // DO NOT USE AS ITEM TYPE!
 } ItemType;

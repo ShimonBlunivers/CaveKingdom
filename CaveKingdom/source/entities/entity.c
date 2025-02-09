@@ -60,7 +60,6 @@ Entity new_entity(EntityType type, int x, int y) {
 		.combat = NULL,
 		.brain = NULL,
 		.inventory = NULL,
-
 		.tween = NULL,
 	};
 
@@ -180,6 +179,22 @@ Entity new_entity(EntityType type, int x, int y) {
 
 		break;
 
+	case entity_type_skeleton_corpse:
+		entity_struct_initiated = true;
+
+		new_entity.color = (SDL_Color){ 128, 128, 128, 255 };
+
+		new_entity.inventory = new_inventory(1);
+		add_to_inventory(new_entity.inventory, (ItemStack) { item_type_bone, 6 });
+
+		new_entity.health->max = 5;
+
+		new_entity.is_obstacle = true;
+		new_entity.is_transparent = true;
+
+		randomize_rotation = true;
+		break;
+
 	case entity_type_surface_empty:
 		entity_struct_initiated = true;
 		break;
@@ -197,7 +212,6 @@ Entity new_entity(EntityType type, int x, int y) {
 		new_entity.thermal.conductivity = 0.1;
 	}
 
-
 	if (randomize_rotation) new_entity.rotation = rand() % 5;
 	if (new_entity.health->current == -1) new_entity.health->current = new_entity.health->max;
 	if (new_entity.is_transparent == -1) new_entity.is_transparent = !new_entity.is_obstacle;
@@ -206,13 +220,43 @@ Entity new_entity(EntityType type, int x, int y) {
 }
 
 void free_entity(Entity* entity) {
-	free(entity->visibility);
-	free(entity->combat);
-	free(entity->hunger);
-	free(entity->health);
-	free(entity->brain);
-	free_inventory(entity->inventory);
-	delete_tween(entity->tween);
+	if (entity) {
+		if (entity->visibility) free(entity->visibility);
+		if (entity->combat) free(entity->combat);
+		if (entity->hunger) free(entity->hunger);
+		if (entity->health) free(entity->health);
+		if (entity->brain) free(entity->brain);
+		if (entity->inventory) free_inventory(entity->inventory);
+		if (entity->tween) delete_tween(entity->tween);
+	}
+}
+
+void force_spawn_entity(Entity entity) {
+	Entity* old_entity = get_entity(entity.x, entity.y, entity.height_layer);
+	if (!old_entity) {
+		printf("Entity at coordinates x: %d y: %d layer: %d is NULL!\n", entity.x, entity.y, entity.height_layer);
+		return;
+	}
+	free_entity(old_entity);
+	*old_entity = entity;
+	if (entity.type == entity_type_player) {
+		main_player = old_entity;
+	}
+}
+
+void drop_items(int x, int y, ItemStack items) {
+	Entity* entity = get_entity(x, y, height_layer_surface);
+
+	if (entity->type == entity_type_surface_empty) {
+		Entity created_entity = new_entity(entity_type_dropped_items, x, y);
+
+		force_spawn_entity(created_entity);
+
+		entity = get_entity(x, y, height_layer_surface);
+	}
+	if (entity->inventory != NULL) {
+		add_to_inventory(entity->inventory, items);
+	}
 }
 
 void destroy_entity(Entity* entity) {
@@ -280,14 +324,6 @@ bool spawn_entity(Entity entity) {
 	return true;
 }
 
-void force_spawn_entity(Entity entity) {
-	Entity* old_entity = get_entity(entity.x, entity.y, entity.height_layer);
-	free_entity(old_entity);
-	*old_entity = entity;
-	if (entity.type == entity_type_player) {
-		main_player = old_entity;
-	}
-}
 
 bool hit_entity(Entity* hitter, Entity* target) {
 	if (target == NULL || hitter->combat == NULL) return false;

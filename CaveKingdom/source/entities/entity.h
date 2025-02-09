@@ -30,6 +30,7 @@ typedef struct Entity {
 bool is_empty_entity_type(EntityType entity_type);
 Entity new_entity(EntityType type, int x, int y);
 void destroy_entity(Entity* entity);
+void drop_items(int x, int y, ItemStack items);
 
 Entity* get_entity(int x, int y, HeightLayer layer);
 

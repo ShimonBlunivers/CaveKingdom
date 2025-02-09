@@ -45,8 +45,12 @@ void generate_world(Chunk* chunk, int seed) {
 			int shifted_x = x + chunk->x * CHUNK_WIDTH;
 			int shifted_y = y + chunk->y * CHUNK_HEIGHT;
 			double noise = perlin((x + seed) * freq / CHUNK_WIDTH, (y + seed) * freq / CHUNK_HEIGHT) * amp;
-			if (noise > 0) force_spawn_entity(new_entity(entity_type_stone, shifted_x, shifted_y));
-			else force_spawn_entity(new_entity(entity_type_surface_empty, shifted_x, shifted_y));
+			if (noise > 0) {
+				force_spawn_entity(new_entity(entity_type_stone, shifted_x, shifted_y));
+			}
+			else if (rand() % 50 == 0) {
+				force_spawn_entity(new_entity(entity_type_skeleton_corpse, shifted_x, shifted_y));
+			}
 		}
 	}
 }
